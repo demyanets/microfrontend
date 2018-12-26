@@ -1,0 +1,404 @@
+{
+  // -------- Typescript
+  "rules": {
+    "adjacent-overload-signatures": true,
+    // Enforces function overloads to be consecutive.
+    "ban-types": [true, ["Object", "Use {} instead."],
+      ["String"],
+      ["angular.IRootScopeService", "do not use $rootscope, because it will not be supported in Angular 2+"],
+      ["angular.IScope", "do not use $scope, because it will not be supported in Angular 2+"],
+      ["angular.ISCEService", "the trustAs... methods might cause security issues"],
+      ["angular.ISCEProvider", "Never use the sceProvider to disable $sce!"]
+    ],
+    // Bans specific types from being used. Does not ban the corresponding runtime objects from being used.
+    "member-access": [false, false, "check-constructor", "check-accessor"], // not common in typescript
+    //Requires explicit visibility declarations for class members.
+    "member-ordering": [true, {
+      "order": [
+        "static-field",
+        "instance-field",
+        "constructor"
+      ]
+    }],
+    // Enforces member ordering.
+    "no-any": true,
+    // Disallows usages of any as a type declaration.
+    "no-empty-interface": true,
+    // Forbids empty interfaces.
+    "no-import-side-effect": [true, { "ignore-module": "(.html|.css)$" }],
+    // Avoid import statements with side-effect.
+    "no-inferrable-types": [false], // typescript supports type inference
+    // Disallows explicit type declarations for variables or parameters initialized to a number, string, or boolean.
+    "no-internal-module": true,
+    // Disallows internal module
+    "no-magic-numbers": true,
+    // Disallows the use constant number values outside of variable assignments. When no list of allowed values is specified, -1, 0 and 1 are allowed by default.
+    "no-namespace": [true, "allow-declarations"],
+    // Disallows use of internal modules and namespaces.
+    "no-non-null-assertion": true,
+    // Disallows non-null assertions. Using non-null assertion cancels the benefits of the strict null checking mode.
+    "no-reference": true,
+    // Disallows /// <reference path=> imports (use ES6-style imports instead).
+    "no-var-requires": true,
+    // Disallows the use of require statements except in import statements.
+    "only-arrow-functions": [true, "allow-declarations", "allow-named-functions"],
+    // only-arrow-functions - Disallows traditional (non-arrow) function expressions.
+    "prefer-for-of": false, // what if index is needed
+    // Recommends a ‘for-of’ loop over a standard ‘for’ loop if the index is only used to access the array being iterated.
+    "promise-function-async": false, // Too many occurances
+    // Requires any function or method that returns a promise to be marked async.
+    "typedef": [
+      true,
+      "parameter",
+      //   "member-variable-declaration", set tsconfig no-implicit-any to true; the rest is addressed by type interference
+      //   "variable-declaration", set tsconfig no-implicit-any to true; the rest is addressed by type interference
+      "call-signature",
+      "property-declaration"
+    ],
+    // Requires type definitions to exist.
+    "typedef-whitespace": [
+      true,
+      {
+        "call-signature": "nospace",
+        "index-signature": "nospace",
+        "parameter": "nospace",
+        "property-declaration": "nospace",
+        "variable-declaration": "nospace"
+      },
+      {
+        "call-signature": "onespace",
+        "index-signature": "onespace",
+        "parameter": "onespace",
+        "property-declaration": "onespace",
+        "variable-declaration": "onespace"
+      }
+    ],
+    // Requires or disallows whitespace for type definitions.
+    "unified-signatures": false,
+    // Warns for any two overloads that could be unified into one by using a union or an optional/rest parameter.
+
+    //--------- Functionality
+    "await-promise": true,
+    // Warns for any two overloads that could be unified into one by using a union or an optional/rest parameter.
+    "ban": [
+      true, ["$sce", "trustAs", "Might cause security issues"],
+      ["$sce", "trustAsHtml", "Might cause security issues"],
+      ["$sce", "trustAsJs", "Might cause security issues"],
+      ["$sce", "trustAsCss", "Might cause security issues"],
+      ["$sce", "trustAsResourceUrl", "Might cause security issues"],
+      ["$sce", "trustAsUrl", "Might cause security issues"],
+      ["angular", "each", "Don't rely on angular to perform loops. Either use a 'for of' loop or the native 'array.forEach': https://github.com/you-dont-need/You-Dont-Need-Lodash-Underscore#_each"],
+
+      ["jQuery", "each", "Don't rely on jQuery to perform loops. Either use a 'for of' loop or the native 'array.forEach': https://github.com/you-dont-need/You-Dont-Need-Lodash-Underscore#_each"],
+
+      ["$", "each", "Don't rely on jQuery to perform loops. Either use a 'for of' loop or the native 'array.forEach': https://github.com/you-dont-need/You-Dont-Need-Lodash-Underscore#_each"],
+
+      ["_", "each", "Don't rely on Underscore to perform loops. Either use a 'for of' loop or the native 'array.forEach': https://github.com/you-dont-need/You-Dont-Need-Lodash-Underscore#_each"],
+
+      ["_", "forEach", "Don't rely on Underscore to perform loops. Either use a 'for of' loop or the native 'array.forEach': https://github.com/you-dont-need/You-Dont-Need-Lodash-Underscore#_each"],
+
+
+      ["$", "ajax", "Don't rely on jQuery to make AJAX calls. $inject restangular service instead"],
+      ["jQuery", "ajax", "Don't rely on jQuery to make AJAX calls. $inject restangular service instead"],
+      ["$", "get", "Don't rely on jQuery to make AJAX calls. $inject restangular service instead"],
+      ["jQuery", "get", "Don't rely on jQuery to make AJAX calls. $inject restangular service instead"],
+      ["$", "getJSON", "Don't rely on jQuery to make AJAX calls. $inject restangular service instead"],
+      ["jQuery", "getJSON", "Don't rely on jQuery to make AJAX calls. $inject restangular service instead"],
+      ["$", "post", "Don't rely on jQuery to make AJAX calls. $inject restangular service instead"],
+      ["jQuery", "post", "Don't rely on jQuery to make AJAX calls. $inject restangular service instead"],
+
+      ["jQuery", "extend", "Don't rely on jQuery to extend an object, use 'angular.merge', 'angular.extend', or 'angular.copy' instead: http://davidcai.github.io/blog/posts/copy-vs-extend-vs-merge"],
+
+      ["$", "extend", "Don't rely on jQuery to extend an object, use 'angular.merge', 'angular.extend', or 'angular.copy' instead: http://davidcai.github.io/blog/posts/copy-vs-extend-vs-merge"],
+
+      ["_", "extend", "Don't rely on Underscore to extend an object, use 'angular.merge', 'angular.extend', or 'angular.copy' instead: http://davidcai.github.io/blog/posts/copy-vs-extend-vs-merge"],
+
+      ["_", "clone", "Don't rely on Underscore to shallow copy an object, either use 'angular.extend' to shallow copy, or 'angular.copy' to deep copy: http://davidcai.github.io/blog/posts/copy-vs-extend-vs-merge"],
+
+
+      ["_", "indexOf", "Use the native 'array.indexOf' instead of using the Underscore library: https://github.com/you-dont-need/You-Dont-Need-Lodash-Underscore#_indexof"],
+
+      ["_", "lastIndexOf", "Use the native 'array.lastIndexOf' instead of using the Underscore library: https://github.com/you-dont-need/You-Dont-Need-Lodash-Underscore#_lastindexof"],
+
+
+      ["_", "every", "Use the native 'array.every' instead of using the Underscore library: https://github.com/you-dont-need/You-Dont-Need-Lodash-Underscore#_every"],
+
+      ["_", "all", "Use the native 'array.every' instead of using the Underscore library: https://github.com/you-dont-need/You-Dont-Need-Lodash-Underscore#_every"],
+
+
+      ["_", "filter", "Use the native 'array.filter' instead of using the Underscore library: https://github.com/you-dont-need/You-Dont-Need-Lodash-Underscore#_filter"],
+
+      ["_", "select", "Use the native 'array.filter' instead of using the Underscore library: https://github.com/you-dont-need/You-Dont-Need-Lodash-Underscore#_filter"],
+
+
+      ["_", "includes", "Use the native 'array.indexOf' instead of using the Underscore library: https://github.com/you-dont-need/You-Dont-Need-Lodash-Underscore#_includes"],
+
+      ["_", "contains", "Use the native 'array.indexOf' instead of using the Underscore library: https://github.com/you-dont-need/You-Dont-Need-Lodash-Underscore#_includes"],
+
+
+      ["_", "map", "Use the native 'array.map' instead of using the Underscore library: https://github.com/you-dont-need/You-Dont-Need-Lodash-Underscore#_map"],
+
+      ["_", "collect", "Use the native 'array.map' instead of using the Underscore library: https://github.com/you-dont-need/You-Dont-Need-Lodash-Underscore#_map"],
+
+
+      ["_", "reduce", "Use the native 'array.reduce' instead of using the Underscore library: https://github.com/you-dont-need/You-Dont-Need-Lodash-Underscore#_reduce"],
+
+      ["_", "inject", "Use the native 'array.reduce' instead of using the Underscore library: https://github.com/you-dont-need/You-Dont-Need-Lodash-Underscore#_reduce"],
+
+      ["_", "foldl", "Use the native 'array.reduce' instead of using the Underscore library: https://github.com/you-dont-need/You-Dont-Need-Lodash-Underscore#_reduce"],
+
+      ["_", "reduceRight", "Use the native 'array.reduceRight' instead of using the Underscore library: https://github.com/you-dont-need/You-Dont-Need-Lodash-Underscore#_reduceright"],
+
+      ["_", "foldr", "Use the native 'array.reduceRight' instead of using the Underscore library: https://github.com/you-dont-need/You-Dont-Need-Lodash-Underscore#_reduceright"],
+
+
+      ["_", "some", "Use the native 'array.some' instead of using the Underscore library: https://github.com/you-dont-need/You-Dont-Need-Lodash-Underscore#_some"],
+
+      ["_", "any", "Use the native 'array.some' instead of using the Underscore library: https://github.com/you-dont-need/You-Dont-Need-Lodash-Underscore#_some"],
+
+
+      ["_", "isNaN", "Use the native 'isNaN' function instead of using the Underscore library: https://github.com/you-dont-need/You-Dont-Need-Lodash-Underscore#_isnan"],
+
+
+      ["_", "keys", "Use the native 'Object.keys(myObj)' instead of using the Underscore library: https://github.com/you-dont-need/You-Dont-Need-Lodash-Underscore#_keys"],
+
+      ["_", "size", "Use the native 'array.length' or 'Object.keys(myObj).length' instead of using the Underscore library: https://github.com/you-dont-need/You-Dont-Need-Lodash-Underscore#_size"],
+
+      ["_", "values", "Use 'Object.keys(obj).map(key => obj[key])' instead of using the Underscore library"],
+      ["_", "pluck", "Use the native 'array.map(x => x.prop)' instead of using the Underscore library: https://github.com/you-dont-need/You-Dont-Need-Lodash-Underscore#_pluck"],
+
+
+      ["_", "isNull", "Use the native 'someVar == null', or even simpler 'if(!someVar)', instead of using the Underscore library"],
+      ["_", "isUndefined", "Use the native 'someVar == undefined', or even simpler 'if(!someVar)', instead of using the Underscore library"],
+
+      ["_", "reverse", "Use the native 'array.reverse' instead of using the Underscore library - https://github.com/cht8687/You-Dont-Need-Lodash-Underscore#_reverse"],
+
+      ["_", "join", "Use the native 'array.join' instead of using the Underscore library - https://github.com/cht8687/You-Dont-Need-Lodash-Underscore#_join"],
+
+
+      ["_", "toUpper", "Use the native 'string.toUpperCase()' instead of using the Underscore library - https://github.com/cht8687/You-Dont-Need-Lodash-Underscore#_reverse"],
+
+      ["_", "toLower", "Use the native 'string.toLowerCase()' instead of using the Underscore library - https://github.com/cht8687/You-Dont-Need-Lodash-Underscore#_tolower"],
+
+      ["_", "trim", "Use the native 'string.trim()' instead of using the Underscore library - https://github.com/cht8687/You-Dont-Need-Lodash-Underscore#_trim"],
+
+
+      ["_", "after", "This can be done natively without using the Underscore library - https://github.com/cht8687/You-Dont-Need-Lodash-Underscore#_after"]
+
+    ],
+
+    // Bans the use of specific functions or global methods.
+    "curly": true,
+    // Enforces braces for if/for/do/while statements.
+    "forin": true,
+    // Requires a for ... in statement to be filtered with an if statement.
+    "import-blacklist": [true, "rxjs"],
+    // Disallows importing the specified modules directly via import and require. Instead only sub modules may be imported from that module.
+    "label-position": true,
+    // Only allows labels in sensible locations.
+    "no-arg": true,
+    // Disallows use of arguments.callee. https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/arguments/callee
+    "no-bitwise": true,
+    // Bitwise operators are often typos - for example bool1 & bool2 instead of bool1 && bool2.
+    "no-console": [true, "log", "error", "info"],
+    // In general, console methods aren’t appropriate for production code.
+    "no-construct": true,
+    // Disallows access to the constructors of String, Number, and Boolean. Disallows constructor use such as new Number(foo) but does not disallow Number(foo).
+    "no-debugger": true,
+    // In general, debugger statements aren’t appropriate for production code.
+    "no-duplicate-super": true,
+    // The second call to ‘super()’ will fail at runtime.
+    "no-duplicate-variable": false, // we do not allow vars
+    // A variable can be reassigned if necessary - there’s no good reason to have a duplicate variable declaration.
+    "no-empty": true,
+    // Empty blocks are often indicators of missing code.
+    "no-eval": true,
+    // eval() is dangerous as it allows arbitrary code execution with full privileges. There are alternatives for most of the use cases for eval().
+    "no-floating-promises": true,
+    // Unhandled Promises can cause unexpected behavior, such as resolving at unexpected times.
+    "no-for-in-array": true,
+    // Disallows iterating over an array with a for-in loop. More common is to use for-of, which iterates over the values of an array.
+    "no-inferred-empty-object-type": true,
+    // Disallow type inference of {} (empty object type) at function and constructor call sites
+    "no-invalid-template-strings": true,
+    // Warns on use of ${ in non-template strings.
+    "no-invalid-this": true,
+    // Disallows using the this keyword outside of classes.
+    "no-misused-new": true,
+    // Warns on apparent attempts to define constructors for interfaces or new for classes.
+    "no-null-keyword": false, // null is used very often
+    // Instead of having the dual concepts of null andundefined in a codebase, this rule ensures that only undefined is used.
+    "no-shadowed-variable": true,
+    // Shadowing a variable masks access to it and obscures to what value an identifier actually refers.
+    "no-sparse-arrays": true,
+    // Missing elements are probably an accidentally duplicated comma.
+    "no-string-literal": true,
+    // Encourages using strongly-typed property access.
+    "no-string-throw": true,
+    // Flags throwing plain strings or concatenations of strings because only Errors produce proper stack traces.
+    "no-switch-case-fall-through": true,
+    // Disallows falling through case statements.
+    "no-unbound-method": true,
+    // Warns when a method is used as outside of a method call.
+    "no-unsafe-any": true,
+    // Warns when using an expression of type ‘any’ in a dynamic way. Uses are only allowed if they would work for {} | null | undefined. Type casts and tests are allowed. Expressions that work on all values (such as "" + x) are allowed.
+    "no-unsafe-finally": true,
+    // Disallows control flow statements, such as return, continue, break and throws in finally blocks.
+    "no-unused-expression": true,
+    // Disallows unused imports, variables, functions and private class members. Similar to tsc’s –noUnusedParameters and –noUnusedLocals options, but does not interrupt code compilation.
+    "no-use-before-declare": false, // we do not use var
+    // Disallows usage of variables before their declaration.
+    "no-var-keyword": true,
+    // Disallows usage of the var keyword.
+    "no-void-expression": true,
+    // Requires expressions of type void to appear in statement position.
+    "radix": false, // not necessary - 10 is a common default
+    // Requires the radix parameter to be specified when calling parseInt.
+    "restrict-plus-operands": true,
+    // When adding two variables, operands must both be of type number or of type string.
+    "strict-boolean-expressions": [
+      true,
+      "allow-undefined-union",
+      "allow-string",
+      "allow-mix"
+    ],
+    // Restricts the types allowed in boolean expressions. By default only booleans are allowed.
+    "strict-type-predicates": true,
+    // Warns for type predicates that are always true or always false.
+    "switch-default": true,
+    // Require a default case in all switch statements.
+    "triple-equals": [true, "allow-null-check"],
+    // Makes sure result of typeof is compared to correct string values
+    "use-isnan": true,
+    // Enforces use of the isNaN() function to check for NaN references instead of a comparison to the NaN constant.
+
+    // -------------- Maintainability
+    "cyclomatic-complexity": [true, 10],
+    // Enforces a threshold of cyclomatic complexity.
+    "eofline": true,
+    // It is a standard convention to end files with a newlin
+    "indent": [false, "tabs"], // cause too many errors
+    // Enforces indentation with tabs or spaces.
+    "linebreak-style": [false, "LF"], // not important
+    // Enforces a consistent linebreak style.
+    "max-classes-per-file": [true, 1],
+    // Ensures that files have a single responsibility so that that classes each exist in their own files
+    "max-file-line-count": [true, 500],
+    // Limiting the number of lines allowed in a file allows files to remain small, single purpose, and maintainable.
+    "max-line-length": [true, 150],
+    // Requires lines to be under a certain max length.
+    "no-default-export": false, // might simplyfy code
+    // Disallows default exports in ES6-style modules. Use named exports instead.
+    "no-mergeable-namespace": false, // namespaces are forbidden
+    // Disallows mergeable namespaces in the same file.
+    "no-require-imports": true,
+    // Prefer the newer ES6-style imports over require().
+    "object-literal-sort-keys": false, // not important
+    // Requires keys in object literals to be sorted alphabetically
+    "prefer-const": true,
+    // Requires that variable declarations use const instead of let and var if possible.
+    "trailing-comma": [true, { "multiline": "never", "singleline": "never" }],
+    // Requires or disallows trailing commas in array and object literals, destructuring assignments, function typings, named imports and exports and function parameters.
+
+    // ------------------ Style
+
+    "align": [true, "statements"],
+    //-Helps maintain a readable, consistent style in your codebase.
+    "array-type": [true, "array-simple"],
+    //-Requires using ‘T[]’ for arrays.
+    "arrow-parens": true,
+    //-Requires parentheses around the parameters of arrow function definitions.
+    "arrow-return-shorthand": [false], // no improved readability
+    // Suggests to convert () => { return x; } to () => x.
+    "callable-types": false, // ???
+    // An interface or literal type with just a call signature can be written as a function type.
+    "class-name": true,
+    // Enforces PascalCased class and interface names.
+    "comment-format": [true, "check-space", { "ignore-words": ["TODO", "HACK"] }],
+    // Enforces formatting rules for single-line comments.
+    "completed-docs": [true, false, "classes", "properties", "functions", "methods"],
+    // Enforces documentation for important items be filled out.
+    "file-header": [false, "Copyright \\d{4}"], // we have no special convention
+    // Enforces a certain header comment for all files, matched by a regular expression.
+    "import-spacing": true,
+    // Ensures proper spacing between import statement keywords
+    "interface-name": [true, "always-prefix"],
+    // "always-prefix" requires interface names to start with an “I”
+    "interface-over-type-literal": true,
+    // Interfaces are generally preferred over type literals because interfaces can be implemented, extended and merged.
+    "jsdoc-format": true,
+    // Enforces basic format rules for JSDoc comments.
+    "match-default-export-name": true,
+    // Requires that a default import have the same name as the declaration it imports. Does nothing for anonymous default exports.
+    "newline-before-return": false, // not common practise; bloats small functions
+    // Enforces blank line before return when not the only line in the block.
+    "new-parens": true,
+    // Requires parentheses when invoking a constructor via the new keyword.
+    "no-angle-bracket-type-assertion": false, // we do not use tsx files
+    // Requires the use of as Type for type assertions instead of <Type>.
+    "no-boolean-literal-compare": true,
+    //-Warns on comparison to a boolean literal, as in x === true.
+    "no-consecutive-blank-lines": [true, 2],
+    //-Disallows more blank lines in a row. Helps maintain a readable style in your codebase.
+    "no-parameter-properties": false, // are very useful
+    // Disallows reassigning parameters.
+    "no-parameter-reassignment": true,
+    // Disallows parameter properties in class constructors.
+    "no-reference-import": false, // we should not use reference imports
+    // Don’t if you import “foo” anyway.
+    "no-trailing-whitespace": false, // too many occurances, not important
+    // Keeps version control diffs clean as it prevents accidental whitespace from being committed.
+    "no-unnecessary-callback-wrapper": false, // not useful
+    // Replaces x => f(x) with just f. To catch more cases, enable only-arrow-functions and arrow-return-shorthand too.
+    "no-unnecessary-initializer": false, // not useful
+    // Forbids a ‘var’/’let’ statement or destructuring initializer to be initialized to ‘undefined’.
+    "no-unnecessary-qualifier": false, // we do not use namespaces
+    // Warns when a namespace qualifier (A.x) is unnecessary.
+    "object-literal-key-quotes": [true, "as-needed"], // Only property names which require quotes may be quoted (e.g. those with spaces in them).
+    // Enforces consistent object literal property quote style.
+    "object-literal-shorthand": false, // not helpful
+    // Enforces use of ES6 object literal shorthand when possible. see: http://eslint.org/docs/rules/object-shorthand
+    "one-line": [
+      true,
+      "check-whitespace",
+      "check-open-brace",
+      "check-else",
+      "check-catch"
+    ], // not necessary
+    // Requires the specified tokens to be on the same line as the expression preceding them.
+    "one-variable-per-declaration": [false], // not necessary
+    // Disallows multiple variable definitions in the same declaration statement.
+    "ordered-imports": [false], // too much effort to maintain
+    //-Requires that import statements be alphabetized.
+    "prefer-function-over-method": false, // ???
+    // Warns for class methods that do not use ‘this’.
+    "prefer-method-signature": false, // cannot be used in all cases because of this. context
+    // Prefer foo(): void over foo: () => void in interfaces and types.
+    "prefer-template": [true, "allow-single-concat"], // use back ticks with ${..}
+    // Prefer a template expression over string literal concatenation.
+    "quotemark": [true, "single", "avoid-escape", "avoid-template"],
+    // Requires single or double quotes for string literals.
+    "return-undefined": false, // not useful
+    // Prefer return; in void functions and return undefined; in value-returning functions.
+    "semicolon": [true, "always", "ignore-bound-class-methods"],
+    // Enforces consistent semicolon usage at the end of every statement.
+    "space-before-function-paren": false, // not important
+    // Require or disallow a space before function parenthesis
+    "variable-name": [true,
+      "ban-keywords",
+      "allow-pascal-case", // so as to use Components in NG 1.5 with „export const“
+      "check-format",
+      "allow-leading-underscore"
+    ],
+    // Checks variable names for various errors.
+    "whitespace": [
+      true,
+      "check-operator",
+      "check-type",
+      "check-branch",
+      "check-separator",
+      "check-decl"
+    ]
+    // Enforces whitespace style conventions. Helps maintain a readable, consistent style in your codebase.
+  }
+}

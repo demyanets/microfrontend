@@ -1,0 +1,17 @@
+{
+    "name": "@microfrontend/controller",
+    "version": "1.0.0",
+    "description": "Microfrontend controller",
+    "author": { "name": "Taras Demyanets", "email": "microfrontend@s-itsolutions.at", "url": "https://www.s-itsolutions.at" },
+    "contributors": [
+        { "name": "Albert Strimitzer", "email": "microfrontend@s-itsolutions.at", "url": "https://www.s-itsolutions.at" },
+        { "name": "Manfred Steyer", "email": "manfred.steyer@softwarearchitekt.at", "url": "https://www.softwarearchitekt.at" }
+    ],
+    "peerDependencies": {
+        "@microfrontend/common": "1.0.0"
+    },
+    "repository": {
+        "type": "git",
+        "url": ""
+    }
+}

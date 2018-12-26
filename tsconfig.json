@@ -1,0 +1,43 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "baseUrl": "./",
+    "outDir": "./dist/out-tsc",
+    "sourceMap": true,
+    "declaration": false,
+    "module": "es2015",
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "importHelpers": true,
+    "target": "es5",
+    "strict": true,
+    "typeRoots": [
+      "node_modules/@types"
+    ],
+    "lib": [
+      "es2018",
+      "dom"
+    ],
+    "paths": {
+      "@microfrontend/common": [
+        "dist/common"
+      ],
+      "@microfrontend/common/*": [
+        "dist/common/*"
+      ],
+      "@microfrontend/controller": [
+        "dist/controller"
+      ],
+      "@microfrontend/controller/*": [
+        "dist/controller/*"
+      ],
+      "@microfrontend/client": [
+        "dist/client"
+      ],
+      "@microfrontend/client/*": [
+        "dist/client/*"
+      ]
+    }
+  }
+}
