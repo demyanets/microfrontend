@@ -1,6 +1,6 @@
 {
   "name": "@microfrontend/common",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Microfrontend shared components",
   "author": { "name": "Taras Demyanets", "email": "microfrontend@s-itsolutions.at", "url": "https://www.s-itsolutions.at" },
     "contributors": [
@@ -16,6 +16,6 @@
     "type": "git",
     "url": "https://github.com/demyanets/microfrontend.git"
   },
-    "keywords": ["microfrontend", "micro frontend", "micro-frontend", "common"],
-    "license": "MIT"
+  "keywords": ["SPA", "Sigle page application", "microfrontend", "micro-frontend", "common"],
+  "license": "MIT"
 }
