@@ -1,6 +1,6 @@
 {
     "name": "@microfrontend/client",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "description": "Microfrontend client",
     "author": { "name": "Taras Demyanets", "email": "microfrontend@s-itsolutions.at", "url": "https://www.s-itsolutions.at" },
     "contributors": [
@@ -8,7 +8,7 @@
         { "name": "Manfred Steyer", "email": "manfred.steyer@softwarearchitekt.at", "url": "https://www.softwarearchitekt.at" }
     ],
     "peerDependencies": {
-        "@microfrontend/common": "1.0.0"
+        "@microfrontend/common": "1.0.1"
     },
     "publishConfig": {
         "access": "public"
@@ -17,6 +17,6 @@
         "type": "git",
         "url": "https://github.com/demyanets/microfrontend.git"
     },
-    "keywords": ["microfrontend", "micro frontend", "micro-frontend", "client"],
+    "keywords": ["SPA", "Sigle page application", "microfrontend", "micro-frontend", "client"],
     "license": "MIT"
 }
