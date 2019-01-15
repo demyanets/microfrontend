@@ -10,7 +10,7 @@ export class ConsoleFacade implements IConsoleFacade {
      */
     error(message: string, ...optionalParams: any[]): void {
         // tslint:disable no-console
-        console.error.apply(console, arguments);
+        console.error.apply(console, [message, ...optionalParams]);
     }
 
     /**
@@ -18,7 +18,7 @@ export class ConsoleFacade implements IConsoleFacade {
      */
     warning(message: string, ...optionalParams: any[]): void {
         // tslint:disable no-console
-        console.warn.apply(console, arguments);
+        console.warn.apply(console, [message, ...optionalParams]);
     }
 
     /**
@@ -26,7 +26,7 @@ export class ConsoleFacade implements IConsoleFacade {
      */
     info(message: string, ...optionalParams: any[]): void {
         // tslint:disable no-console
-        console.info.apply(console, arguments);
+        console.info.apply(console, [message, ...optionalParams]);
     }
 
     /**
@@ -34,7 +34,7 @@ export class ConsoleFacade implements IConsoleFacade {
      */
     debug(message: string, ...optionalParams: any[]): void {
         // tslint:disable no-console
-        console.debug.apply(console, arguments);
+        console.debug.apply(console, [message, ...optionalParams]);
     }
 
     /**
@@ -42,6 +42,6 @@ export class ConsoleFacade implements IConsoleFacade {
      */
     log(message: string, ...optionalParams: any[]): void {
         // tslint:disable no-console
-        console.log.apply(console, arguments);
+        console.log.apply(console, [message, ...optionalParams]);
     }
 }
