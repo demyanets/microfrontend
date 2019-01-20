@@ -10,6 +10,11 @@ export interface IFrameFacade extends IDestroyable {
     postMessage(msg: MessageBroadcast | MessageMetaRouted | MessageGetCustomFrameConfiguration): void;
 
     /**
+     * Provides visibility status of the frame
+     */
+    isVisible(): boolean;
+
+    /**
      * Hide frame
      */
     hide(): void;

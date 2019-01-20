@@ -16,6 +16,9 @@ import { ATTRIBUTE_NAME_ID, ATTRIBUTE_NAME_SRC, ATTRIBUTE_NAME_STYLE, DEFAULT_OU
  * Encapsulates outlet frame handling
  */
 export class FrameFacade extends Destroyable implements IFrameFacade {
+    private static readonly VISIBLE_VALUE = 'block';
+    private static readonly HIDDEN_VALUE = 'none'
+
     /** Encapsulated iFrame */
     private iframe?: HTMLIFrameElement;
 
@@ -122,12 +125,22 @@ export class FrameFacade extends Destroyable implements IFrameFacade {
     }
 
     /**
+     * Provides visibility status of the frame
+     */
+    isVisible(): boolean {
+        if (this.iframe) {
+            return this.iframe.style[STYLE_NAME_DISPLAY] === FrameFacade.VISIBLE_VALUE;
+        }
+        return false;
+    }
+
+    /**
      * Hide frame
      */
     hide(): void {
         if (this.iframe) {
             this.preventUsageUponDestruction();
-            this.iframe.style[STYLE_NAME_DISPLAY] = 'none';
+            this.iframe.style[STYLE_NAME_DISPLAY] = FrameFacade.HIDDEN_VALUE;
         }
     }
 
@@ -137,7 +150,7 @@ export class FrameFacade extends Destroyable implements IFrameFacade {
     show(): void {
         if (this.iframe) {
             this.preventUsageUponDestruction();
-            this.iframe.style[STYLE_NAME_DISPLAY] = 'block';
+            this.iframe.style[STYLE_NAME_DISPLAY] = FrameFacade.VISIBLE_VALUE;
         }
     }
 

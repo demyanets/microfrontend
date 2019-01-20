@@ -40,6 +40,13 @@ export class FrameFacadeMock extends Destroyable implements IFrameFacade {
     }
 
     /**
+     * Provides visibility status of the frame
+     */
+    isVisible(): boolean {
+        return this.visible;
+    }
+
+    /**
      * Hide frame
      */
     hide(): void {
