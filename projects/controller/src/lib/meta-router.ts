@@ -216,6 +216,7 @@ export class MetaRouter {
     private propagateBroadcast(msgBroadcast: MessageBroadcast): Promise<void> {
         this.framesManager.forEach((frame) => {
             if (this.isValidRecipient(frame.getRoute().metaRoute, msgBroadcast.metadata.recipients)) {
+                msgBroadcast.metadata.isRecipientVisible = frame.isVisible();
                 frame.postMessage(msgBroadcast);
             }
         });
