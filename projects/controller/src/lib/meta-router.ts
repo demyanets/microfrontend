@@ -1,29 +1,15 @@
-import {
-    Destroyable,
-    EVENT_HASHCHANGE,
-    IConsoleFacade,
-    IMap,
-    MessageBroadcast,
-    MessageBroadcastMetadata,
-    MessageGetCustomFrameConfiguration,
-    MessageGoto,
-    MessageRouted,
-    MessageSetFrameStyles,
-    MessageMetaRouted,
-    MessagingApiBroker,
-    SHELL_NAME
-} from '@microfrontend/common';
-import { UrlHelper } from './url-helper';
-import { MetaRouterConfig } from './meta-router-config';
+import { Destroyable, EVENT_HASHCHANGE, IConsoleFacade, IMap, MessageBroadcast, MessageBroadcastMetadata, MessageGetCustomFrameConfiguration, MessageGoto, MessageMetaRouted, MessageRouted, MessageSetFrameStyles, MessagingApiBroker, SHELL_NAME } from '@microfrontend/common';
 import { AppRoute } from './app-route';
-import { MetaRouteHelper } from './meta-route-helper';
+import { ControllerServiceProvider } from './controller-service-provider';
+import { IControllerServiceProvider } from './controller-service-provider-interface';
+import { IFrameFacade } from './frame-facade-interface';
+import { FramesManager } from './frames-manager';
 import { IHistoryApiFacade } from './history-api-facade-interface';
 import { ILocationFacade } from './location-facade-interface';
-import { FramesManager } from './frames-manager';
-import { IFrameFacade } from './frame-facade-interface';
+import { MetaRouteHelper } from './meta-route-helper';
+import { MetaRouterConfig } from './meta-router-config';
 import { PromiseSingletonDecorator } from './promise-singleton-decorator';
-import { IControllerServiceProvider } from './controller-service-provider-interface';
-import { ControllerServiceProvider } from './controller-service-provider';
+import { UrlHelper } from './url-helper';
 
 /**
  * MetaRouter for routing between micro frontends
@@ -305,7 +291,7 @@ export class MetaRouter {
         const hash = this.locationFacade.getTruncatedHash();
         this.consoleFacade.debug('parseHash(%s) -> %s', outlet, hash);
         if (hash) {
-            return UrlHelper.parseUrl(hash, outlet);
+            return UrlHelper.parseUrl(hash, outlet, this.config.multipleOutlets);
         } else {
             return this.getInitOutletsMap(outlet);
         }

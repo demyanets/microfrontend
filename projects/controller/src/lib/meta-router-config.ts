@@ -12,7 +12,8 @@ export class MetaRouterConfig {
         readonly routes: IAppConfig[],
         readonly handleNotification: HandleBroadcastNotification,
         readonly frameConfig: FrameConfig = new FrameConfig(),
-        readonly unknownRouteHandling: UnknownRouteHandlingEnum = UnknownRouteHandlingEnum.ThrowError
+        readonly unknownRouteHandling: UnknownRouteHandlingEnum = UnknownRouteHandlingEnum.ThrowError,
+        readonly multipleOutlets: boolean = false
     ) {
         if (outlet === '') {
             throw new Error('Outlet is empty');

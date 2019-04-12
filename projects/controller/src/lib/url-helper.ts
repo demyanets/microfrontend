@@ -20,7 +20,7 @@ export class UrlHelper {
      * Parse URL into meta routes object
      */
     // tslint:disable-next-line:cyclomatic-complexity
-    public static parseUrl(url: string, defaultOutlet: string): IMap<AppRoute[]> {
+    public static parseUrl(url: string, defaultOutlet: string, multipleOutlets: boolean): IMap<AppRoute[]> {
         type STATE = 'key' | 'value';
 
         let key: string = defaultOutlet;
@@ -56,7 +56,7 @@ export class UrlHelper {
                         this.addAppRoute(result, key, value);
                         key = value = '';
                         state = 'key';
-                    } else if (c === '=') {
+                    } else if (multipleOutlets && c === '=') {
                         key = value;
                         value = '';
                         state = 'value';

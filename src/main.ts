@@ -24,7 +24,8 @@ window.addEventListener('load', async () => {
             console.debug('received message from routed app', { tag, data });
         },
         new FrameConfig({ test: 'myConfig' }, {}, { class: 'my-outlet-frame' }),
-        UnknownRouteHandlingEnum.ThrowError
+        UnknownRouteHandlingEnum.ThrowError,
+        false
     );
 
     const router = new MetaRouter(config);
