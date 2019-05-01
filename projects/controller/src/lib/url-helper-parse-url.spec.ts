@@ -23,8 +23,8 @@ describe('UrlHelper / parseUrl', () => {
         expect(result[DEFAULT_OUTLET][0].subRoute).toBe('y/z(a:1//b:2)');
     });
 
-    it('parses x/y/z;outlet2=a/b/c', () => {
-        const url = 'x/y/z;outlet2=a/b/c';
+    it('parses x/y/z;outlet2~a/b/c', () => {
+        const url = 'x/y/z;outlet2~a/b/c';
         const result = UrlHelper.parseUrl(url, DEFAULT_OUTLET);
         const OUTLET_2 = `${DEFAULT_OUTLET}2`;
         expect(result[DEFAULT_OUTLET].length).toBe(1);
@@ -37,8 +37,8 @@ describe('UrlHelper / parseUrl', () => {
         expect(result[OUTLET_2][0].subRoute).toBe('b/c');
     });
 
-    it('parses x/y/z(a:1//b:2);outlet2=a/b/c(a:4//b:5)', () => {
-        const url = 'x/y/z(a:1//b:2);outlet2=a/b/c(a:4//b:5)';
+    it('parses x/y/z(a:1//b:2);outlet2~a/b/c(a:4//b:5)', () => {
+        const url = 'x/y/z(a:1//b:2);outlet2~a/b/c(a:4//b:5)';
         const result = UrlHelper.parseUrl(url, DEFAULT_OUTLET);
         const OUTLET_2 = `${DEFAULT_OUTLET}2`;
         expect(result[DEFAULT_OUTLET].length).toBe(1);
@@ -51,8 +51,8 @@ describe('UrlHelper / parseUrl', () => {
         expect(result[OUTLET_2][0].subRoute).toBe('b/c(a:4//b:5)');
     });
 
-    it('parses x/y/z;outlet2=a/b/c;outlet3=q/e/r/t/y', () => {
-        const url = 'x/y/z;outlet2=a/b/c;outlet3=q/e/r/t/y';
+    it('parses x/y/z;outlet2~a/b/c;outlet3~q/e/r/t/y', () => {
+        const url = 'x/y/z;outlet2~a/b/c;outlet3~q/e/r/t/y';
         const result = UrlHelper.parseUrl(url, DEFAULT_OUTLET);
         const OUTLET_2 = `${DEFAULT_OUTLET}2`;
         const OUTLET_3 = `${DEFAULT_OUTLET}3`;
@@ -64,8 +64,8 @@ describe('UrlHelper / parseUrl', () => {
         expect(result[OUTLET_3][0].url).toBe('q/e/r/t/y');
     });
 
-    it('parses outlet7=x/y/z;outlet2=a/b/c;outlet3=q/e/r/t/y', () => {
-        const url = 'outlet7=x/y/z;outlet2=a/b/c;outlet3=q/e/r/t/y';
+    it('parses outlet7~x/y/z;outlet2~a/b/c;outlet3~q/e/r/t/y', () => {
+        const url = 'outlet7~x/y/z;outlet2~a/b/c;outlet3~q/e/r/t/y';
         const result = UrlHelper.parseUrl(url, DEFAULT_OUTLET);
         const OUTLET_2 = `${DEFAULT_OUTLET}2`;
         const OUTLET_3 = `${DEFAULT_OUTLET}3`;
@@ -78,8 +78,8 @@ describe('UrlHelper / parseUrl', () => {
         expect(result[OUTLET_3][0].url).toBe('q/e/r/t/y');
     });
 
-    it('parses outlet7=x/y/z(a:1//b:2);outlet2=a/b/c(a:4//b:5)', () => {
-        const url = 'outlet7=x/y/z(a:1//b:2);outlet2=a/b/c(a:4//b:5)';
+    it('parses outlet7~x/y/z(a:1//b:2);outlet2~a/b/c(a:4//b:5)', () => {
+        const url = 'outlet7~x/y/z(a:1//b:2);outlet2~a/b/c(a:4//b:5)';
         const result = UrlHelper.parseUrl(url, DEFAULT_OUTLET);
         const OUTLET_2 = `${DEFAULT_OUTLET}2`;
         const OUTLET_7 = `${DEFAULT_OUTLET}7`;
@@ -101,8 +101,8 @@ describe('UrlHelper / parseUrl', () => {
         expect(result[DEFAULT_OUTLET][1].subRoute).toBe('y/z');
     });
 
-    it('parses outlet=a/b/c!x/y/z', () => {
-        const url = 'outlet=a/b/c!x/y/z';
+    it('parses outlet~a/b/c!x/y/z', () => {
+        const url = 'outlet~a/b/c!x/y/z';
         const result = UrlHelper.parseUrl(url, DEFAULT_OUTLET);
         expect(result[DEFAULT_OUTLET].length).toBe(2);
         expect(result[DEFAULT_OUTLET][0].url).toBe('a/b/c');
@@ -113,8 +113,8 @@ describe('UrlHelper / parseUrl', () => {
         expect(result[DEFAULT_OUTLET][1].subRoute).toBe('y/z');
     });
 
-    it('parses outlet=x/y/z!a/b/c', () => {
-        const url = 'outlet=x/y/z!a/b/c';
+    it('parses outlet~x/y/z!a/b/c', () => {
+        const url = 'outlet~x/y/z!a/b/c';
         const result = UrlHelper.parseUrl(url, DEFAULT_OUTLET);
         expect(result[DEFAULT_OUTLET].length).toBe(2);
         expect(result[DEFAULT_OUTLET][1].url).toBe('a/b/c');
@@ -125,8 +125,8 @@ describe('UrlHelper / parseUrl', () => {
         expect(result[DEFAULT_OUTLET][0].subRoute).toBe('y/z');
     });
 
-    it('parses outlet=a/b/c!x/y/z;outlet2=a/b/c!x/y/z', () => {
-        const url = 'outlet=a/b/c!x/y/z;outlet2=a/b/c!x/y/z';
+    it('parses outlet~a/b/c!x/y/z;outlet2~a/b/c!x/y/z', () => {
+        const url = 'outlet~a/b/c!x/y/z;outlet2~a/b/c!x/y/z';
         const result = UrlHelper.parseUrl(url, DEFAULT_OUTLET);
         expect(result[DEFAULT_OUTLET].length).toBe(2);
         expect(result[DEFAULT_OUTLET][0].url).toBe('a/b/c');

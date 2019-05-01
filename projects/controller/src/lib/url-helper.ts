@@ -6,6 +6,21 @@ import { AppRoute } from './app-route';
  */
 export class UrlHelper {
     /**
+     * Separator between outlets
+     */
+    private static separatorOutlets = ';';
+
+    /**
+     * Separator between outlet routes
+     */
+    private static separatorOutletRoutes = '~';
+
+    /**
+     * Separator between routes
+     */
+    private static separatorRoutes = '!';
+
+    /**
      * Removes starting slash from route if necessary
      */
     public static removeStartingSlash(route: string): string {
@@ -36,7 +51,7 @@ export class UrlHelper {
 
             switch (state) {
                 case 'key':
-                    if (c === '=') {
+                    if (c === UrlHelper.separatorOutletRoutes) {
                         // new
                         state = 'value';
                     } else {
@@ -52,15 +67,15 @@ export class UrlHelper {
                         depth -= 1;
                     } else if (depth > 0) {
                         value += c;
-                    } else if (c === '\0' || c === ';') {
+                    } else if (c === '\0' || c === UrlHelper.separatorOutlets) {
                         this.addAppRoute(result, key, value);
                         key = value = '';
                         state = 'key';
-                    } else if (c === '=') {
+                    } else if (c === UrlHelper.separatorOutletRoutes) {
                         key = value;
                         value = '';
                         state = 'value';
-                    } else if (c === '!') {
+                    } else if (c === UrlHelper.separatorRoutes) {
                         this.addAppRoute(result, key, value);
                         value = '';
                     } else {
@@ -115,7 +130,7 @@ export class UrlHelper {
             if (routes.hasOwnProperty(key)) {
                 if (key !== outlet) {
                     if (url) {
-                        url += ';';
+                        url += UrlHelper.separatorOutlets;
                     }
                     url += this.getUrlForKey(routes, key);
                 }
@@ -136,7 +151,7 @@ export class UrlHelper {
         for (const app of apps) {
             urls.push(app.url);
         }
-        url = urls.join('!');
+        url = urls.join(UrlHelper.separatorRoutes);
         return url;
     }
 
@@ -147,6 +162,6 @@ export class UrlHelper {
      * @returns
      */
     private static getUrlForKey(routes: IMap<AppRoute[]>, key: string): string {
-        return `${key}=${UrlHelper.getUrlForApps(routes[key])}`;
+        return `${key}${UrlHelper.separatorOutletRoutes}${UrlHelper.getUrlForApps(routes[key])}`;
     }
 }

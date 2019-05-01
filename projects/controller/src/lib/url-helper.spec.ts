@@ -36,7 +36,7 @@ describe('UrlHelper', () => {
             outlet2: [AppRoute.fromUrl('a/b/c')]
         };
         const result = UrlHelper.constructUrl(x, 'outlet2');
-        expect(result).toBe('outlet2=a/b/c;outlet1=x/y/z');
+        expect(result).toBe('outlet2~a/b/c;outlet1~x/y/z');
     });
 
     it('constructUrl a/b/c!x/y/z', () => {
@@ -47,13 +47,13 @@ describe('UrlHelper', () => {
         expect(result).toBe('a/b/c!x/y/z');
     });
 
-    it('constructUrl outlet2=a/b/c;outlet1=a/b/c!x/y/z', () => {
+    it('constructUrl outlet2~a/b/c;outlet1~a/b/c!x/y/z', () => {
         const x: IMap<AppRoute[]> = {
             outlet1: [AppRoute.fromUrl('a/b/c'), AppRoute.fromUrl('x/y/z')],
             outlet2: [AppRoute.fromUrl('a/b/c')]
         };
         const result = UrlHelper.constructUrl(x, 'outlet2');
-        expect(result).toBe('outlet2=a/b/c;outlet1=a/b/c!x/y/z');
+        expect(result).toBe('outlet2~a/b/c;outlet1~a/b/c!x/y/z');
     });
 
     it('constructFullUrl with "path" and "x/y/z"', () => {
