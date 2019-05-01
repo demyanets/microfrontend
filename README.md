@@ -49,7 +49,7 @@ URL syntax uses following reserved symbols:
 Symbol | Meaning
 ------------ | -------------
 ``;`` | Separates outlets
-``=`` | Separates outlet name and microfrontend's routes
+``~`` | Separates outlet name and microfrontend's routes
 ``!`` | Separates routes of microfrontends  
 
 ## URL with a default outlet
@@ -74,7 +74,7 @@ Current version does not support multiple outlets!
 
 Full URL syntax consists of a list of outlets separated by ``;`` and corresponding microfrontend's routes e.g.:
 
-``outlet1=a/b/c!x/y/z;outlet2=k/l/m``
+``outlet1~a/b/c!x/y/z;outlet2~k/l/m``
 
 The example above controls ``outlet1`` and ``outlet2``:
  - ``outlet1`` contains two microfrontends - ``a`` and ``x``:

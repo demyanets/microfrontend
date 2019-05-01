@@ -17,7 +17,7 @@ import { ATTRIBUTE_NAME_ID, ATTRIBUTE_NAME_SRC, ATTRIBUTE_NAME_STYLE, DEFAULT_OU
  */
 export class FrameFacade extends Destroyable implements IFrameFacade {
     private static readonly VISIBLE_VALUE = 'block';
-    private static readonly HIDDEN_VALUE = 'none'
+    private static readonly HIDDEN_VALUE = 'none';
 
     /** Encapsulated iFrame */
     private iframe?: HTMLIFrameElement;
