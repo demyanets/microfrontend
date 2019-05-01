@@ -5,7 +5,6 @@ import { AppRoute } from './app-route';
  * Provides helper functions for url handling
  */
 export class UrlHelper {
-
     /**
      * Separator between outlets
      */
