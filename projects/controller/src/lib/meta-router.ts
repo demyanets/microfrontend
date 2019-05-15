@@ -240,8 +240,8 @@ export class MetaRouter {
     private async activateRoute(routeToActivate: AppRoute, frame: IFrameFacade, click?: boolean): Promise<void> {
         this.consoleFacade.debug('activateRoute(%s/%s)', routeToActivate.metaRoute, routeToActivate.subRoute);
         this.makeActiveRouteVisible(routeToActivate);
-        await this.notifyAppAboutActivation(routeToActivate, frame);
         this.activateRouteInHash(this.config.outlet, routeToActivate, click);
+        return this.notifyAppAboutActivation(routeToActivate, frame);
     }
 
     /**

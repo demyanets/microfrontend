@@ -30,12 +30,19 @@ export class MetaRouteHelper {
      * @returns Updated map.
      */
     static activateRoute(routeToActivate: AppRoute, currentRoutes: IMap<AppRoute[]>, outlet: string): IMap<AppRoute[]> {
-        const newOutletApps: AppRoute[] = [routeToActivate];
+        let newRoute: AppRoute = routeToActivate;
+        const newOutletApps: AppRoute[] = [];
+
         for (const appRoute of currentRoutes[outlet]) {
             if (routeToActivate.metaRoute !== appRoute.metaRoute) {
                 newOutletApps.push(appRoute);
+            } else {
+                if (!routeToActivate.subRoute) {
+                    newRoute = appRoute;
+                }
             }
         }
+        newOutletApps.unshift(newRoute);
         return MetaRouteHelper.createNewMap(newOutletApps, outlet);
     }
 

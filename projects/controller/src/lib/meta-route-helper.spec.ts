@@ -107,6 +107,30 @@ describe('MetaRouteHelper', () => {
             expect(outletThirdRoute.metaRoute).toBe('c');
             expect(outletThirdRoute.subRoute).toBe('x');
         });
+
+        it('should keep the subroute (outlet=a/x!b/y!c/x -> outlet=b/y!a/x!c/x)', () => {
+            routeToActivate = new AppRoute('b', undefined);
+            currentRoutes = {
+                outlet: [new AppRoute('a', 'x'), new AppRoute('b', 'y'), new AppRoute('c', 'x')]
+            };
+            currentRoutes = MetaRouteHelper.activateRoute(routeToActivate, currentRoutes, outlet);
+            expect(currentRoutes[outlet].length).toBe(3);
+
+            let outletFirstRoute = currentRoutes[outlet][0];
+            expect(outletFirstRoute.url).toBe('b/y');
+            expect(outletFirstRoute.metaRoute).toBe('b');
+            expect(outletFirstRoute.subRoute).toBe('y');
+
+            let outletSecondRoute = currentRoutes[outlet][1];
+            expect(outletSecondRoute.url).toBe('a/x');
+            expect(outletSecondRoute.metaRoute).toBe('a');
+            expect(outletSecondRoute.subRoute).toBe('x');
+
+            let outletThirdRoute = currentRoutes[outlet][2];
+            expect(outletThirdRoute.url).toBe('c/x');
+            expect(outletThirdRoute.metaRoute).toBe('c');
+            expect(outletThirdRoute.subRoute).toBe('x');
+        });
     });
 
     describe('setRoute', () => {
