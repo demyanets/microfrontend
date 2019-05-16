@@ -108,7 +108,7 @@ export class MetaRouter {
     /**
      * Preloads all the micro frontends by loading them into the page
      */
-    async preload(): Promise<void> {
+    async preload(): Promise<IFrameFacade[]> {
         this.consoleFacade.debug('Before preload()');
         const hash = this.parseHash(this.config.outlet);
         // Take existing routes into account
@@ -181,6 +181,7 @@ export class MetaRouter {
     private async handleSetFrameStyles(msgSetFrameStyles: MessageSetFrameStyles): Promise<void> {
         const frame = await this.framesManager.getFrame(msgSetFrameStyles.source);
         frame.setStyles(msgSetFrameStyles.styles);
+        return Promise.resolve();
     }
 
     /**
@@ -193,6 +194,7 @@ export class MetaRouter {
         this.consoleFacade.debug(`handleGetFrameConfiguration / config = (${config})`);
         const msg = new MessageGetCustomFrameConfiguration(SHELL_NAME, config);
         frame.postMessage(msg);
+        return Promise.resolve();
     }
 
     /**
@@ -208,6 +210,7 @@ export class MetaRouter {
     private async handleBroadcast(msgBroadcast: MessageBroadcast): Promise<void> {
         await this.propagateBroadcast(msgBroadcast);
         this.config.handleNotification(msgBroadcast.metadata, msgBroadcast.data);
+        return Promise.resolve();
     }
 
     /**
