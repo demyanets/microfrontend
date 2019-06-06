@@ -24,6 +24,26 @@ describe('MetaRouteHelper', () => {
             expect(currentRoutes[outlet][0]).toBe(routeToActivate);
         });
 
+        it('should remove subroute (outlet=a/y!b -> outlet=a!b)', () => {
+            routeToActivate = new AppRoute('a', '');
+            currentRoutes = {
+                outlet: [new AppRoute('a', 'y'), new AppRoute('b')]
+            };
+            currentRoutes = MetaRouteHelper.activateRoute(routeToActivate, currentRoutes, outlet);
+            expect(currentRoutes.hasOwnProperty(outlet)).toBeTruthy();
+            expect(currentRoutes[outlet].length).toBe(2);
+
+            let outletFirstRoute = currentRoutes[outlet][0];
+            expect(outletFirstRoute.url).toBe('a');
+            expect(outletFirstRoute.metaRoute).toBe('a');
+            expect(outletFirstRoute.subRoute).toBe('');
+
+            let outletSecondRoute = currentRoutes[outlet][1];
+            expect(outletSecondRoute.url).toBe('b');
+            expect(outletSecondRoute.metaRoute).toBe('b');
+            expect(outletSecondRoute.subRoute).toBeFalsy();
+        });
+
         it('should return correct updated currentRoutes (outlet=a/y!b -> outlet=a/x!b)', () => {
             routeToActivate = new AppRoute('a', 'x');
             currentRoutes = {
