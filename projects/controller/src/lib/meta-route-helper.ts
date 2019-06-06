@@ -24,6 +24,8 @@ export class MetaRouteHelper {
 
     /**
      * Activates the route
+     * If subroute if undefined it will keep existing subroute
+     * If subroute is empty it will navigate to the empty subroute
      * @param routeToActivate Route that has to be activated.
      * @param currentRoutes Map with current route.
      * @param outlet Related outlet.
@@ -37,7 +39,7 @@ export class MetaRouteHelper {
             if (routeToActivate.metaRoute !== appRoute.metaRoute) {
                 newOutletApps.push(appRoute);
             } else {
-                if (!routeToActivate.subRoute) {
+                if (routeToActivate.subRoute === undefined) {
                     newRoute = appRoute;
                 }
             }
