@@ -11,6 +11,7 @@ import { RoutedApp } from './routed-app';
 import { RoutedAppConfig } from './routed-app-config';
 import { ClientServiceProviderMock } from '../mocks/client-service-provider.mock';
 
+
 describe('RoutedApp', () => {
     let routedApp: RoutedApp;
     let provider: ClientServiceProviderMock;
@@ -19,8 +20,15 @@ describe('RoutedApp', () => {
     beforeEach(() => {
         config = new RoutedAppConfig('a', location.origin);
         provider = new ClientServiceProviderMock('http://localhost:8080/#b!a/x');
+
         routedApp = new RoutedApp(config, provider);
     });
+
+    it('should return true when hasParent is called',()=>{
+        const returnValue:Boolean = routedApp.hasShell;
+    
+        expect(returnValue).toBe(true)
+    })
 
     it('should post routed message to parent', () => {
         const url: string = 'b';
