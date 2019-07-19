@@ -13,18 +13,18 @@ export class ControllerServiceProviderMock extends ServiceProviderMock implement
     frameFacadeMocks: IMap<FrameFacadeMock> = {};
     locationHistoryFacadeMocks: LocationHistoryFacadeMock;
 
-    constructor(public initialPath: string) {
+    constructor(public initialPath: string, public FrameFacadeMockInitShouldBeSuccess: boolean = true) {
         super(initialPath);
         this.locationHistoryFacadeMocks = new LocationHistoryFacadeMock(this.initialPath);
     }
 
     getFrameFacade(route: AppRoute, baseUrl: string, outletName: string, config: FrameConfig): IFrameFacade {
         if (!this.frameFacadeMocks[route.metaRoute]) {
-            this.frameFacadeMocks[route.metaRoute] = new FrameFacadeMock(route, baseUrl, outletName, config);
+            this.frameFacadeMocks[route.metaRoute] = new FrameFacadeMock(route, baseUrl, outletName, config, this.FrameFacadeMockInitShouldBeSuccess);
         }
 
         if (this.frameFacadeMocks[route.metaRoute].isDestroyed()) {
-            this.frameFacadeMocks[route.metaRoute] = new FrameFacadeMock(route, baseUrl, outletName, config);
+            this.frameFacadeMocks[route.metaRoute] = new FrameFacadeMock(route, baseUrl, outletName, config, this.FrameFacadeMockInitShouldBeSuccess);
         }
 
         return this.frameFacadeMocks[route.metaRoute];

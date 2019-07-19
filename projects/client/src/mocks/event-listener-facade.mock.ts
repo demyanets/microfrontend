@@ -54,11 +54,10 @@ export class EventListenerFacadeMock<T extends Event> extends Destroyable {
         };
         return this.notificationHandler(<T>e);
     }
-
     
     simulateGetCustomFrameConfigMessage(source: string, config: IMap<string>, origin: string): Promise<void> {
         const e: unknown = {
-            data: { message: MESSAGE_GET_CUSTOM_FRAME_CONFIG, source: source, styles: config },
+            data: { message: MESSAGE_GET_CUSTOM_FRAME_CONFIG, source: source, configuration: config },
             origin: origin
         };
         return this.notificationHandler(<T>e);

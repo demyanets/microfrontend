@@ -1,4 +1,4 @@
-import { EVENT_HASHCHANGE, EVENT_MESSAGE } from '@microfrontend/common';
+import { EVENT_HASHCHANGE, EVENT_MESSAGE, MessageGetCustomFrameConfiguration } from '@microfrontend/common';
 import { MetaRouter } from './meta-router';
 import { AppRoute } from './app-route';
 import { MetaRouterConfig } from './meta-router-config';
@@ -215,6 +215,17 @@ describe('MetaRouter', () => {
             await eventMock.simulateGotoMessage('a', 'a', undefined, location.origin);
             expect(router.go).toHaveBeenCalledWith('a', undefined);
         });
+
+        it('should get custom frame config msg', async () => {
+            // let configurationMessage:MessageGetCustomFrameConfiguration 
+            const eventMock: EventListenerFacadeMock<MessageEvent> = provider.eventListenerFacadeMocks[EVENT_MESSAGE];
+            await eventMock.simulateGetCustomFrameConfigMessage('a', { }, location.origin).then(res => {
+                expect(true).toBeTruthy()
+            });
+
+            const configurationMessage = new MessageGetCustomFrameConfiguration("", { testing: "helloWorld" })
+            expect(provider.frameFacadeMocks.a.messages[0]).toEqual(configurationMessage);
+        })
     });
 
     describe('routeByUrl', () => {

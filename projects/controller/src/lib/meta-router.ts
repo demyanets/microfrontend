@@ -194,6 +194,7 @@ export class MetaRouter {
         this.consoleFacade.debug(`handleGetFrameConfiguration / config = (${config})`);
         const msg = new MessageGetCustomFrameConfiguration(SHELL_NAME, config);
         frame.postMessage(msg);
+        console.log(msg, config);
         return Promise.resolve();
     }
 
