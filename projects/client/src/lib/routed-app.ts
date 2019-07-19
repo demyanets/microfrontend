@@ -72,6 +72,7 @@ export class RoutedApp {
             this.handleMetaRouted.bind(this),
             this.handleGetCustomFrameConfig.bind(this)
         );
+        console.log(this.parentFacade.hasParent(), this.messageBroker)
     }
 
     /** Indicates if the application is running in a shell  */
