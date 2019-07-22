@@ -16,6 +16,7 @@ describe('MessagingApiBroker', () => {
     let handleSetFrameStylesCalled = false;
     let handleGetFrameConfigCalled = false;
     let handleGotoCalled = false;
+    let handleGetFrameConfiguration = false;
     let handleBroadcastCalled = false;
     let handleSubrouteCalled = false;
 
