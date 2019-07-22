@@ -80,7 +80,7 @@ describe('FrameManager', () => {
         });
     });
 
-    describe('when unknownRouteHandling is RedirectToFirstKnown', () => {
+    describe('When unknownRouteHandling is RedirectToFirstKnown', () => {
         beforeEach(() => {
             config = new MetaRouterConfig(
                 'outlet',

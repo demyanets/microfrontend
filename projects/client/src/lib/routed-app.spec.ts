@@ -12,14 +12,11 @@ import {
 import { RoutedApp } from './routed-app';
 import { RoutedAppConfig } from './routed-app-config';
 import { ClientServiceProviderMock } from '../mocks/client-service-provider.mock';
-import { ParentFacadeMock } from '../mocks/parent-facade-mock';
-
 
 describe('RoutedApp', () => {
     let routedApp: RoutedApp;
     let provider: ClientServiceProviderMock;
     let config: RoutedAppConfig;
-    // let parentFacade: ParentFacadeMock;
 
     beforeEach(() => {
         config = new RoutedAppConfig('a', location.origin);
