@@ -2,8 +2,6 @@ import { AppRoute } from './app-route';
 import { MetaRouterConfig } from './meta-router-config';
 import { FramesManager } from './frames-manager';
 import { ControllerServiceProviderMock } from '../mocks/controller-service-provider.mock';
-import { UnknownRouteHandlingEnum } from './unknown-route-handling-enum';
-import { FrameConfig } from './frame-config';
 
 describe('FrameManager', () => {
     let frameMan: FramesManager;
@@ -79,49 +77,4 @@ describe('FrameManager', () => {
             expect(provider.frameFacadeMocks.a.getRoute()).toEqual(new AppRoute('a', 'x'));
         });
     });
-
-    describe('When unknownRouteHandling is RedirectToFirstKnown', () => {
-        beforeEach(() => {
-            config = new MetaRouterConfig(
-                'outlet',
-                [
-                    {
-                        metaRoute: 'a',
-                        baseUrl: '/app-a/'
-                    }
-                ],
-                (tag, data) => {
-                    /* Do something */
-                },
-                new FrameConfig(),
-                UnknownRouteHandlingEnum.RedirectToFirstKnown
-            );
-        })
-
-        beforeEach(async () => {
-            provider = new ControllerServiceProviderMock('http://localhost:8080/#b!a/x');
-            frameMan = new FramesManager(config, provider);
-        });
-
-        it('should create iframe for the route if the iframe for that route does not matched ', async () => {
-            spyOn(provider, 'getFrameFacade').and.callThrough();
-            await frameMan.getFrame('ss', 'o')
-            expect(provider.frameFacadeMocks.ss.getRoute()).toEqual(new AppRoute('ss', 'o'));
-        })
-
-        it('should create iframe for the route if the iframe for  that route does not exist', async () => {
-            spyOn(provider, 'getFrameFacade').and.callThrough();
-            await frameMan.getFrame('a', 'o')
-            expect(provider.frameFacadeMocks.a.getRoute()).toEqual(new AppRoute('a', 'o'));
-        })
-
-        it('should catch a error when FrameFacadeMock init function is got catch', async () => {
-            provider = new ControllerServiceProviderMock('http://localhost:8080/#b!a/x', false);
-            frameMan = new FramesManager(config, provider);
-            spyOn(provider, 'getFrameFacade').and.callThrough();
-            await frameMan.getFrame('a', 'o').catch(err=> {
-                expect(true).toBeTruthy();
-            })
-        })
-    })
 });

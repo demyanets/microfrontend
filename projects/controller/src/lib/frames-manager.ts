@@ -79,7 +79,7 @@ export class FramesManager {
      */
     private handleUnknownRoute(r?: IAppConfig): IAppConfig | undefined {
         switch (this.config.unknownRouteHandling) {
-            case UnknownRouteHandlingEnum.RedirectToFirstKnown: 
+            case UnknownRouteHandlingEnum.RedirectToFirstKnown:
                 if (r === undefined) {
                     return this.config.routes[0];
                 }
@@ -119,13 +119,14 @@ export class FramesManager {
     /**
      * Preloads all the micro frontends by loading them into the page
      */
-    async preload(routes: AppRoute[]): Promise<IFrameFacade[]> {
+    async preload(routes: AppRoute[]): Promise<void> {
         this.consoleFacade.debug('Before preload()');
         const promises: Array<Promise<IFrameFacade>> = [];
         for (const route of routes) {
             promises.push(this.getFrameWithRoute(route));
         }
-        return Promise.all(promises);
+        await Promise.all(promises);
+        this.consoleFacade.debug('After preload()');
     }
 
     /**

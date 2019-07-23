@@ -7,8 +7,7 @@ import {
     MESSAGE_ROUTED,
     MESSAGE_SET_FRAME_STYLES,
     MESSAGE_META_ROUTED,
-    MessageBroadcastMetadata,
-    MESSAGE_GET_CUSTOM_FRAME_CONFIG
+    MessageBroadcastMetadata
 } from '@microfrontend/common';
 
 export class EventListenerFacadeMock<T extends Event> extends Destroyable {
@@ -54,14 +53,6 @@ export class EventListenerFacadeMock<T extends Event> extends Destroyable {
         };
         return this.notificationHandler(<T>e);
     }
-    
-    simulateGetCustomFrameConfigMessage(source: string, config: IMap<string>, origin: string): Promise<void> {
-        const e: unknown = {
-            data: { message: MESSAGE_GET_CUSTOM_FRAME_CONFIG, source: source, configuration: config },
-            origin: origin
-        };
-        return this.notificationHandler(<T>e);
-    }
 
     simulateBroadcastMessage(source: string, tag: string, data: object, recipients: string[] | undefined, origin: string): Promise<void> {
         const metadata = new MessageBroadcastMetadata(tag, source, recipients);
@@ -71,8 +62,6 @@ export class EventListenerFacadeMock<T extends Event> extends Destroyable {
         };
         return this.notificationHandler(<T>e);
     }
-
-    
 
     simulateUnknownMessage(origin: string): Promise<void> {
         const e: unknown = {

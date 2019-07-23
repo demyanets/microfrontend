@@ -10,9 +10,9 @@ export class ClientServiceProviderMock implements IClientServiceProvider {
     consoleFacadeMock: ConsoleFacadeMock;
     parentFacadeMock: ParentFacadeMock;
 
-    constructor(public initialPath: string, initalParentReturnValue: boolean) {
+    constructor(public initialPath: string) {
         this.consoleFacadeMock = new ConsoleFacadeMock();
-        this.parentFacadeMock = new ParentFacadeMock(initalParentReturnValue); 
+        this.parentFacadeMock = new ParentFacadeMock();
     }
 
     getEventListenerFacade<T extends Event>(event: string, notificationHandler: EventListenerNotificationAsync<T>, capture: boolean): Destroyable {

@@ -4,8 +4,7 @@ import { IParentFacade } from '../lib/parent-facade-interface';
 export class ParentFacadeMock implements IParentFacade {
     public readonly messages: MessageBase[] = [];
 
-    constructor(public defaultParent: boolean = true) {
-    }
+    constructor() {}
 
     /**
      * Post message to parent
@@ -15,6 +14,6 @@ export class ParentFacadeMock implements IParentFacade {
     }
 
     hasParent(): boolean {
-        return this.defaultParent;
+        return true;
     }
 }

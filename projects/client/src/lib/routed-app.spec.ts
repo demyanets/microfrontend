@@ -1,13 +1,11 @@
 import {
     EVENT_MESSAGE,
     HandleBroadcastNotification,
-    HandleGetCustomFrameConfiguration,
     MessageBroadcast,
     MessageBroadcastMetadata,
     MessageGoto,
     MessageRouted,
-    MessageSetFrameStyles,
-    MessageGetCustomFrameConfiguration
+    MessageSetFrameStyles
 } from '@microfrontend/common';
 import { RoutedApp } from './routed-app';
 import { RoutedAppConfig } from './routed-app-config';
@@ -20,21 +18,9 @@ describe('RoutedApp', () => {
 
     beforeEach(() => {
         config = new RoutedAppConfig('a', location.origin);
-        provider = new ClientServiceProviderMock('http://localhost:8080/#b!a/x', true);
+        provider = new ClientServiceProviderMock('http://localhost:8080/#b!a/x');
         routedApp = new RoutedApp(config, provider);
     });
-
-    it('should return true when hasParent is called',()=>{
-        const returnValue:Boolean = routedApp.hasShell;
-        expect(returnValue).toBe(true)
-    })
-
-    it('should be excuted successfully when getParent is false',()=>{ 
-        provider = new ClientServiceProviderMock('http://localhost:8080/#b!a/x', false);
-        routedApp = new RoutedApp(config, provider);
-        expect(true).toBeTruthy();
-
-    })
 
     it('should post routed message to parent', () => {
         const url: string = 'b';
@@ -79,30 +65,6 @@ describe('RoutedApp', () => {
         expect(subRoute).toBeDefined();
         expect(subRoute).toBe('x');
     });
-
-    it('should register registerCustomFrameConfigCallback and handle get customer frame config correctly', ()=>{
-        let handled = false;
-        const dummyHandleGetCustomFrameConfiguration: HandleGetCustomFrameConfiguration = (cfg) => {  
-            handled = true;
-        };
-
-        // Register the callback
-        routedApp.registerCustomFrameConfigCallback(dummyHandleGetCustomFrameConfiguration);
-
-        
-        // Request Custom Frame Configuration
-        spyOn(provider.parentFacadeMock, 'postMessage');
-        routedApp.requestCustomFrameConfiguration();
-        const message = new MessageGetCustomFrameConfiguration(config.metaRoute, {});
-        expect(provider.parentFacadeMock.postMessage).toHaveBeenCalledWith(message, config.parentOrigin);
-
-
-        // Simulates to Get Custom Frame Configuration
-        provider.eventListenerFacadeMocks[EVENT_MESSAGE].simulateGetCustomFrameConfigMessage('http://10.0.0.1', { test: 'test' }, location.origin);
-        expect(handled).toBeTruthy();
-
-    })
-
 
     it('should register registerBroadcastCallback and handle broadcast correctly', () => {
         let handled = false;

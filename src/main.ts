@@ -28,8 +28,8 @@ window.addEventListener('load', async () => {
     );
 
     const router = new MetaRouter(config);
-    await router.preload();
     await router.initialize();
+    router.preload();
 
     function addEventListener(id: string, route: string, subrote?: string): void {
         const link = document.getElementById(id);

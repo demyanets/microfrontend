@@ -72,7 +72,6 @@ export class RoutedApp {
             this.handleMetaRouted.bind(this),
             this.handleGetCustomFrameConfig.bind(this)
         );
-
     }
 
     /** Indicates if the application is running in a shell  */

@@ -24,26 +24,6 @@ describe('MetaRouteHelper', () => {
             expect(currentRoutes[outlet][0]).toBe(routeToActivate);
         });
 
-        it('should remove subroute (outlet=a/y!b -> outlet=a!b)', () => {
-            routeToActivate = new AppRoute('a', '');
-            currentRoutes = {
-                outlet: [new AppRoute('a', 'y'), new AppRoute('b')]
-            };
-            currentRoutes = MetaRouteHelper.activateRoute(routeToActivate, currentRoutes, outlet);
-            expect(currentRoutes.hasOwnProperty(outlet)).toBeTruthy();
-            expect(currentRoutes[outlet].length).toBe(2);
-
-            let outletFirstRoute = currentRoutes[outlet][0];
-            expect(outletFirstRoute.url).toBe('a');
-            expect(outletFirstRoute.metaRoute).toBe('a');
-            expect(outletFirstRoute.subRoute).toBe('');
-
-            let outletSecondRoute = currentRoutes[outlet][1];
-            expect(outletSecondRoute.url).toBe('b');
-            expect(outletSecondRoute.metaRoute).toBe('b');
-            expect(outletSecondRoute.subRoute).toBeFalsy();
-        });
-
         it('should return correct updated currentRoutes (outlet=a/y!b -> outlet=a/x!b)', () => {
             routeToActivate = new AppRoute('a', 'x');
             currentRoutes = {
@@ -106,30 +86,6 @@ describe('MetaRouteHelper', () => {
 
         it('should change the order of applications (outlet=a/x!b/y!c/x -> outlet=b/y!a/x!c/x)', () => {
             routeToActivate = new AppRoute('b', 'y');
-            currentRoutes = {
-                outlet: [new AppRoute('a', 'x'), new AppRoute('b', 'y'), new AppRoute('c', 'x')]
-            };
-            currentRoutes = MetaRouteHelper.activateRoute(routeToActivate, currentRoutes, outlet);
-            expect(currentRoutes[outlet].length).toBe(3);
-
-            let outletFirstRoute = currentRoutes[outlet][0];
-            expect(outletFirstRoute.url).toBe('b/y');
-            expect(outletFirstRoute.metaRoute).toBe('b');
-            expect(outletFirstRoute.subRoute).toBe('y');
-
-            let outletSecondRoute = currentRoutes[outlet][1];
-            expect(outletSecondRoute.url).toBe('a/x');
-            expect(outletSecondRoute.metaRoute).toBe('a');
-            expect(outletSecondRoute.subRoute).toBe('x');
-
-            let outletThirdRoute = currentRoutes[outlet][2];
-            expect(outletThirdRoute.url).toBe('c/x');
-            expect(outletThirdRoute.metaRoute).toBe('c');
-            expect(outletThirdRoute.subRoute).toBe('x');
-        });
-
-        it('should keep the subroute (outlet=a/x!b/y!c/x -> outlet=b/y!a/x!c/x)', () => {
-            routeToActivate = new AppRoute('b', undefined);
             currentRoutes = {
                 outlet: [new AppRoute('a', 'x'), new AppRoute('b', 'y'), new AppRoute('c', 'x')]
             };
