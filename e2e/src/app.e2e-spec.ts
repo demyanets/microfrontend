@@ -96,6 +96,24 @@ describe('meta-router App', () => {
     });
 
     describe('browser backward button functionalities', () => {
+        it('should skip state when navigate back (skipLocationChange: true)', async () => {
+            let url: string = await page.getCurrentUrl();
+            expect(baseUrl + '#a').toBe(url);
+
+            await page.clickLink('#link-aa'); // result url => #a/a
+            console.log('On clicking sub route a within a', 'Expect: a/a', 'Got: ' + page.getUrlFragment(await page.getCurrentUrl()));
+
+            await page.switchToIframe('a');
+            await page.clickLink('#router-link-a'); // result url => #a/a
+            console.log('On clicking sub route a within a', 'Expect: a/a', 'Got: ' + page.getUrlFragment(await page.getCurrentUrl()));
+            await page.switchToMainFrame();
+
+            await page.navigateToBack(); // result url => #a
+            url = await page.getCurrentUrl();
+            console.log('On clicking 1st time back button', 'Expect: a', 'Got: ' + page.getUrlFragment(await page.getCurrentUrl()));
+            expect(baseUrl + '#a').toBe(url);
+        });
+
         it('should activate old state page when navigate one time back', async () => {
             await page.clickLink('#link-b'); // result url => #b!a
             console.log('**** should activate old state page when navigate one time back');

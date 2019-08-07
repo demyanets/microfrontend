@@ -47,3 +47,4 @@ testem.logk
 # System Files
 .DS_Store
 Thumbs.db
+debug.log
