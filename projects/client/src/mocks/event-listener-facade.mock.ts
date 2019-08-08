@@ -54,6 +54,7 @@ export class EventListenerFacadeMock<T extends Event> extends Destroyable {
         return this.notificationHandler(<T>e);
     }
 <<<<<<< HEAD
+<<<<<<< HEAD
     
     simulateGetCustomFrameConfigMessage(source: string, config: IMap<string>, origin: string): Promise<void> {
         const e: unknown = {
@@ -62,6 +63,8 @@ export class EventListenerFacadeMock<T extends Event> extends Destroyable {
         };
         return this.notificationHandler(<T>e);
     }
+=======
+>>>>>>> parent of 0198977... Add unit testing for registerCustomFrameConfig and getParent is false
 =======
 >>>>>>> parent of 0198977... Add unit testing for registerCustomFrameConfig and getParent is false
 

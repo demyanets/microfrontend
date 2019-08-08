@@ -73,7 +73,10 @@ export class RoutedApp {
             this.handleGetCustomFrameConfig.bind(this)
         );
 <<<<<<< HEAD
+<<<<<<< HEAD
 
+=======
+>>>>>>> parent of 0198977... Add unit testing for registerCustomFrameConfig and getParent is false
 =======
 >>>>>>> parent of 0198977... Add unit testing for registerCustomFrameConfig and getParent is false
     }

@@ -11,7 +11,10 @@ import { RoutedApp } from './routed-app';
 import { RoutedAppConfig } from './routed-app-config';
 import { ClientServiceProviderMock } from '../mocks/client-service-provider.mock';
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> parent of 0198977... Add unit testing for registerCustomFrameConfig and getParent is false
 
 >>>>>>> parent of 0198977... Add unit testing for registerCustomFrameConfig and getParent is false
 
