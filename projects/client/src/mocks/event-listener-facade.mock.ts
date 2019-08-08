@@ -9,6 +9,7 @@ import {
     MESSAGE_META_ROUTED,
     MessageBroadcastMetadata
 } from '@microfrontend/common';
+import { MESSAGE_GET_CUSTOM_FRAME_CONFIG } from 'projects/common/src/lib/constants';
 
 export class EventListenerFacadeMock<T extends Event> extends Destroyable {
     constructor(public event: string, public notificationHandler: EventListenerNotificationAsync<T>, capture: boolean) {
@@ -53,13 +54,7 @@ export class EventListenerFacadeMock<T extends Event> extends Destroyable {
         };
         return this.notificationHandler(<T>e);
     }
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
 
->>>>>>> parent of 83c39cc... Add unit testing  handleGetCustomConfigMsg
-    
     simulateGetCustomFrameConfigMessage(source: string, config: IMap<string>, origin: string): Promise<void> {
         const e: unknown = {
             data: { message: MESSAGE_GET_CUSTOM_FRAME_CONFIG, source: source, styles: config },
@@ -67,10 +62,6 @@ export class EventListenerFacadeMock<T extends Event> extends Destroyable {
         };
         return this.notificationHandler(<T>e);
     }
-=======
->>>>>>> parent of 0198977... Add unit testing for registerCustomFrameConfig and getParent is false
-=======
->>>>>>> parent of 0198977... Add unit testing for registerCustomFrameConfig and getParent is false
 
     simulateBroadcastMessage(source: string, tag: string, data: object, recipients: string[] | undefined, origin: string): Promise<void> {
         const metadata = new MessageBroadcastMetadata(tag, source, recipients);
