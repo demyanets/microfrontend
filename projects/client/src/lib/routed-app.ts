@@ -72,7 +72,10 @@ export class RoutedApp {
             this.handleMetaRouted.bind(this),
             this.handleGetCustomFrameConfig.bind(this)
         );
+<<<<<<< HEAD
 
+=======
+>>>>>>> parent of 0198977... Add unit testing for registerCustomFrameConfig and getParent is false
     }
 
     /** Indicates if the application is running in a shell  */
