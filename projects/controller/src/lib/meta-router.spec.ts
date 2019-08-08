@@ -5,6 +5,7 @@ import { MetaRouterConfig } from './meta-router-config';
 import { ControllerServiceProviderMock } from '../mocks/controller-service-provider.mock';
 import { FrameFacadeMock } from '../mocks/frame-facade.mock';
 import { EventListenerFacadeMock } from '../mocks/event-listener-facade.mock';
+import { MessageGetCustomFrameConfiguration } from 'projects/common/src/lib/message-get-custom-frame-configuration';
 
 describe('MetaRouter', () => {
     let router: MetaRouter;
@@ -215,6 +216,13 @@ describe('MetaRouter', () => {
             await eventMock.simulateGotoMessage('a', 'a', undefined, location.origin);
             expect(router.go).toHaveBeenCalledWith('a', undefined);
         });
+
+        it('should get custom frame config msg', async () => {
+            const eventMock: EventListenerFacadeMock<MessageEvent> = provider.eventListenerFacadeMocks[EVENT_MESSAGE];
+            await eventMock.simulateGetCustomFrameConfigMessage('a', { }, location.origin).then(res => {
+                expect(true).toBeTruthy()
+            });
+        })
     });
 
     describe('routeByUrl', () => {
