@@ -9,6 +9,7 @@ import {
     MESSAGE_META_ROUTED,
     MessageBroadcastMetadata
 } from '@microfrontend/common';
+import { MESSAGE_GET_CUSTOM_FRAME_CONFIG } from 'projects/common/src/lib/constants';
 
 export class EventListenerFacadeMock<T extends Event> extends Destroyable {
     constructor(public event: string, public notificationHandler: EventListenerNotificationAsync<T>, capture: boolean) {
@@ -49,6 +50,14 @@ export class EventListenerFacadeMock<T extends Event> extends Destroyable {
     simulateGotoMessage(source: string, metaRoute: string, subRoute: string | undefined, origin: string): Promise<void> {
         const e: unknown = {
             data: { message: MESSAGE_GOTO, source: source, metaRoute: metaRoute, subRoute: subRoute },
+            origin: origin
+        };
+        return this.notificationHandler(<T>e);
+    }
+
+    simulateGetCustomFrameConfigMessage(source: string, config: IMap<string>, origin: string): Promise<void> {
+        const e: unknown = {
+            data: { message: MESSAGE_GET_CUSTOM_FRAME_CONFIG, source: source, configuration: config },
             origin: origin
         };
         return this.notificationHandler(<T>e);
