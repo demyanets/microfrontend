@@ -2,6 +2,9 @@ import { IDestroyable, IMap, MessageBroadcast, MessageMetaRouted, MessageGetCust
 import { AppRoute } from './app-route';
 
 export interface IFrameFacade extends IDestroyable {
+    /**
+     * Async initialization
+     */
     initialize(): Promise<IFrameFacade>;
 
     /**
