@@ -2,8 +2,6 @@ import { AppRoute } from './app-route';
 import { MetaRouterConfig } from './meta-router-config';
 import { FramesManager } from './frames-manager';
 import { ControllerServiceProviderMock } from '../mocks/controller-service-provider.mock';
-import { UnknownRouteHandlingEnum } from './unknown-route-handling-enum';
-import { FrameConfig } from './frame-config';
 
 describe('FrameManager', () => {
     let frameMan: FramesManager;

@@ -15,8 +15,7 @@ export class FrameFacadeMock extends Destroyable implements IFrameFacade {
         public readonly route: AppRoute,
         public readonly baseUrl: string,
         public readonly outletName: string,
-        public readonly config: FrameConfig,
-        public readonly FrameFacadeMockInitShouldBeSuccess: boolean = true,
+        public readonly config: FrameConfig
     ) {
         super();
     }
@@ -28,10 +27,7 @@ export class FrameFacadeMock extends Destroyable implements IFrameFacade {
             // Reset delay to simulate race conditions
             FrameFacadeMock.initDelay = 0;
             const subscribe = source.subscribe((val) => {
-                if (me.FrameFacadeMockInitShouldBeSuccess)
-                    resolve(me);
-                else
-                    reject(me);
+                resolve(me);
             });
         });
     }
@@ -72,7 +68,7 @@ export class FrameFacadeMock extends Destroyable implements IFrameFacade {
      * Gets custom configuration
      */
     getCustomConfig(): IMap<string> {
-        return { testing: "helloWorld" };
+        return {};
     }
 
     getRoute(): AppRoute {

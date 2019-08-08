@@ -79,7 +79,7 @@ export class FramesManager {
      */
     private handleUnknownRoute(r?: IAppConfig): IAppConfig | undefined {
         switch (this.config.unknownRouteHandling) {
-            case UnknownRouteHandlingEnum.RedirectToFirstKnown: 
+            case UnknownRouteHandlingEnum.RedirectToFirstKnown:
                 if (r === undefined) {
                     return this.config.routes[0];
                 }
