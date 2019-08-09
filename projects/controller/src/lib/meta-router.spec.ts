@@ -219,10 +219,10 @@ describe('MetaRouter', () => {
 
         it('should get custom frame config msg', async () => {
             const eventMock: EventListenerFacadeMock<MessageEvent> = provider.eventListenerFacadeMocks[EVENT_MESSAGE];
-            await eventMock.simulateGetCustomFrameConfigMessage('a', { }, location.origin).then(res => {
-                expect(true).toBeTruthy()
+            await eventMock.simulateGetCustomFrameConfigMessage('a', {}, location.origin).then((res) => {
+                expect(true).toBeTruthy();
             });
-        })
+        });
     });
 
     describe('routeByUrl', () => {
