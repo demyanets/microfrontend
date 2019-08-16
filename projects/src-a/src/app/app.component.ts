@@ -1,9 +1,8 @@
-import { Router, NavigationStart, NavigationEnd } from '@angular/router';
 import { Component, Inject } from '@angular/core';
+import { NavigationEnd, Router } from '@angular/router';
+import { RoutedApp } from '@microfrontend/client';
 import { filter } from 'rxjs/operators';
 import { ROUTED_APP } from './app.tokens';
-import { RoutedApp } from '@microfrontend/client';
-import { IMap } from '../../../common/src/lib/map';
 
 @Component({
     selector: 'app-root',
@@ -29,6 +28,8 @@ export class AppComponent {
         this.routedApp.registerRouteChangeCallback((activated, url) => {
             if (url) {
                 this.navigate(url);
+            } else {
+                this.navigate("/");
             }
 
             console.debug(`app-a was activated: ${activated}`);
@@ -42,6 +43,6 @@ export class AppComponent {
     }
 
     private navigate(url: string): void {
-        this.router.navigateByUrl(url + '#IGNORE', { skipLocationChange: true, replaceUrl: true });
+        this.router.navigateByUrl(url , { replaceUrl: true });
     }
 }
