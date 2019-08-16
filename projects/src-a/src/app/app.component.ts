@@ -28,6 +28,8 @@ export class AppComponent {
         this.routedApp.registerRouteChangeCallback((activated, url) => {
             if (url) {
                 this.navigate(url);
+            } else {
+                this.navigate("/");
             }
 
             console.debug(`app-a was activated: ${activated}`);
