@@ -142,18 +142,18 @@ describe('meta-router App', () => {
             // #BACK1
             await page.navigateToBack(); // result url => '#a/c!b'
             url = await page.getCurrentUrl();
-            console.log('On clicking 1st time back button', 'Expect: #a/c!b', 'Got: ' + page.getUrlFragment(await page.getCurrentUrl()));
+            console.log('On clicking 1st time back button', 'Expect: a/c!b', 'Got: ' + page.getUrlFragment(await page.getCurrentUrl()));
             expect(baseUrl + '#a/c!b').toBe(url);
             // #BACK2
             await page.navigateToBack(); // result url => '#a/b!b'
             url = await page.getCurrentUrl();
-            console.log('On clicking 1st time back button', 'Expect: #a/b!b', 'Got: ' + page.getUrlFragment(await page.getCurrentUrl()));
+            console.log('On clicking 1st time back button', 'Expect: a/b!b', 'Got: ' + page.getUrlFragment(await page.getCurrentUrl()));
             expect(baseUrl + '#a/b!b').toBe(url);
 
             // #BACK3
-            await page.navigateToBack(); // result url => '##b!a'
+            await page.navigateToBack(); // result url => '#b!a'
             url = await page.getCurrentUrl();
-            console.log('On clicking 1st time back button', 'Expect: ##b!a', 'Got: ' + page.getUrlFragment(await page.getCurrentUrl()));
+            console.log('On clicking 1st time back button', 'Expect: b!a', 'Got: ' + page.getUrlFragment(await page.getCurrentUrl()));
             expect(baseUrl + '#b!a').toBe(url);
         });
 
