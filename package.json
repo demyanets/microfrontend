@@ -11,6 +11,7 @@
     "lint": "ng lint common && ng lint controller && ng lint client",
     "e2e": "concurrently  -k --success first --kill-others \"npm run start\" \"npm run wait && npm run protractor\"",
     "protractor": "./node_modules/.bin/protractor e2e/protractor.conf.js",
+    "webdriver:update": "./node_modules/.bin/webdriver-manager update",
     "prettier": "prettier --write \"{projects,src,e2e}/**/*.ts\"",
     "wait": "./node_modules/.bin/wait-on tcp:30103"
   },
@@ -51,7 +52,7 @@
     "karma-jasmine-html-reporter": "^1.4.0",
     "ng-packagr": "^5.4.3",
     "prettier": "^1.18.2",
-    "protractor": "~5.4.0",
+    "protractor": "^5.4.2",
     "ts-node": "~7.0.0",
     "tsickle": "^0.36.0",
     "tslint": "^5.18.0",
