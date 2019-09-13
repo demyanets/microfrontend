@@ -17,6 +17,34 @@ describe('meta-router App', () => {
         await page.navigateTo();
     });
 
+    /**
+     * testCurrentUrl
+     */
+    // tslint:disable-next-line:completed-docs
+    async function testCurrentUrl(expectedUrl: string, message: string): Promise<void> {
+        const url = await page.getCurrentUrl();
+        console.log(message, `Expected: ${expectedUrl}`, 'Actual: ' + page.getUrlFragment(await page.getCurrentUrl()));
+        expect(baseUrl + expectedUrl).toBe(url);
+    }
+
+    /**
+     * testBack
+     */
+    // tslint:disable-next-line:completed-docs
+    async function testBack(expectedUrl: string, message: string): Promise<void> {
+        await page.navigateToBack();
+        await testCurrentUrl(expectedUrl, message);
+    }
+
+    /**
+     * clickLinkAndTest
+     */
+    // tslint:disable-next-line:completed-docs
+    async function clickLinkAndTest(linkToClick: string, expectedUrl: string, message: string): Promise<void> {
+        await page.clickLink(linkToClick);
+        await testCurrentUrl(expectedUrl, message);
+    }
+
     describe('Basic tests', () => {
         it('"link-a" should display message containing "Route to A"', async () => {
             expect(await page.getParagraphText('link-a')).toContain('Route to A');
@@ -115,46 +143,44 @@ describe('meta-router App', () => {
         });
 
         it('should skip state when navigate back (skipLocationChange: false)', async () => {
-            let url: string = await page.getCurrentUrl();
+            const url: string = await page.getCurrentUrl();
             expect(baseUrl + '#a').toBe(url);
 
-            await page.clickLink('#link-b'); // result url => #b!a
-            url = await page.getCurrentUrl();
-            console.log('On clicking meta route b', 'Expect: b!a', 'Got: ' + page.getUrlFragment(await page.getCurrentUrl()));
-            expect(baseUrl + '#b!a').toBe(url);
-
-            await page.clickLink('#link-ab'); // result url => #a/b!b
-            url = await page.getCurrentUrl();
-            console.log('On clicking sub route b within a', 'Expect: a/b!b', 'Got: ' + page.getUrlFragment(await page.getCurrentUrl()));
-            expect(baseUrl + '#a/b!b').toBe(url);
+            await clickLinkAndTest('#link-b',  '#b!a', 'On clicking meta route b');
+            await clickLinkAndTest('#link-ab',  '#a/b!b', 'On clicking sub route b within a');
 
             await page.switchToIframe('a');
-            await page.clickLink('#router-link-c'); // result url => #a/c!b
-            url = await page.getCurrentUrl();
-            console.log('On clicking sub route c within a', 'Expect: a/c!b', 'Got: ' + page.getUrlFragment(await page.getCurrentUrl()));
-            expect(baseUrl + '#a/c!b').toBe(url);
+            await clickLinkAndTest('#router-link-c',  '#a/c!b', 'On clicking sub route c within a');
+            await clickLinkAndTest('#router-link-d',  '#a/d!b', 'On clicking sub route d within a');
 
-            await page.clickLink('#router-link-d'); // result url => #a/d!b
-            url = await page.getCurrentUrl();
-            console.log('On clicking sub route c within a', 'Expect: a/d!b', 'Got: ' + page.getUrlFragment(await page.getCurrentUrl()));
-            expect(baseUrl + '#a/d!b').toBe(url);
+            await testBack('#a/c!b', 'On clicking 1st time back button');
+            await testBack('#a/b!b', 'On clicking 2nd time back button');
+            await testBack('#b!a', 'On clicking 3rd time back button');
+        });
 
-            // #BACK1
-            await page.navigateToBack(); // result url => '#a/c!b'
-            url = await page.getCurrentUrl();
-            console.log('On clicking 1st time back button', 'Expect: #a/c!b', 'Got: ' + page.getUrlFragment(await page.getCurrentUrl()));
-            expect(baseUrl + '#a/c!b').toBe(url);
-            // #BACK2
-            await page.navigateToBack(); // result url => '#a/b!b'
-            url = await page.getCurrentUrl();
-            console.log('On clicking 1st time back button', 'Expect: #a/b!b', 'Got: ' + page.getUrlFragment(await page.getCurrentUrl()));
-            expect(baseUrl + '#a/b!b').toBe(url);
+        it('should perform back navigation correct when repeated', async () => {
+            const url: string = await page.getCurrentUrl();
+            expect(baseUrl + '#a').toBe(url);
 
-            // #BACK3
-            await page.navigateToBack(); // result url => '##b!a'
-            url = await page.getCurrentUrl();
-            console.log('On clicking 1st time back button', 'Expect: ##b!a', 'Got: ' + page.getUrlFragment(await page.getCurrentUrl()));
-            expect(baseUrl + '#b!a').toBe(url);
+            await clickLinkAndTest('#link-b',  '#b!a', 'On clicking meta route b');
+            await clickLinkAndTest('#link-ab',  '#a/b!b', 'On clicking sub route b within a');
+
+            await page.switchToIframe('a');
+            await clickLinkAndTest('#router-link-c',  '#a/c!b', 'On clicking sub route c within a');
+            await clickLinkAndTest('#router-link-d',  '#a/d!b', 'On clicking sub route d within a');
+
+            await testBack('#a/c!b', 'On clicking 1st time back button');
+            await testBack('#a/b!b', 'On clicking 2nd time back button');
+            await testBack('#b!a', 'On clicking 3rd time back button');
+
+            await clickLinkAndTest('#link-ab',  '#a/b!b', 'On clicking sub route b within a');
+            await page.switchToIframe('a');
+
+            await clickLinkAndTest('#router-link-c',  '#a/c!b', 'On clicking sub route c within a');
+            await clickLinkAndTest('#router-link-d',  '#a/d!b', 'On clicking sub route d within a');
+
+            await testBack('#a/c!b', 'On clicking 1st time back button');
+            await testBack('#a/b!b', 'On clicking 2nd time back button');
         });
 
         it('should activate old state page when navigate one time back', async () => {

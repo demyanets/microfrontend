@@ -1,7 +1,8 @@
 /* You can add global styles to this file, and also import other style files */
 body {
-    height: 90vh;
+    height: calc(100vh - 32px);
     background: lightblue;
+    margin: 0px;
 }
 .outlet-frame	{
     width:100%;
