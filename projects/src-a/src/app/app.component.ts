@@ -19,9 +19,7 @@ export class AppComponent {
     initRoutedApp(): void {
         this.router.events.pipe(filter((e) => e instanceof NavigationEnd)).subscribe((ene) => {
             const e = <NavigationEnd>ene;
-            if (!e.url.endsWith('#IGNORE')) {
-                this.routedApp.sendRoute(e.url);
-            }
+            this.routedApp.sendRoute(e.url);
         });
 
         this.routedApp.registerCustomFrameConfigCallback((cfg) => console.debug('app-a received frame config: ', cfg));
@@ -29,7 +27,7 @@ export class AppComponent {
             if (url) {
                 this.navigate(url);
             } else {
-                this.navigate("/");
+                this.navigate('/');
             }
 
             console.debug(`app-a was activated: ${activated}`);
@@ -43,6 +41,6 @@ export class AppComponent {
     }
 
     private navigate(url: string): void {
-        this.router.navigateByUrl(url , { replaceUrl: true });
+        this.router.navigateByUrl(url, { replaceUrl: true });
     }
 }
