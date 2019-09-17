@@ -1,8 +1,8 @@
 import { Component, Inject } from '@angular/core';
-import { NavigationEnd, Router } from '@angular/router';
 import { RoutedApp } from '@microfrontend/client';
 import { filter } from 'rxjs/operators';
 import { ROUTED_APP } from './app.tokens';
+import {NavigationEnd, Router} from '../router/src';
 
 @Component({
     selector: 'app-root',

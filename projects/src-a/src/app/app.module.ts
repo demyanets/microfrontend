@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { RouterModule } from '@angular/router';
 import { RoutedApp, RoutedAppConfig } from '@microfrontend/client';
 import { AComponent } from './a/a.component';
 import { AppComponent } from './app.component';
@@ -8,6 +7,7 @@ import { ROUTED_APP } from './app.tokens';
 import { BComponent } from './b/b.component';
 import { CComponent } from './c/c.component';
 import { DComponent } from './d/d.component';
+import {RouterModule} from '../router/src';
 
 const config = new RoutedAppConfig('a', 'http://localhost:30103');
 
