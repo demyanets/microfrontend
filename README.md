@@ -100,7 +100,7 @@ Parent shell sends navigation events to the microfrontend to tell the iframe whi
 
 The sample application micro-app A shows how the event handling can be implemented (using angular router in this case but similar mechanism can be used with other frameworks like react or vue)
 ```typescript
-export class AppComponent {
+export class AppBComponent {
     title = 'app';
 
     constructor(@Inject(ROUTED_APP) private routedApp: RoutedApp, private router: Router) {

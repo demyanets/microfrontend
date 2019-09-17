@@ -1,13 +1,13 @@
-import { ROUTED_APP } from './app.tokens';
+import { ROUTED_APP } from './app-b.tokens';
 import { RoutedApp } from '@microfrontend/client';
 import { Component, Inject } from '@angular/core';
 
 @Component({
     selector: 'app-root',
-    templateUrl: './app.component.html',
-    styleUrls: ['./app.component.css']
+    templateUrl: './app-b.component.html',
+    styleUrls: ['./app-b.component.css']
 })
-export class AppComponent {
+export class AppBComponent {
     title = 'app';
 
     constructor(@Inject(ROUTED_APP) private routedApp: RoutedApp) {

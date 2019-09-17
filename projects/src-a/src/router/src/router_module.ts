@@ -5,8 +5,7 @@
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-
-import {APP_BASE_HREF, HashLocationStrategy, LOCATION_INITIALIZED, Location, LocationStrategy, PathLocationStrategy, PlatformLocation, ViewportScroller, ɵgetDOM as getDOM} from '@angular/common';
+import {APP_BASE_HREF, HashLocationStrategy, LOCATION_INITIALIZED, Location, LocationStrategy, PathLocationStrategy, PlatformLocation, ViewportScroller} from '@angular/common';
 import {ANALYZE_FOR_ENTRY_COMPONENTS, APP_BOOTSTRAP_LISTENER, APP_INITIALIZER, ApplicationRef, Compiler, ComponentRef, Inject, Injectable, InjectionToken, Injector, ModuleWithProviders, NgModule, NgModuleFactoryLoader, NgProbeToken, Optional, Provider, SkipSelf, SystemJsNgModuleLoader} from '@angular/core';
 import {Subject, of } from 'rxjs';
 import {EmptyOutletComponent} from './components/empty_outlet';
@@ -312,7 +311,7 @@ export interface ExtraOptions {
    * in the following example.
    *
    * ```typescript
-   * class AppModule {
+   * class AppBModule {
     *   constructor(router: Router, viewportScroller: ViewportScroller) {
     *     router.events.pipe(
     *       filter((e: Event): e is Scroll => e instanceof Scroll)
@@ -439,6 +438,7 @@ export function setupRouter(
   }
 
   if (opts.enableTracing) {
+      /*
     const dom = getDOM();
     router.events.subscribe((e: Event) => {
       dom.logGroup(`Router Event: ${(<any>e.constructor).name}`);
@@ -446,6 +446,7 @@ export function setupRouter(
       dom.log(e);
       dom.logGroupEnd();
     });
+    */
   }
 
   if (opts.onSameUrlNavigation) {

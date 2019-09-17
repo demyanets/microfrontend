@@ -54,7 +54,7 @@ import {UrlSegment, UrlTree} from './url_tree';
  *   ],
  *   providers: [CanActivateTeam, UserToken, Permissions]
  * })
- * class AppModule {}
+ * class AppBModule {}
  * ```
  *
  * You can alternatively provide a function with the `canActivate` signature:
@@ -77,7 +77,7 @@ import {UrlSegment, UrlTree} from './url_tree';
  *     }
  *   ]
  * })
- * class AppModule {}
+ * class AppBModule {}
  * ```
  *
  * @publicApi
@@ -136,7 +136,7 @@ export type CanActivateFn = (route: ActivatedRouteSnapshot, state: RouterStateSn
  *   ],
  *   providers: [CanActivateTeam, UserToken, Permissions]
  * })
- * class AppModule {}
+ * class AppBModule {}
  * ```
  *
  * You can alternatively provide a function with the `canActivateChild` signature:
@@ -164,7 +164,7 @@ export type CanActivateFn = (route: ActivatedRouteSnapshot, state: RouterStateSn
  *     }
  *   ]
  * })
- * class AppModule {}
+ * class AppBModule {}
  * ```
  *
  * @publicApi
@@ -220,7 +220,7 @@ export type CanActivateChildFn = (childRoute: ActivatedRouteSnapshot, state: Rou
  *   ],
  *   providers: [CanDeactivateTeam, UserToken, Permissions]
  * })
- * class AppModule {}
+ * class AppBModule {}
  * ```
  *
  * You can alternatively provide a function with the `canDeactivate` signature:
@@ -244,7 +244,7 @@ export type CanActivateChildFn = (childRoute: ActivatedRouteSnapshot, state: Rou
  *     }
  *   ]
  * })
- * class AppModule {}
+ * class AppBModule {}
  * ```
  *
  * @publicApi
@@ -299,7 +299,7 @@ export type CanDeactivateFn<T> =
  *   ],
  *   providers: [TeamResolver]
  * })
- * class AppModule {}
+ * class AppBModule {}
  * ```
  *
  * You can alternatively provide a function with the `resolve` signature:
@@ -324,7 +324,7 @@ export type CanDeactivateFn<T> =
  *     }
  *   ]
  * })
- * class AppModule {}
+ * class AppBModule {}
  * ```
  *
  * @publicApi
@@ -369,7 +369,7 @@ export interface Resolve<T> {
  *   ],
  *   providers: [CanLoadTeamSection, UserToken, Permissions]
  * })
- * class AppModule {}
+ * class AppBModule {}
  * ```
  *
  * You can alternatively provide a function with the `canLoad` signature:
@@ -393,7 +393,7 @@ export interface Resolve<T> {
  *     }
  *   ]
  * })
- * class AppModule {}
+ * class AppBModule {}
  * ```
  *
  * @publicApi
