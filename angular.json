@@ -4,11 +4,11 @@
   "newProjectRoot": "projects",
   "projects": {
     "src": {
+      "projectType": "application",
+      "schematics": {},
       "root": "",
       "sourceRoot": "src",
-      "projectType": "application",
       "prefix": "app",
-      "schematics": {},
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
@@ -17,7 +17,8 @@
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
-            "tsConfig": "src/tsconfig.app.json",
+            "tsConfig": "tsconfig.app.json",
+            "aot": false,
             "assets": [
               "src/favicon.ico",
               "src/assets"
@@ -49,6 +50,11 @@
                   "type": "initial",
                   "maximumWarning": "2mb",
                   "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
                 }
               ]
             }
@@ -77,37 +83,30 @@
           "options": {
             "main": "src/test.ts",
             "polyfills": "src/polyfills.ts",
-            "tsConfig": "src/tsconfig.spec.json",
-            "karmaConfig": "src/karma.conf.js",
-            "styles": [
-              "src/styles.css"
-            ],
-            "scripts": [],
+            "tsConfig": "tsconfig.spec.json",
+            "karmaConfig": "karma.conf.js",
             "assets": [
               "src/favicon.ico",
               "src/assets"
-            ]
+            ],
+            "styles": [
+              "src/styles.css"
+            ],
+            "scripts": []
           }
         },
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": [
-              "src/tsconfig.app.json",
-              "src/tsconfig.spec.json"
+              "tsconfig.app.json",
+              "tsconfig.spec.json"
             ],
             "exclude": [
               "**/node_modules/**"
             ]
           }
-        }
-      }
-    },
-    "src-e2e": {
-      "root": "e2e/",
-      "projectType": "application",
-      "prefix": "",
-      "architect": {
+        },
         "e2e": {
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
@@ -119,24 +118,15 @@
               "devServerTarget": "src:serve:production"
             }
           }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": "e2e/tsconfig.e2e.json",
-            "exclude": [
-              "**/node_modules/**"
-            ]
-          }
         }
       }
     },
     "src-a": {
-      "root": "projects/src-a/",
-      "sourceRoot": "projects/src-a/src",
       "projectType": "application",
-      "prefix": "app",
       "schematics": {},
+      "root": "projects/src-a",
+      "sourceRoot": "projects/src-a/src",
+      "prefix": "app",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
@@ -146,6 +136,7 @@
             "main": "projects/src-a/src/main.ts",
             "polyfills": "projects/src-a/src/polyfills.ts",
             "tsConfig": "projects/src-a/tsconfig.app.json",
+            "aot": false,
             "assets": [
               "projects/src-a/src/favicon.ico",
               "projects/src-a/src/assets"
@@ -177,6 +168,11 @@
                   "type": "initial",
                   "maximumWarning": "2mb",
                   "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
                 }
               ]
             }
@@ -207,14 +203,14 @@
             "polyfills": "projects/src-a/src/polyfills.ts",
             "tsConfig": "projects/src-a/tsconfig.spec.json",
             "karmaConfig": "projects/src-a/karma.conf.js",
-            "styles": [
-              "projects/src-a/src/styles.css"
-            ],
-            "scripts": [],
             "assets": [
               "projects/src-a/src/favicon.ico",
               "projects/src-a/src/assets"
-            ]
+            ],
+            "styles": [
+              "projects/src-a/src/styles.css"
+            ],
+            "scripts": []
           }
         },
         "lint": {
@@ -232,11 +228,11 @@
       }
     },
     "src-b": {
-      "root": "projects/src-b/",
-      "sourceRoot": "projects/src-b/src",
       "projectType": "application",
-      "prefix": "app",
       "schematics": {},
+      "root": "projects/src-b",
+      "sourceRoot": "projects/src-b/src",
+      "prefix": "app",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
@@ -246,6 +242,7 @@
             "main": "projects/src-b/src/main.ts",
             "polyfills": "projects/src-b/src/polyfills.ts",
             "tsConfig": "projects/src-b/tsconfig.app.json",
+            "aot": false,
             "assets": [
               "projects/src-b/src/favicon.ico",
               "projects/src-b/src/assets"
@@ -277,6 +274,11 @@
                   "type": "initial",
                   "maximumWarning": "2mb",
                   "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
                 }
               ]
             }
@@ -307,14 +309,14 @@
             "polyfills": "projects/src-b/src/polyfills.ts",
             "tsConfig": "projects/src-b/tsconfig.spec.json",
             "karmaConfig": "projects/src-b/karma.conf.js",
-            "styles": [
-              "projects/src-b/src/styles.css"
-            ],
-            "scripts": [],
             "assets": [
               "projects/src-b/src/favicon.ico",
               "projects/src-b/src/assets"
-            ]
+            ],
+            "styles": [
+              "projects/src-b/src/styles.css"
+            ],
+            "scripts": []
           }
         },
         "lint": {
@@ -332,9 +334,9 @@
       }
     },
     "common": {
+      "projectType": "library",
       "root": "projects/common",
       "sourceRoot": "projects/common/src",
-      "projectType": "library",
       "prefix": "lib",
       "architect": {
         "build": {
@@ -374,9 +376,9 @@
       }
     },
     "controller": {
+      "projectType": "library",
       "root": "projects/controller",
       "sourceRoot": "projects/controller/src",
-      "projectType": "library",
       "prefix": "lib",
       "architect": {
         "build": {
@@ -420,9 +422,9 @@
       }
     },
     "client": {
+      "projectType": "library",
       "root": "projects/client",
       "sourceRoot": "projects/client/src",
-      "projectType": "library",
       "prefix": "lib",
       "architect": {
         "build": {

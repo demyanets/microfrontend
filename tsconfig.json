@@ -5,12 +5,12 @@
     "outDir": "./dist/out-tsc",
     "sourceMap": true,
     "declaration": false,
-    "module": "es2015",
-    "moduleResolution": "node",
-    "emitDecoratorMetadata": true,
+    "downlevelIteration": true,
     "experimentalDecorators": true,
+    "module": "esnext",
+    "moduleResolution": "node",
     "importHelpers": true,
-    "target": "es5",
+    "target": "es2015",
     "strict": true,
     "typeRoots": [
       "node_modules/@types"
@@ -26,18 +26,22 @@
       "@microfrontend/common/*": [
         "dist/common/*"
       ],
-      "@microfrontend/controller": [
-        "dist/controller"
-      ],
-      "@microfrontend/controller/*": [
-        "dist/controller/*"
-      ],
       "@microfrontend/client": [
         "dist/client"
       ],
       "@microfrontend/client/*": [
         "dist/client/*"
+      ],
+      "@microfrontend/controller": [
+        "dist/controller"
+      ],
+      "@microfrontend/controller/*": [
+        "dist/controller/*"
       ]
     }
+  },
+  "angularCompilerOptions": {
+    "fullTemplateTypeCheck": true,
+    "strictInjectionParameters": true
   }
 }

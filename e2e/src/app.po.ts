@@ -15,7 +15,7 @@ export class NgPackagedPage {
      * This method will navigate to root
      */
     async navigateTo(): Promise<string> {
-        return await browser.get('/');
+        return browser.get('/');
     }
 
     /**
@@ -33,7 +33,7 @@ export class NgPackagedPage {
      */
     async getPageHeaderText(): Promise<string> {
         const el: ElementFinder = await element(by.tagName('h1'));
-        return await el.getText();
+        return el.getText();
     }
 
     /**
@@ -59,7 +59,7 @@ export class NgPackagedPage {
      */
     async getIframeUrl(id: string): Promise<string> {
         await this.switchToIframe(id);
-        return await this.getPageUrl();
+        return this.getPageUrl();
     }
 
     /**
@@ -84,7 +84,7 @@ export class NgPackagedPage {
         const driver = browser.driver;
         const loc = by.id(id);
         const el = await driver.findElement(loc);
-        return await browser.switchTo().frame(el);
+        return browser.switchTo().frame(el);
     }
 
     /**
@@ -121,7 +121,7 @@ export class NgPackagedPage {
      * @returns element visible
      */
     async isElementVisible(id: string): Promise<boolean> {
-        return await element(by.id(id)).isDisplayed();
+        return element(by.id(id)).isDisplayed();
     }
 
     /**
@@ -129,7 +129,7 @@ export class NgPackagedPage {
      * @returns to back
      */
     async navigateToBack(): Promise<void> {
-        return await browser.navigate().back();
+        return browser.navigate().back();
     }
 
     /**
@@ -137,7 +137,7 @@ export class NgPackagedPage {
      * @returns to forward
      */
     async navigateToForward(): Promise<void> {
-        return await browser.navigate().forward();
+        return browser.navigate().forward();
     }
 
     /**
@@ -179,7 +179,7 @@ export class NgPackagedPage {
      * @returns elements count
      */
     async getElementsCount(el: string): Promise<number> {
-        return await this.getElements(el).count();
+        return this.getElements(el).count();
     }
 
     /**
@@ -188,7 +188,7 @@ export class NgPackagedPage {
      * @returns visible elements count
      */
     async getVisibleElementsCount(el: string): Promise<number> {
-        return await this.getVisibleElements(el).count();
+        return this.getVisibleElements(el).count();
     }
 
     /**
