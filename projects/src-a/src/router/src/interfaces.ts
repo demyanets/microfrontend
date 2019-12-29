@@ -54,7 +54,7 @@ import {UrlSegment, UrlTree} from './url_tree';
  *   ],
  *   providers: [CanActivateTeam, UserToken, Permissions]
  * })
- * class AppBModule {}
+ * class AppModule {}
  * ```
  *
  * You can alternatively provide a function with the `canActivate` signature:
@@ -77,7 +77,7 @@ import {UrlSegment, UrlTree} from './url_tree';
  *     }
  *   ]
  * })
- * class AppBModule {}
+ * class AppModule {}
  * ```
  *
  * @publicApi
@@ -136,7 +136,7 @@ export type CanActivateFn = (route: ActivatedRouteSnapshot, state: RouterStateSn
  *   ],
  *   providers: [CanActivateTeam, UserToken, Permissions]
  * })
- * class AppBModule {}
+ * class AppModule {}
  * ```
  *
  * You can alternatively provide a function with the `canActivateChild` signature:
@@ -164,7 +164,7 @@ export type CanActivateFn = (route: ActivatedRouteSnapshot, state: RouterStateSn
  *     }
  *   ]
  * })
- * class AppBModule {}
+ * class AppModule {}
  * ```
  *
  * @publicApi
@@ -220,7 +220,7 @@ export type CanActivateChildFn = (childRoute: ActivatedRouteSnapshot, state: Rou
  *   ],
  *   providers: [CanDeactivateTeam, UserToken, Permissions]
  * })
- * class AppBModule {}
+ * class AppModule {}
  * ```
  *
  * You can alternatively provide a function with the `canDeactivate` signature:
@@ -244,7 +244,7 @@ export type CanActivateChildFn = (childRoute: ActivatedRouteSnapshot, state: Rou
  *     }
  *   ]
  * })
- * class AppBModule {}
+ * class AppModule {}
  * ```
  *
  * @publicApi
@@ -265,23 +265,20 @@ export type CanDeactivateFn<T> =
  * @description
  *
  * Interface that classes can implement to be a data provider.
+ * A data provider class can be used with the router to resolve data during navigation.
+ * The interface defines a `resolve()` method that will be invoked when the navigation starts.
+ * The router will then wait for the data to be resolved before the route is finally activated.
  *
  * ```
- * class Backend {
- *   fetchTeam(id: string) {
- *     return 'someTeam';
- *   }
- * }
- *
- * @Injectable()
- * class TeamResolver implements Resolve<Team> {
- *   constructor(private backend: Backend) {}
+ * @Injectable({ providedIn: 'root' })
+ * export class HeroResolver implements Resolve<Hero> {
+ *   constructor(private service: HeroService) {}
  *
  *   resolve(
  *     route: ActivatedRouteSnapshot,
  *     state: RouterStateSnapshot
  *   ): Observable<any>|Promise<any>|any {
- *     return this.backend.fetchTeam(route.params.id);
+ *     return this.service.getHero(route.paramMap.get('id'));
  *   }
  * }
  *
@@ -289,42 +286,46 @@ export type CanDeactivateFn<T> =
  *   imports: [
  *     RouterModule.forRoot([
  *       {
- *         path: 'team/:id',
- *         component: TeamComponent,
+ *         path: 'detail/:id',
+ *         component: HeroDetailComponent,
  *         resolve: {
- *           team: TeamResolver
+ *           hero: HeroResolver
  *         }
  *       }
  *     ])
  *   ],
- *   providers: [TeamResolver]
+ *   exports: [RouterModule]
  * })
- * class AppBModule {}
+ * export class AppRoutingModule {}
  * ```
  *
  * You can alternatively provide a function with the `resolve` signature:
  *
  * ```
+ * export const myHero: Hero = {
+ *   // ...
+ * }
+ *
  * @NgModule({
  *   imports: [
  *     RouterModule.forRoot([
  *       {
- *         path: 'team/:id',
- *         component: TeamComponent,
+ *         path: 'detail/:id',
+ *         component: HeroComponent,
  *         resolve: {
- *           team: 'teamResolver'
+ *           hero: 'heroResolver'
  *         }
  *       }
  *     ])
  *   ],
  *   providers: [
  *     {
- *       provide: 'teamResolver',
- *       useValue: (route: ActivatedRouteSnapshot, state: RouterStateSnapshot) => 'team'
+ *       provide: 'heroResolver',
+ *       useValue: (route: ActivatedRouteSnapshot, state: RouterStateSnapshot) => myHero
  *     }
  *   ]
  * })
- * class AppBModule {}
+ * export class AppModule {}
  * ```
  *
  * @publicApi
@@ -369,7 +370,7 @@ export interface Resolve<T> {
  *   ],
  *   providers: [CanLoadTeamSection, UserToken, Permissions]
  * })
- * class AppBModule {}
+ * class AppModule {}
  * ```
  *
  * You can alternatively provide a function with the `canLoad` signature:
@@ -393,7 +394,7 @@ export interface Resolve<T> {
  *     }
  *   ]
  * })
- * class AppBModule {}
+ * class AppModule {}
  * ```
  *
  * @publicApi
