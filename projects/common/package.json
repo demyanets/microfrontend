@@ -3,10 +3,10 @@
   "version": "1.3.0",
   "description": "Microfrontend shared components",
   "author": { "name": "Taras Demyanets", "email": "microfrontend@s-itsolutions.at", "url": "https://www.s-itsolutions.at" },
-    "contributors": [
-        { "name": "Albert Strimitzer", "email": "microfrontend@s-itsolutions.at", "url": "https://www.s-itsolutions.at" },
-        { "name": "Manfred Steyer", "email": "manfred.steyer@softwarearchitekt.at", "url": "https://www.softwarearchitekt.at" }
-    ],
+  "contributors": [
+    { "name": "Albert Strimitzer", "email": "microfrontend@s-itsolutions.at", "url": "https://www.s-itsolutions.at" },
+    { "name": "Manfred Steyer", "email": "manfred.steyer@softwarearchitekt.at", "url": "https://www.softwarearchitekt.at" }
+  ],
   "peerDependencies": {
   },
   "publishConfig": {

@@ -131,7 +131,7 @@ export class AppBComponent {
 
 ## Development server
 
-Run `npm run start` to start with development server. Navigate to `http://localhost:30103/`. The app will automatically reload if you change any of the source files.
+Run `npm run serve` to start with development server. Navigate to `http://localhost:30103/`. The app will automatically reload if you change any of the source files.
 
 ## Build
 
@@ -153,4 +153,4 @@ Make sure that `HTTPS_PROXY` environment variable is set to `http://proxy-sd.s-m
 
 ## Linting
 
-Run `ng lint` to execute `tslint` on library code. Test application and unit tests were deliberately excluded. 
+Run `npm run lint` to execute `tslint` on library code. Test application and unit tests were deliberately excluded. 
