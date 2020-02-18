@@ -1,6 +1,6 @@
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
-  "version": 1,
+  "version": 1, 
   "newProjectRoot": "projects",
   "projects": {
     "src": {
@@ -18,7 +18,7 @@
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
-            "aot": false,
+            "aot": true,
             "assets": [
               "src/favicon.ico",
               "src/assets"
@@ -41,7 +41,6 @@
               "sourceMap": false,
               "extractCss": true,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -100,7 +99,8 @@
           "options": {
             "tsConfig": [
               "tsconfig.app.json",
-              "tsconfig.spec.json"
+              "tsconfig.spec.json",
+              "e2e/tsconfig.json"
             ],
             "exclude": [
               "**/node_modules/**"
@@ -136,7 +136,7 @@
             "main": "projects/src-a/src/main.ts",
             "polyfills": "projects/src-a/src/polyfills.ts",
             "tsConfig": "projects/src-a/tsconfig.app.json",
-            "aot": false,
+            "aot": true,
             "assets": [
               "projects/src-a/src/favicon.ico",
               "projects/src-a/src/assets"
@@ -159,7 +159,6 @@
               "sourceMap": false,
               "extractCss": true,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -218,11 +217,24 @@
           "options": {
             "tsConfig": [
               "projects/src-a/tsconfig.app.json",
-              "projects/src-a/tsconfig.spec.json"
+              "projects/src-a/tsconfig.spec.json",
+              "projects/src-a/e2e/tsconfig.json"
             ],
             "exclude": [
               "**/node_modules/**"
             ]
+          }
+        },
+        "e2e": {
+          "builder": "@angular-devkit/build-angular:protractor",
+          "options": {
+            "protractorConfig": "projects/src-a/e2e/protractor.conf.js",
+            "devServerTarget": "src-a:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "src-a:serve:production"
+            }
           }
         }
       }
@@ -242,7 +254,7 @@
             "main": "projects/src-b/src/main.ts",
             "polyfills": "projects/src-b/src/polyfills.ts",
             "tsConfig": "projects/src-b/tsconfig.app.json",
-            "aot": false,
+            "aot": true,
             "assets": [
               "projects/src-b/src/favicon.ico",
               "projects/src-b/src/assets"
@@ -265,7 +277,6 @@
               "sourceMap": false,
               "extractCss": true,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -324,11 +335,24 @@
           "options": {
             "tsConfig": [
               "projects/src-b/tsconfig.app.json",
-              "projects/src-b/tsconfig.spec.json"
+              "projects/src-b/tsconfig.spec.json",
+              "projects/src-b/e2e/tsconfig.json"
             ],
             "exclude": [
               "**/node_modules/**"
             ]
+          }
+        },
+        "e2e": {
+          "builder": "@angular-devkit/build-angular:protractor",
+          "options": {
+            "protractorConfig": "projects/src-b/e2e/protractor.conf.js",
+            "devServerTarget": "src-b:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "src-b:serve:production"
+            }
           }
         }
       }
@@ -344,6 +368,11 @@
           "options": {
             "tsConfig": "projects/common/tsconfig.lib.json",
             "project": "projects/common/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/common/tsconfig.lib.prod.json"
+            }
           }
         },
         "test": {
@@ -386,6 +415,11 @@
           "options": {
             "tsConfig": "projects/controller/tsconfig.lib.json",
             "project": "projects/controller/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/controller/tsconfig.lib.prod.json"
+            }
           }
         },
         "test": {
@@ -432,6 +466,11 @@
           "options": {
             "tsConfig": "projects/client/tsconfig.lib.json",
             "project": "projects/client/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/client/tsconfig.lib.prod.json"
+            }
           }
         },
         "test": {
