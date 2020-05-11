@@ -149,7 +149,7 @@ Exclude auxilary files from the code coverage with `codeCoverageExclude` setting
 ## Running end-to-end tests
 
 Run `npm run e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-Make sure that `HTTPS_PROXY` environment variable is set to `http://proxy-sd.s-mxs.net:8080` if you are working behind the firewall ([Bug #6358](https://github.com/angular/angular-cli/issues/6358))
+Make sure that `HTTPS_PROXY` environment variable is set to the enterprise proxy address if you are working behind the firewall ([Bug #6358](https://github.com/angular/angular-cli/issues/6358))
 
 ## Linting
 
