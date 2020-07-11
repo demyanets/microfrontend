@@ -17,7 +17,7 @@ module.exports = function (config) {
     },
     coverageIstanbulReporter: {
       dir: require('path').join(__dirname, '../../coverage/client'),
-      reports: ['html', 'lcovonly', 'text-summary'],
+      reports: ['html', 'lcovonly', 'text-summary', 'json-summary'],
       fixWebpackSourcePaths: true
     },
     reporters: ['progress', 'kjhtml'],
@@ -25,8 +25,14 @@ module.exports = function (config) {
     colors: true,
     logLevel: config.LOG_INFO,
     autoWatch: true,
-    browsers: ['Chrome'],
-    singleRun: true,
-    restartOnFileChange: true
+      browsers: ['Chrome', 'ChromeHeadless'],
+      singleRun: false,
+      restartOnFileChange: true,
+      customLaunchers: {
+          ChromeHeadlessCustom: {
+              base: 'ChromeHeadless',
+              flags: ['--no-sandbox', '--disable-gpu']
+          }
+      }
   });
 };

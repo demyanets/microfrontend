@@ -7,7 +7,7 @@
     "serve": "concurrently --kill-others \"ng serve src-a\" \"ng serve src-b\" \"ng serve src\"",
     "build": "ng build common && ng build controller && ng build client",
     "test": "ng test common && ng test controller && ng test client",
-    "coverage": "ng test common --code-coverage && ng test controller --code-coverage && ng test client --code-coverage",
+    "coverage": "ng build common && ng test common --watch=false --browsers=ChromeHeadlessCustom --codeCoverage=true && ng test controller --watch=false --browsers=ChromeHeadlessCustom --codeCoverage=true && ng test client --watch=false --browsers=ChromeHeadlessCustom --codeCoverage=true",
     "lint": "ng lint common && ng lint controller && ng lint client",
     "e2e": "concurrently  -k --success first --kill-others \"npm run serve\" \"npm run wait && npm run protractor\"",
     "protractor": "./node_modules/.bin/protractor e2e/protractor.conf.js",
@@ -30,7 +30,7 @@
     "zone.js": "~0.10.2"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "^0.1000.0",
+    "@angular-devkit/build-angular": "^0.901.9",
     "@angular-devkit/build-ng-packagr": "~0.900.2",
     "@angular/cli": "~9.0.2",
     "@angular/compiler-cli": "~9.0.1",
