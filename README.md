@@ -1,3 +1,11 @@
+![test](https://github.com/demyanets/microfrontend/workflows/test/badge.svg)
+
+|  Unit test coverage | Statements | Lines | Functions | Branches |
+| --- | --- | --- | --- | --- |
+| `@microfrontend/common` | ![coverage-statements](badges/common/coverage-statements.svg) | ![coverage-statements](badges/common/coverage-lines.svg) | ![coverage-functions](badges/common/coverage-functions.svg) | ![coverage-branches](badges/common/coverage-branches.svg) |
+| `@microfrontend/controller` | ![coverage-statements](badges/controller/coverage-statements.svg) | ![coverage-statements](badges/controller/coverage-lines.svg) | ![coverage-functions](badges/controller/coverage-functions.svg) | ![coverage-branches](badges/controller/coverage-branches.svg) |
+| `@microfrontend/client` | ![coverage-statements](badges/client/coverage-statements.svg) | ![coverage-statements](badges/client/coverage-lines.svg) | ![coverage-functions](badges/client/coverage-functions.svg) | ![coverage-branches](badges/client/coverage-branches.svg) |
+
 # Production-quality controller for microfrontend applications
 
 ## Idea
