@@ -17,6 +17,15 @@
         "type": "git",
         "url": "https://github.com/demyanets/microfrontend.git"
     },
-    "keywords": ["SPA", "Sigle page application", "microfrontend", "micro-frontend", "client"],
+    "keywords": [
+      "SPA",
+      "Sigle page application",
+      "microfrontend",
+      "micro-frontend",
+      "client"
+    ],
+    "dependencies": {
+      "tslib": "^2.0.0"
+    },
     "license": "MIT"
 }
