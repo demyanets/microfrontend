@@ -14,8 +14,7 @@ export class NgPackagedPage {
     }
 
     async getPageHeaderText(): Promise<string> {
-        const el: ElementFinder = await element(by.tagName('h1'));
-        return el.getText();
+        return element(by.tagName('h1')).getText();
     }
 
     getCurrentUrl(): promise.Promise<string> {
@@ -52,13 +51,11 @@ export class NgPackagedPage {
     }
 
     async clickLink(selector: string): Promise<void> {
-        const el: ElementFinder = await element(by.css(selector));
-        await el.click();
+        return element(by.css(selector)).click();
     }
 
     async clickTo(url: string): Promise<void> {
-        const el: ElementFinder = await element(by.css(`a[href*= ${url}]`));
-        await el.click();
+        return element(by.css(`a[href*= ${url}]`)).click();
     }
 
     async isElementVisible(id: string): Promise<boolean> {

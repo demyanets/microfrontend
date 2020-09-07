@@ -40,6 +40,9 @@
     "no-reference": true,
     // Disallows /// <reference path=> imports (use ES6-style imports instead).
     "no-var-requires": true,
+    "deprecation": {
+      "severity": "warning"
+    },
     // Disallows the use of require statements except in import statements.
     "only-arrow-functions": [true, "allow-declarations", "allow-named-functions"],
     // only-arrow-functions - Disallows traditional (non-arrow) function expressions.
@@ -244,9 +247,7 @@
     // Warns when using an expression of type ‘any’ in a dynamic way. Uses are only allowed if they would work for {} | null | undefined. Type casts and tests are allowed. Expressions that work on all values (such as "" + x) are allowed.
     "no-unsafe-finally": true,
     // Disallows control flow statements, such as return, continue, break and throws in finally blocks.
-    "no-unused-expression": true,
-    // Disallows unused imports, variables, functions and private class members. Similar to tsc’s –noUnusedParameters and –noUnusedLocals options, but does not interrupt code compilation.
-    "no-use-before-declare": false, // we do not use var
+    "no-unused-expression": true, // we do not use var
     // Disallows usage of variables before their declaration.
     "no-var-keyword": true,
     // Disallows usage of the var keyword.
