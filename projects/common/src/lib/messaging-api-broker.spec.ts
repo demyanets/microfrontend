@@ -9,7 +9,7 @@ import { EVENT_MESSAGE } from './constants';
 import { EventListenerFacadeMock } from '../mocks/event-listener-facade.mock';
 import { MessageGetCustomFrameConfiguration } from './message-get-custom-frame-configuration';
 
-describe('MessagingApiBroker', () => {
+describe('MessagingApiBroker', async () => {
     let provider: ServiceProviderMock;
     let broker: MessagingApiBroker;
     let handleRoutedCalled = false;
@@ -79,7 +79,7 @@ describe('MessagingApiBroker', () => {
         const eventMock: EventListenerFacadeMock<MessageEvent> = provider.eventListenerFacadeMocks[EVENT_MESSAGE];
         let rejected = false;
         await eventMock.simulateUnknownMessage(location.origin).catch(() => (rejected = true));
-        expect(rejected).toBeTruthy();
+        await expect(rejected).toBeTruthy();
     });
 
     it('should return error if origin is wrong', async () => {
@@ -87,100 +87,100 @@ describe('MessagingApiBroker', () => {
         const eventMock: EventListenerFacadeMock<MessageEvent> = provider.eventListenerFacadeMocks[EVENT_MESSAGE];
         let rejected = false;
         await eventMock.simulateRoutedMessage('a', 'a', 'b', 'http://hacker.com').catch(() => (rejected = true));
-        expect(rejected).toBeTruthy();
+        await expect(rejected).toBeTruthy();
     });
 
     it('should call correct handler to update when sub route message is received', async () => {
         initBroker(true);
         const eventMock: EventListenerFacadeMock<MessageEvent> = provider.eventListenerFacadeMocks[EVENT_MESSAGE];
         const status = await eventMock.simulateSubrouteMessage('http://10.0.0.1', 'a', location.origin);
-        expect(handleSubrouteCalled).toBeTruthy();
+        await expect(handleSubrouteCalled).toBeTruthy();
     });
 
     it('should not return error if handler to update sub route is not defined', async () => {
         initBroker(false);
         const eventMock: EventListenerFacadeMock<MessageEvent> = provider.eventListenerFacadeMocks[EVENT_MESSAGE];
         await eventMock.simulateSubrouteMessage('http://10.0.0.1', 'a', location.origin);
-        expect(handleSubrouteCalled).toBeFalsy();
+        await expect(handleSubrouteCalled).toBeFalsy();
     });
 
     it('should call correct handler when broadcast message is received', async () => {
         initBroker(true);
         const eventMock: EventListenerFacadeMock<MessageEvent> = provider.eventListenerFacadeMocks[EVENT_MESSAGE];
         const status = await eventMock.simulateBroadcastMessage('http://10.0.0.1', 'test broadcast', { info: 456 }, undefined, location.origin);
-        expect(handleBroadcastCalled).toBeTruthy();
+        await expect(handleBroadcastCalled).toBeTruthy();
     });
 
     it('should not return error if broadcast message handler is not defined', async () => {
         initBroker(false);
         const eventMock: EventListenerFacadeMock<MessageEvent> = provider.eventListenerFacadeMocks[EVENT_MESSAGE];
         await eventMock.simulateBroadcastMessage('http://10.0.0.1', 'test broadcast', { info: 456 }, undefined, location.origin);
-        expect(handleBroadcastCalled).toBeFalsy();
+        await expect(handleBroadcastCalled).toBeFalsy();
     });
 
     it('should call correct handler when goto message is received', async () => {
         initBroker(true);
         const eventMock: EventListenerFacadeMock<MessageEvent> = provider.eventListenerFacadeMocks[EVENT_MESSAGE];
         const status = await eventMock.simulateGotoMessage('http://10.0.0.1', 'b', undefined, location.origin);
-        expect(handleGotoCalled).toBeTruthy();
+        await expect(handleGotoCalled).toBeTruthy();
     });
 
     it('should not return error if goto message handler is not defined', async () => {
         initBroker(false);
         const eventMock: EventListenerFacadeMock<MessageEvent> = provider.eventListenerFacadeMocks[EVENT_MESSAGE];
         await eventMock.simulateGotoMessage('http://10.0.0.1', 'b', undefined, location.origin);
-        expect(handleGotoCalled).toBeFalsy();
+        await expect(handleGotoCalled).toBeFalsy();
     });
 
     it('should call correct handler when set height message is received', async () => {
         initBroker(true);
         const eventMock: EventListenerFacadeMock<MessageEvent> = provider.eventListenerFacadeMocks[EVENT_MESSAGE];
         const status = await eventMock.simulateSetFrameStylesMessage('http://10.0.0.1', { height: '500px' }, location.origin);
-        expect(handleSetFrameStylesCalled).toBeTruthy();
+        await expect(handleSetFrameStylesCalled).toBeTruthy();
     });
 
     it('should not return error when set height handler is not defined', async () => {
         initBroker(false);
         const eventMock: EventListenerFacadeMock<MessageEvent> = provider.eventListenerFacadeMocks[EVENT_MESSAGE];
         await eventMock.simulateSetFrameStylesMessage('http://10.0.0.1', { height: '500px' }, location.origin);
-        expect(handleSetFrameStylesCalled).toBeFalsy();
+        await expect(handleSetFrameStylesCalled).toBeFalsy();
     });
 
     it('should call correct handler when get custom frame config is received', async () => {
         initBroker(true);
         const eventMock: EventListenerFacadeMock<MessageEvent> = provider.eventListenerFacadeMocks[EVENT_MESSAGE];
         const status = await eventMock.simulateGetCustomFrameConfigMessage('http://10.0.0.1', { test: 'test' }, location.origin);
-        expect(handleGetFrameConfigCalled).toBeTruthy();
+        await expect(handleGetFrameConfigCalled).toBeTruthy();
     });
 
     it('should not return error when get custom frame config handler is not defined', async () => {
         initBroker(false);
         const eventMock: EventListenerFacadeMock<MessageEvent> = provider.eventListenerFacadeMocks[EVENT_MESSAGE];
         await eventMock.simulateGetCustomFrameConfigMessage('http://10.0.0.1', { test: 'test' }, location.origin);
-        expect(handleGetFrameConfigCalled).toBeFalsy();
+        await expect(handleGetFrameConfigCalled).toBeFalsy();
     });
 
     it('should call correct handler when routed message is received', async () => {
         initBroker(true);
         const eventMock: EventListenerFacadeMock<MessageEvent> = provider.eventListenerFacadeMocks[EVENT_MESSAGE];
         const status = await eventMock.simulateRoutedMessage('http://10.0.0.1', 'b', 'y', location.origin);
-        expect(handleRoutedCalled).toBeTruthy();
+        await expect(handleRoutedCalled).toBeTruthy();
     });
 
     it('should not return error when routed handler is not defined', async () => {
         initBroker(false);
         const eventMock: EventListenerFacadeMock<MessageEvent> = provider.eventListenerFacadeMocks[EVENT_MESSAGE];
         await eventMock.simulateRoutedMessage('http://10.0.0.1', 'b', 'y', location.origin);
-        expect(handleRoutedCalled).toBeFalsy();
+        await expect(handleRoutedCalled).toBeFalsy();
     });
 
     it('should destroy messaging api broker on destroy', async () => {
         initBroker(true);
         broker.destroy();
-        expect(broker.isDestroyed).toBeTruthy();
+        await expect(broker.isDestroyed).toBeTruthy();
         const eventMock: EventListenerFacadeMock<MessageEvent> = provider.eventListenerFacadeMocks[EVENT_MESSAGE];
         let rejected = false;
         await eventMock.simulateSetFrameStylesMessage('http://10.0.0.1', { height: '500px' }, location.origin).catch(() => (rejected = true));
-        expect(rejected).toBeTruthy();
+        await expect(rejected).toBeTruthy();
     });
 });
