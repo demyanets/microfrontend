@@ -6,6 +6,7 @@
     "ng": "ng",
     "serve": "concurrently --kill-others \"ng serve src-a\" \"ng serve src-b\" \"ng serve src\"",
     "build": "ng build common && ng build controller && ng build client",
+    "build:prod": "ng build common --prod && ng build controller --prod && ng build client --prod",
     "test": "ng test common && ng test controller && ng test client",
     "coverage": "ng build common && ng test common --watch=false --browsers=ChromeHeadlessCustom --codeCoverage=true && ng test controller --watch=false --browsers=ChromeHeadlessCustom --codeCoverage=true && ng test client --watch=false --browsers=ChromeHeadlessCustom --codeCoverage=true",
     "lint": "ng lint common && ng lint controller && ng lint client",
