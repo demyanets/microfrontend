@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FrameConfig, IAppConfig, MetaRouter, MetaRouterConfig, UnknownRouteHandlingEnum } from '@microfrontend/controller';
+import { OutletState } from 'projects/controller/src/lib/outlet-state';
 
 const routes: IAppConfig[] = [
     {
@@ -33,6 +34,7 @@ export class AppComponent implements OnInit {
         );
 
         this.router = new MetaRouter(config);
+        this.router.outletStateChanged = (state: OutletState) => this.logState(state);
     }
 
     ngOnInit(): void {
@@ -50,5 +52,9 @@ export class AppComponent implements OnInit {
 
     broadcast(): void {
         this.router.broadcast('custom_tag', { message: 'Message from router' }, ['a', 'b']);
+    }
+
+    logState(state: OutletState): void {
+        console.log(`Active roite in '${state.outlet}' is '${state.activeRoute.url}'`);
     }
 }

@@ -3,7 +3,8 @@
   <a id="link-b" (click)="go('b')">Route to B</a> |
   <a id="link-aa" (click)="go('a', 'a')">Jump to A within A</a> |
   <a id="link-ab" (click)="go('a', 'b')">Jump to B within A</a> |
-  <a id="link-broadcast" (click)="broadcast()">Send Broadcast message</a>
+  <a id="link-broadcast" (click)="broadcast()">Send Broadcast message</a> |
+  <a id="link-state" (click)="logState(this.router.getOutletState())">Log state</a>
 </div>
 
 <div id="outlet" style="height: 100%"></div>
