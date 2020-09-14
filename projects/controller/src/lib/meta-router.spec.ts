@@ -222,10 +222,11 @@ describe('MetaRouter', async () => {
             let stateChangedCalled: boolean = false;
             let stateParam: OutletState | undefined = undefined;
             provider = new ControllerServiceProviderMock('http://localhost:8080/#b!a/x');
-            router = new MetaRouter(config, provider, (s) => {
+            router = new MetaRouter(config, provider);
+            router.outletStateChanged = (s) => {
                 stateChangedCalled = true;
                 stateParam = s;
-            });
+            };
             await router.initialize();
             await router.go('a', 'x');
             await expect(stateChangedCalled).toBeTruthy();

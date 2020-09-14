@@ -33,9 +33,8 @@ export class AppComponent implements OnInit {
             UnknownRouteHandlingEnum.ThrowError
         );
 
-        this.router = new MetaRouter(config,
-            undefined,
-            (state: OutletState) => console.log(`Outlet state changed: '${state.outlet}'='${state.activeRoute.url}'`));
+        this.router = new MetaRouter(config);
+        this.router.outletStateChanged = (state: OutletState) => this.logState(state);
     }
 
     ngOnInit(): void {
@@ -53,5 +52,9 @@ export class AppComponent implements OnInit {
 
     broadcast(): void {
         this.router.broadcast('custom_tag', { message: 'Message from router' }, ['a', 'b']);
+    }
+
+    logState(state: OutletState): void {
+        console.log(`Active roite in '${state.outlet}' is '${state.activeRoute.url}'`);
     }
 }

@@ -54,10 +54,12 @@ export class MetaRouter {
     /** Active promise from Go  */
     private goPromiseSingleton = new PromiseSingletonDecorator<IFrameFacade>();
 
+    /** Outlet state changed callback */
+    public outletStateChanged?: OutletStateChanged;
+
     constructor(
         private readonly config: MetaRouterConfig,
-        private readonly serviceProvider: IControllerServiceProvider = new ControllerServiceProvider(),
-        private outletStateChanged?: OutletStateChanged
+        private readonly serviceProvider: IControllerServiceProvider = new ControllerServiceProvider()
     ) {
         this.historyApiFacade = serviceProvider.getHistoryApiFacade();
 
