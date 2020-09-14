@@ -6,6 +6,7 @@ import { ControllerServiceProviderMock } from '../mocks/controller-service-provi
 import { FrameFacadeMock } from '../mocks/frame-facade.mock';
 import { EventListenerFacadeMock } from '../mocks/event-listener-facade.mock';
 import { MessageGetCustomFrameConfiguration } from 'projects/common/src/lib/message-get-custom-frame-configuration';
+import { OutletState } from './outlet-state';
 
 describe('MetaRouter', async () => {
     let router: MetaRouter;
@@ -175,6 +176,74 @@ describe('MetaRouter', async () => {
             const initLength = provider.locationHistoryFacadeMocks.history.length;
             await router.go('b', 'y');
             await expect(provider.locationHistoryFacadeMocks.history.length).toBe(initLength + 1);
+        });
+    });
+
+    describe('getOutletState', async () => {
+        beforeEach(async () => {
+            provider = new ControllerServiceProviderMock('http://localhost:8080/#b!a/x');
+            router = new MetaRouter(config, provider);
+            await router.initialize();
+        });
+
+        it('should return state for named outlet', async () => {
+            const state = router.getOutletState('outlet');
+            await expect(state).toBeDefined();
+            await expect(state.outlet).toBe('outlet');
+            await expect(state.activeRoute).toBeDefined();
+            await expect(state.activeRoute.metaRoute).toBe('b');
+            await expect(state.activeRoute.subRoute).toBeUndefined();
+            await expect(state.activeRoute.url).toBe('b');
+            await expect(state.routes).toBeDefined();
+            await expect(state.routes.length).toBe(2);
+            await expect(state.routes[0].metaRoute).toEqual(state.activeRoute.metaRoute);
+            await expect(state.routes[1].metaRoute).toBe('a');
+            await expect(state.routes[1].subRoute).toBe('x');
+        });
+
+        it('should return default outlet state', async () => {
+            const state = router.getOutletState();
+            await expect(state).toBeDefined();
+            await expect(state.outlet).toBe('outlet');
+            await expect(state.activeRoute).toBeDefined();
+            await expect(state.activeRoute.metaRoute).toBe('b');
+            await expect(state.activeRoute.subRoute).toBeUndefined();
+            await expect(state.activeRoute.url).toBe('b');
+            await expect(state.routes).toBeDefined();
+            await expect(state.routes.length).toBe(2);
+            await expect(state.routes[0].metaRoute).toEqual(state.activeRoute.metaRoute);
+            await expect(state.routes[1].metaRoute).toBe('a');
+            await expect(state.routes[1].subRoute).toBe('x');
+        });
+    });
+
+    describe('OutletStateChanged', async () => {
+        it('should return state for named outlet', async () => {
+            let stateChangedCalled: boolean = false;
+            let stateParam: OutletState | undefined = undefined;
+            provider = new ControllerServiceProviderMock('http://localhost:8080/#b!a/x');
+            router = new MetaRouter(config, provider, (s) => {
+                stateChangedCalled = true;
+                stateParam = s;
+            });
+            await router.initialize();
+            await router.go('a', 'x');
+            await expect(stateChangedCalled).toBeTruthy();
+            await expect(stateParam).toBeDefined();
+
+            if (stateParam) {
+                const state: OutletState = stateParam;
+                await expect(state.outlet).toBe('outlet');
+                await expect(state.activeRoute).toBeDefined();
+                await expect(state.activeRoute.metaRoute).toBe('a');
+                await expect(state.activeRoute.subRoute).toBe('x');
+                await expect(state.activeRoute.url).toBe('a/x');
+                await expect(state.routes).toBeDefined();
+                await expect(state.routes.length).toBe(2);
+                await expect(state.routes[0].metaRoute).toEqual(state.activeRoute.metaRoute);
+                await expect(state.routes[1].metaRoute).toBe('b');
+                await expect(state.routes[1].subRoute).toBeUndefined();
+            }
         });
     });
 

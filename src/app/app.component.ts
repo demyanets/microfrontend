@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FrameConfig, IAppConfig, MetaRouter, MetaRouterConfig, UnknownRouteHandlingEnum } from '@microfrontend/controller';
+import { OutletState } from 'projects/controller/src/lib/outlet-state';
 
 const routes: IAppConfig[] = [
     {
@@ -32,7 +33,9 @@ export class AppComponent implements OnInit {
             UnknownRouteHandlingEnum.ThrowError
         );
 
-        this.router = new MetaRouter(config);
+        this.router = new MetaRouter(config,
+            undefined,
+            (state: OutletState) => console.log(`Outlet state changed: '${state.outlet}'='${state.activeRoute.url}'`));
     }
 
     ngOnInit(): void {

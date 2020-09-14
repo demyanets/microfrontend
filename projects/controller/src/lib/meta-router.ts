@@ -24,6 +24,8 @@ import { IFrameFacade } from './frame-facade-interface';
 import { PromiseSingletonDecorator } from './promise-singleton-decorator';
 import { IControllerServiceProvider } from './controller-service-provider-interface';
 import { ControllerServiceProvider } from './controller-service-provider';
+import { OutletState } from './outlet-state';
+import { OutletStateChanged } from './outlet-state-changed';
 
 /**
  * MetaRouter for routing between micro frontends
@@ -54,7 +56,8 @@ export class MetaRouter {
 
     constructor(
         private readonly config: MetaRouterConfig,
-        private readonly serviceProvider: IControllerServiceProvider = new ControllerServiceProvider()
+        private readonly serviceProvider: IControllerServiceProvider = new ControllerServiceProvider(),
+        private outletStateChanged?: OutletStateChanged
     ) {
         this.historyApiFacade = serviceProvider.getHistoryApiFacade();
 
@@ -122,6 +125,18 @@ export class MetaRouter {
     unloadAll(): void {
         this.framesManager.unloadAll();
     }
+
+    /**
+     * Provides metaroute state of the outlet.
+     * If no outlet name was provided, default name from configuration is used.
+     */
+    getOutletState(outlet?: string): OutletState {
+        const outletName = outlet ?? this.config.outlet;
+        const routes = this.parseHash(outletName);
+        const state = new OutletState(outletName, routes[outletName]);
+        return state;
+    }
+
 
     /**
      * Routes by URL
@@ -299,6 +314,17 @@ export class MetaRouter {
         const url = UrlHelper.constructFullUrl(this.locationFacade.getPath(), currentRoutes, outlet);
         this.consoleFacade.debug('setRouteInHashInner(%s, %s)', outlet, url);
         this.historyApiFacade.go(url, undefined, click);
+        this.notifyOutletStateChanged(outlet, currentRoutes[outlet]);
+    }
+
+    /**
+     * Notifies about outlet state change if required
+     */
+    private notifyOutletStateChanged(outlet: string, routes: AppRoute[]): void {
+        if (this.outletStateChanged) {
+            const state = new OutletState(outlet, routes);
+            this.outletStateChanged(state);
+        }
     }
 
     /**
