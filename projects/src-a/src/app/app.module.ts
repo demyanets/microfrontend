@@ -24,8 +24,9 @@ const config = new RoutedAppConfig('a', 'http://localhost:30103');
                 { path: '**', redirectTo: 'a' }
             ],
             {
-                useHash: true
-            }
+    useHash: true,
+    relativeLinkResolution: 'legacy'
+}
         )
     ],
     providers: [{ provide: ROUTED_APP, useFactory: () => new RoutedApp(config) }],
