@@ -42,7 +42,7 @@ export class AppComponent implements OnInit {
     }
 
     async init(): Promise<void> {
-        await this.router.preload();
+        await this.router.preload([routes[0]]);
         await this.router.initialize();
     }
 
