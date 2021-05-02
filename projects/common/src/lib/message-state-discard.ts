@@ -2,7 +2,7 @@ import { MessageBase } from './message-base';
 import { MESSAGE_STATE_DISCARD } from './constants';
 
 /**
- * Meta router routed message
+ * Discard state in the microfrontend if required
  */
 export class MessageStateDiscard extends MessageBase {
     constructor(source: string) {
