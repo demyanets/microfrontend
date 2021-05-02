@@ -7,7 +7,8 @@ import {
     MessageGoto,
     MessageRouted,
     MessageSetFrameStyles,
-    MessageGetCustomFrameConfiguration
+    MessageGetCustomFrameConfiguration,
+    MessageStateChanged
 } from '@microfrontend/common';
 import { RoutedApp } from './routed-app';
 import { RoutedAppConfig } from './routed-app-config';
@@ -34,6 +35,14 @@ describe('RoutedApp', async () => {
         provider = new ClientServiceProviderMock('http://localhost:8080/#b!a/x', false);
         routedApp = new RoutedApp(config, provider);
         await expect(true).toBeTruthy();
+    });
+
+    it('should post state changed to parent', async () => {
+        const url: string = 'b';
+        spyOn(provider.parentFacadeMock, 'postMessage');
+        routedApp.changeState(true);
+        const message = new MessageStateChanged(config.metaRoute, true);
+        await expect(provider.parentFacadeMock.postMessage).toHaveBeenCalledWith(message, config.parentOrigin);
     });
 
     it('should post routed message to parent', async () => {
@@ -111,6 +120,19 @@ describe('RoutedApp', async () => {
             'test broadcast',
             { info: 456 },
             undefined,
+            location.origin
+        );
+        await expect(handled).toBeTruthy();
+    });
+
+    it('should register discard state callback and handle it correctly', async () => {
+        let handled = false;
+        const dummyHandleNotification: () => void = () => {
+            handled = true;
+        };
+        routedApp.registerDiscardStateCallback(dummyHandleNotification);
+        provider.eventListenerFacadeMocks[EVENT_MESSAGE].simulateStateDiscardMessage(
+            'http://localhost:8080',
             location.origin
         );
         await expect(handled).toBeTruthy();

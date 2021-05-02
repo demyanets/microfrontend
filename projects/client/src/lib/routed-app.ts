@@ -10,7 +10,9 @@ import {
     MessageRouted,
     MessageSetFrameStyles,
     MessageMetaRouted,
-    MessagingApiBroker
+    MessagingApiBroker,
+    MessageStateDiscard,
+    MessageStateChanged
 } from '@microfrontend/common';
 import { RoutedAppConfig } from './routed-app-config';
 import { IParentFacade } from './parent-facade-interface';
@@ -38,6 +40,9 @@ export class RoutedApp {
 
     /** Broadcast callback */
     private callbackGetCustomConfig?: HandleGetCustomFrameConfiguration;
+
+    /** Discard state callback */
+    private callbackDiscardState?: () => void;
 
     /** Event broker handling Messaging API events */
     // tslint:disable no-unused-variable
@@ -70,13 +75,21 @@ export class RoutedApp {
             undefined,
             this.handleBroadcast.bind(this),
             this.handleMetaRouted.bind(this),
-            this.handleGetCustomFrameConfig.bind(this)
+            this.handleGetCustomFrameConfig.bind(this),
+            undefined,
+            this.handleStateDiscard.bind(this)
         );
     }
 
     /** Indicates if the application is running in a shell  */
     get hasShell(): boolean {
         return this.parentFacade.hasParent();
+    }
+
+    /** Sends the current state status to the meta router */
+    changeState(hasState: boolean): void {
+        const message = new MessageStateChanged(this.config.metaRoute, hasState);
+        this.parentFacade.postMessage(message, this.config.parentOrigin);
     }
 
     /** Sends the current route to the meta router to include it into the url */
@@ -105,6 +118,14 @@ export class RoutedApp {
     setFrameStyles(styles: IMap<string>): void {
         const message = new MessageSetFrameStyles(this.config.metaRoute, styles);
         this.parentFacade.postMessage(message, this.config.parentOrigin);
+    }
+
+    /**
+     * Registers a callback that allows the meta router to request
+     * the microfronend to discard its state
+     */
+     registerDiscardStateCallback(callback: () => void): void {
+        this.callbackDiscardState = callback;
     }
 
     /**
@@ -169,6 +190,17 @@ export class RoutedApp {
     private handleGetCustomFrameConfig(msg: MessageGetCustomFrameConfiguration): Promise<void> {
         if (this.callbackGetCustomConfig) {
             this.callbackGetCustomConfig(msg.configuration);
+        }
+        return Promise.resolve();
+    }
+
+    /**
+     * Handle state discard message
+     * @param msg
+     */
+     private handleStateDiscard(msg: MessageStateDiscard): Promise<void> {
+        if (this.callbackDiscardState) {
+            this.callbackDiscardState();
         }
         return Promise.resolve();
     }

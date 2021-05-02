@@ -14,6 +14,8 @@ export * from './lib/message-routed';
 export * from './lib/message-set-frame-styles';
 export * from './lib/message-get-custom-frame-configuration';
 export * from './lib/message-meta-routed';
+export * from './lib/message-state-changed';
+export * from './lib/message-state-discard';
 export * from './lib/constants';
 export * from './lib/map';
 export * from './lib/event-listener-facade';
