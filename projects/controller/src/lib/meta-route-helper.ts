@@ -24,18 +24,27 @@ export class MetaRouteHelper {
 
     /**
      * Activates the route
+     * If subroute if undefined it will keep existing subroute
+     * If subroute is empty it will navigate to the empty subroute
      * @param routeToActivate Route that has to be activated.
      * @param currentRoutes Map with current route.
      * @param outlet Related outlet.
      * @returns Updated map.
      */
     static activateRoute(routeToActivate: AppRoute, currentRoutes: IMap<AppRoute[]>, outlet: string): IMap<AppRoute[]> {
-        const newOutletApps: AppRoute[] = [routeToActivate];
+        let newRoute: AppRoute = routeToActivate;
+        const newOutletApps: AppRoute[] = [];
+
         for (const appRoute of currentRoutes[outlet]) {
             if (routeToActivate.metaRoute !== appRoute.metaRoute) {
                 newOutletApps.push(appRoute);
+            } else {
+                if (routeToActivate.subRoute === undefined) {
+                    newRoute = appRoute;
+                }
             }
         }
+        newOutletApps.unshift(newRoute);
         return MetaRouteHelper.createNewMap(newOutletApps, outlet);
     }
 

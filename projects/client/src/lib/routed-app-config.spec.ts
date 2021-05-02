@@ -1,26 +1,26 @@
 import { RoutedAppConfig } from './routed-app-config';
 
-describe('RoutedAppConfig', () => {
+describe('RoutedAppConfig', async () => {
     let routedApp: RoutedAppConfig;
     const origins = location.origin;
 
-    it('should create routed app config object', () => {
+    it('should create routed app config object', async () => {
         routedApp = new RoutedAppConfig('a', origins);
-        expect(routedApp).toBeTruthy();
+        await expect(routedApp).toBeTruthy();
     });
 
-    it('should set appId correctly', () => {
+    it('should set appId correctly', async () => {
         routedApp = new RoutedAppConfig('a', origins);
-        expect(routedApp.metaRoute).toBe('a');
+        await expect(routedApp.metaRoute).toBe('a');
     });
 
-    it('should set allowedOrigins correctly and it should be instance of AllowedOrigins', () => {
+    it('should set allowedOrigins correctly and it should be instance of AllowedOrigins', async () => {
         const dummyAllowedOrigin: string = '10.0.0.0';
         routedApp = new RoutedAppConfig('a', dummyAllowedOrigin);
-        expect(routedApp.parentOrigin).toBe(dummyAllowedOrigin);
+        await expect(routedApp.parentOrigin).toBe(dummyAllowedOrigin);
     });
 
-    it('should break with empty appId', () => {
-        expect(() => new RoutedAppConfig('', origins)).toThrow();
+    it('should break with empty appId', async () => {
+        await expect(() => new RoutedAppConfig('', origins)).toThrow();
     });
 });

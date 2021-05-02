@@ -16,6 +16,7 @@ import {
 import { UrlHelper } from './url-helper';
 import { MetaRouterConfig } from './meta-router-config';
 import { AppRoute } from './app-route';
+import { IAppConfig } from './app-config';
 import { MetaRouteHelper } from './meta-route-helper';
 import { IHistoryApiFacade } from './history-api-facade-interface';
 import { ILocationFacade } from './location-facade-interface';
@@ -24,6 +25,8 @@ import { IFrameFacade } from './frame-facade-interface';
 import { PromiseSingletonDecorator } from './promise-singleton-decorator';
 import { IControllerServiceProvider } from './controller-service-provider-interface';
 import { ControllerServiceProvider } from './controller-service-provider';
+import { OutletState } from './outlet-state';
+import { OutletStateChanged } from './outlet-state-changed';
 
 /**
  * MetaRouter for routing between micro frontends
@@ -51,6 +54,9 @@ export class MetaRouter {
 
     /** Active promise from Go  */
     private goPromiseSingleton = new PromiseSingletonDecorator<IFrameFacade>();
+
+    /** Outlet state changed callback */
+    public outletStateChanged?: OutletStateChanged;
 
     constructor(
         private readonly config: MetaRouterConfig,
@@ -106,13 +112,14 @@ export class MetaRouter {
     }
 
     /**
-     * Preloads all the micro frontends by loading them into the page
+     * Preloads the microfrontends by loading them into the page
+     * if no routesToPreload was supplied, all routes get preloaded
      */
-    async preload(): Promise<void> {
+    async preload(routesToPreload?: IAppConfig[]): Promise<IFrameFacade[]> {
         this.consoleFacade.debug('Before preload()');
         const hash = this.parseHash(this.config.outlet);
         // Take existing routes into account
-        const routes = MetaRouteHelper.join(this.config.routes, hash[this.config.outlet]);
+        const routes = MetaRouteHelper.join(routesToPreload ?? this.config.routes, hash[this.config.outlet]);
         return this.framesManager.preload(routes);
     }
 
@@ -122,6 +129,18 @@ export class MetaRouter {
     unloadAll(): void {
         this.framesManager.unloadAll();
     }
+
+    /**
+     * Provides metaroute state of the outlet.
+     * If no outlet name was provided, default name from configuration is used.
+     */
+    getOutletState(outlet?: string): OutletState {
+        const outletName = outlet ?? this.config.outlet;
+        const routes = this.parseHash(outletName);
+        const state = new OutletState(outletName, routes[outletName]);
+        return state;
+    }
+
 
     /**
      * Routes by URL
@@ -181,6 +200,7 @@ export class MetaRouter {
     private async handleSetFrameStyles(msgSetFrameStyles: MessageSetFrameStyles): Promise<void> {
         const frame = await this.framesManager.getFrame(msgSetFrameStyles.source);
         frame.setStyles(msgSetFrameStyles.styles);
+        return Promise.resolve();
     }
 
     /**
@@ -193,6 +213,7 @@ export class MetaRouter {
         this.consoleFacade.debug(`handleGetFrameConfiguration / config = (${config})`);
         const msg = new MessageGetCustomFrameConfiguration(SHELL_NAME, config);
         frame.postMessage(msg);
+        return Promise.resolve();
     }
 
     /**
@@ -208,6 +229,7 @@ export class MetaRouter {
     private async handleBroadcast(msgBroadcast: MessageBroadcast): Promise<void> {
         await this.propagateBroadcast(msgBroadcast);
         this.config.handleNotification(msgBroadcast.metadata, msgBroadcast.data);
+        return Promise.resolve();
     }
 
     /**
@@ -240,8 +262,8 @@ export class MetaRouter {
     private async activateRoute(routeToActivate: AppRoute, frame: IFrameFacade, click?: boolean): Promise<void> {
         this.consoleFacade.debug('activateRoute(%s/%s)', routeToActivate.metaRoute, routeToActivate.subRoute);
         this.makeActiveRouteVisible(routeToActivate);
-        await this.notifyAppAboutActivation(routeToActivate, frame);
         this.activateRouteInHash(this.config.outlet, routeToActivate, click);
+        return this.notifyAppAboutActivation(routeToActivate, frame);
     }
 
     /**
@@ -296,6 +318,17 @@ export class MetaRouter {
         const url = UrlHelper.constructFullUrl(this.locationFacade.getPath(), currentRoutes, outlet);
         this.consoleFacade.debug('setRouteInHashInner(%s, %s)', outlet, url);
         this.historyApiFacade.go(url, undefined, click);
+        this.notifyOutletStateChanged(outlet, currentRoutes[outlet]);
+    }
+
+    /**
+     * Notifies about outlet state change if required
+     */
+    private notifyOutletStateChanged(outlet: string, routes: AppRoute[]): void {
+        if (this.outletStateChanged) {
+            const state = new OutletState(outlet, routes);
+            this.outletStateChanged(state);
+        }
     }
 
     /**

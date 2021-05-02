@@ -1,32 +1,32 @@
 import { MessageRouted } from './message-routed';
 import { MESSAGE_ROUTED } from './constants';
 
-describe('MessageRouted', () => {
+describe('MessageRouted', async () => {
     let message: MessageRouted;
 
-    it('should create message routed object', () => {
+    it('should create message routed object', async () => {
         message = new MessageRouted('a', 'b');
-        expect(message).toBeTruthy();
+        await expect(message).toBeTruthy();
     });
 
-    it('should set message to MESSAGE_ROUTED', () => {
+    it('should set message to MESSAGE_ROUTED', async () => {
         message = new MessageRouted('a', 'b');
-        expect(message.message).toBe(MESSAGE_ROUTED);
+        await expect(message.message).toBe(MESSAGE_ROUTED);
     });
 
-    it('should set metaRoute correctly', () => {
+    it('should set metaRoute correctly', async () => {
         message = new MessageRouted('a', 'b');
-        expect(message.source).toBe('a');
+        await expect(message.source).toBe('a');
     });
 
-    it('should set subRoute correctly', () => {
+    it('should set subRoute correctly', async () => {
         message = new MessageRouted('a', 'b');
-        expect(message.subRoute).toBe('b');
+        await expect(message.subRoute).toBe('b');
     });
 
-    it('should not break with empty subRoute', () => {
+    it('should not break with empty subRoute', async () => {
         message = new MessageRouted('a', '');
-        expect(message.source).toBe('a');
-        expect(message.subRoute).toBe('');
+        await expect(message.source).toBe('a');
+        await expect(message.subRoute).toBe('');
     });
 });

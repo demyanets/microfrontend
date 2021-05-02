@@ -6,7 +6,7 @@ export class NgPackagedPage {
     }
 
     async navigateTo(): Promise<string> {
-        return await browser.get('/');
+        return browser.get('/');
     }
 
     async getParagraphText(id: string): Promise<string> {
@@ -14,8 +14,7 @@ export class NgPackagedPage {
     }
 
     async getPageHeaderText(): Promise<string> {
-        const el: ElementFinder = await element(by.tagName('h1'));
-        return await el.getText();
+        return element(by.tagName('h1')).getText();
     }
 
     getCurrentUrl(): promise.Promise<string> {
@@ -28,7 +27,7 @@ export class NgPackagedPage {
 
     async getIframeUrl(id: string): Promise<string> {
         await this.switchToIframe(id);
-        return await this.getPageUrl();
+        return this.getPageUrl();
     }
 
     async getUrlOfVisibleIframe(): Promise<string> {
@@ -44,7 +43,7 @@ export class NgPackagedPage {
         const driver = browser.driver;
         const loc = by.id(id);
         const el = await driver.findElement(loc);
-        return await browser.switchTo().frame(el);
+        return browser.switchTo().frame(el);
     }
 
     async switchToMainFrame(): Promise<void> {
@@ -52,25 +51,23 @@ export class NgPackagedPage {
     }
 
     async clickLink(selector: string): Promise<void> {
-        const el: ElementFinder = await element(by.css(selector));
-        await el.click();
+        return element(by.css(selector)).click();
     }
 
     async clickTo(url: string): Promise<void> {
-        const el: ElementFinder = await element(by.css(`a[href*= ${url}]`));
-        await el.click();
+        return element(by.css(`a[href*= ${url}]`)).click();
     }
 
     async isElementVisible(id: string): Promise<boolean> {
-        return await element(by.id(id)).isDisplayed();
+        return element(by.id(id)).isDisplayed();
     }
 
     async navigateToBack(): Promise<void> {
-        return await browser.navigate().back();
+        return browser.navigate().back();
     }
 
     async navigateToForward(): Promise<void> {
-        return await browser.navigate().forward();
+        return browser.navigate().forward();
     }
 
     getWindowSize(): promise.Promise<{ width: number; height: number }> {
@@ -93,11 +90,11 @@ export class NgPackagedPage {
     }
 
     async getElementsCount(el: string): Promise<number> {
-        return await this.getElements(el).count();
+        return this.getElements(el).count();
     }
 
     async getVisibleElementsCount(el: string): Promise<number> {
-        return await this.getVisibleElements(el).count();
+        return this.getVisibleElements(el).count();
     }
 
     async getIframeHeight(id: string): Promise<number> {

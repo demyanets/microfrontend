@@ -12,22 +12,22 @@ beforeEach(() => {
     mock = new DummyDestroyable();
 });
 
-describe('Destroyable', () => {
-    it('should destroy the object', () => {
+describe('Destroyable', async () => {
+    it('should destroy the object', async () => {
         mock.destroy();
-        expect(mock.isDestroyed()).toBeTruthy();
+        await expect(mock.isDestroyed()).toBeTruthy();
     });
 
-    it('should not destroy the object', () => {
-        expect(mock.isDestroyed()).toBeFalsy();
+    it('should not destroy the object', async () => {
+        await expect(mock.isDestroyed()).toBeFalsy();
     });
 
-    it('should throw error if object was aleady destroyed', () => {
+    it('should throw error if object was aleady destroyed', async () => {
         mock.destroy();
-        expect(() => mock.preventUsageUponDestruction()).toThrow();
+        await expect(() => mock.preventUsageUponDestruction()).toThrow();
     });
 
-    it('should not thow error if object was not destroyed', () => {
-        expect(() => mock.preventUsageUponDestruction()).not.toThrow();
+    it('should not thow error if object was not destroyed', async () => {
+        await expect(() => mock.preventUsageUponDestruction()).not.toThrow();
     });
 });

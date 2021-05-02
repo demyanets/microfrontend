@@ -1,41 +1,41 @@
 import { MessageBroadcastMetadata } from './message-broadcast-metadata';
 
-describe('MessageBroadcastMetadata', () => {
+describe('MessageBroadcastMetadata', async () => {
     let metadata: MessageBroadcastMetadata;
 
-    it('should create new object', () => {
+    it('should create new object', async () => {
         metadata = new MessageBroadcastMetadata('tag', 'source', ['recipient']);
-        expect(metadata).toBeTruthy();
+        await expect(metadata).toBeTruthy();
     });
 
-    it('should set tag correctly', () => {
+    it('should set tag correctly', async () => {
         metadata = new MessageBroadcastMetadata('tag', 'source', ['recipient']);
-        expect(metadata.tag).toBe('tag');
+        await expect(metadata.tag).toBe('tag');
     });
 
-    it('should set source correctly', () => {
+    it('should set source correctly', async () => {
         metadata = new MessageBroadcastMetadata('tag', 'source', ['recipient']);
-        expect(metadata.source).toBe('source');
+        await expect(metadata.source).toBe('source');
     });
 
-    it('should set default recipients to undefined', () => {
+    it('should set default recipients to undefined', async () => {
         metadata = new MessageBroadcastMetadata('tag', 'source', undefined);
-        expect(metadata.recipients).toBeUndefined();
+        await expect(metadata.recipients).toBeUndefined();
     });
 
-    it('should set recipients correctly', () => {
+    it('should set recipients correctly', async () => {
         metadata = new MessageBroadcastMetadata('tag', 'source', ['recipient']);
-        expect(metadata.recipients).toBeDefined();
+        await expect(metadata.recipients).toBeDefined();
         if (metadata.recipients) {
-            expect(metadata.recipients.length).toBe(1);
-            expect(metadata.recipients[0]).toBe('recipient');
+            await expect(metadata.recipients.length).toBe(1);
+            await expect(metadata.recipients[0]).toBe('recipient');
         }
     });
 
-    it('should not break with empty tag, empty origin and undefined recipients', () => {
+    it('should not break with empty tag, empty origin and undefined recipients', async () => {
         metadata = new MessageBroadcastMetadata('', '', undefined);
-        expect(metadata.tag).toBe('');
-        expect(metadata.source).toEqual('');
-        expect(metadata.recipients).toBeUndefined();
+        await expect(metadata.tag).toBe('');
+        await expect(metadata.source).toEqual('');
+        await expect(metadata.recipients).toBeUndefined();
     });
 });

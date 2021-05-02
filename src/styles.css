@@ -1,18 +1,18 @@
 /* You can add global styles to this file, and also import other style files */
 body {
-    height: 90vh;
-    background: lightblue;
+  height: 90vh;
+  background: lightblue;
 }
 .outlet-frame	{
-    width:100%;
-    height: 100%;
-    background:#FFFFFF;
-    border:none;
+  width:100%;
+  height: 100%;
+  background:#FFFFFF;
+  border:none;
 }
 
 .my-outlet-frame	{
-    width:100%;
-    height: 100%;
-    background: lightyellow;
-    border:none;
+  width:100%;
+  height: 100%;
+  background: lightyellow;
+  border:none;
 }

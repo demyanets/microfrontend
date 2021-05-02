@@ -6,18 +6,18 @@ class MessageBaseTest extends MessageBase {
     }
 }
 
-describe('MessageBase', () => {
-    it('should create new object', () => {
+describe('MessageBase', async () => {
+    it('should create new object', async () => {
         const message = new MessageBaseTest('a', 'b');
-        expect(message).toBeDefined();
+        await expect(message).toBeDefined();
     });
 
-    it('should throw if message is empty', () => {
-        expect(() => new MessageBaseTest('', 'b')).toThrow();
+    it('should throw if message is empty', async () => {
+        await expect(() => new MessageBaseTest('', 'b')).toThrow();
     });
 
-    it('should succeed if source is empty', () => {
+    it('should succeed if source is empty', async () => {
         const message = new MessageBaseTest('a', '');
-        expect(message).toBeDefined();
+        await expect(message).toBeDefined();
     });
 });

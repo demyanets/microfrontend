@@ -119,14 +119,13 @@ export class FramesManager {
     /**
      * Preloads all the micro frontends by loading them into the page
      */
-    async preload(routes: AppRoute[]): Promise<void> {
+    async preload(routes: AppRoute[]): Promise<IFrameFacade[]> {
         this.consoleFacade.debug('Before preload()');
         const promises: Array<Promise<IFrameFacade>> = [];
         for (const route of routes) {
             promises.push(this.getFrameWithRoute(route));
         }
-        await Promise.all(promises);
-        this.consoleFacade.debug('After preload()');
+        return Promise.all(promises);
     }
 
     /**

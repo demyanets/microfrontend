@@ -16,7 +16,9 @@ import { ATTRIBUTE_NAME_ID, ATTRIBUTE_NAME_SRC, ATTRIBUTE_NAME_STYLE, DEFAULT_OU
  * Encapsulates outlet frame handling
  */
 export class FrameFacade extends Destroyable implements IFrameFacade {
+    /** Visible block */
     private static readonly VISIBLE_VALUE = 'block';
+    /** Hidden block */
     private static readonly HIDDEN_VALUE = 'none';
 
     /** Encapsulated iFrame */

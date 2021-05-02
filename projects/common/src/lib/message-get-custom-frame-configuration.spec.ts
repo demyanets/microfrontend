@@ -1,27 +1,27 @@
 import { MESSAGE_GET_CUSTOM_FRAME_CONFIG } from './constants';
 import { MessageGetCustomFrameConfiguration } from './message-get-custom-frame-configuration';
 
-describe('MessageGetCustomFrameConfiguration', () => {
+describe('MessageGetCustomFrameConfiguration', async () => {
     let message: MessageGetCustomFrameConfiguration;
     const source: string = 'source';
 
-    it('should create message object', () => {
+    it('should create message object', async () => {
         message = new MessageGetCustomFrameConfiguration(source, {});
-        expect(message).toBeTruthy();
+        await expect(message).toBeTruthy();
     });
 
-    it('should set message to MESSAGE_GET_CUSTOM_FRAME_CONFIG', () => {
+    it('should set message to MESSAGE_GET_CUSTOM_FRAME_CONFIG', async () => {
         message = new MessageGetCustomFrameConfiguration(source, {});
-        expect(message.message).toBe(MESSAGE_GET_CUSTOM_FRAME_CONFIG);
+        await expect(message.message).toBe(MESSAGE_GET_CUSTOM_FRAME_CONFIG);
     });
 
-    it('should set metaRoute correctly', () => {
+    it('should set metaRoute correctly', async () => {
         message = new MessageGetCustomFrameConfiguration(source, { test: 'test' });
-        expect(message.source).toBe(source);
+        await expect(message.source).toBe(source);
     });
 
-    it('should set configuration correctly', () => {
+    it('should set configuration correctly', async () => {
         message = new MessageGetCustomFrameConfiguration(source, { test: 'test' });
-        expect(message.configuration['test']).toBe('test');
+        await expect(message.configuration['test']).toBe('test');
     });
 });
