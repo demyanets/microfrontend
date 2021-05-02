@@ -5,6 +5,7 @@ export const STYLE_NAME_HEIGHT = 'height';
 
 export const SHELL_NAME = '';
 
+export const MESSAGE_STATE_CHANGED = 'state-changed';
 export const MESSAGE_GET_CUSTOM_FRAME_CONFIG = 'get-custom-frame-configuration';
 export const MESSAGE_SET_FRAME_STYLES = 'set-frame-styles';
 export const MESSAGE_ROUTED = 'routed';
