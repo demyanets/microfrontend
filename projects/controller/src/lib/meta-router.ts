@@ -16,6 +16,7 @@ import {
 import { UrlHelper } from './url-helper';
 import { MetaRouterConfig } from './meta-router-config';
 import { AppRoute } from './app-route';
+import { IAppConfig } from './app-config';
 import { MetaRouteHelper } from './meta-route-helper';
 import { IHistoryApiFacade } from './history-api-facade-interface';
 import { ILocationFacade } from './location-facade-interface';
@@ -111,13 +112,14 @@ export class MetaRouter {
     }
 
     /**
-     * Preloads all the micro frontends by loading them into the page
+     * Preloads the microfrontends by loading them into the page
+     * if no routesToPreload was supplied, all routes get preloaded
      */
-    async preload(): Promise<IFrameFacade[]> {
+    async preload(routesToPreload?: IAppConfig[]): Promise<IFrameFacade[]> {
         this.consoleFacade.debug('Before preload()');
         const hash = this.parseHash(this.config.outlet);
         // Take existing routes into account
-        const routes = MetaRouteHelper.join(this.config.routes, hash[this.config.outlet]);
+        const routes = MetaRouteHelper.join(routesToPreload ?? this.config.routes, hash[this.config.outlet]);
         return this.framesManager.preload(routes);
     }
 

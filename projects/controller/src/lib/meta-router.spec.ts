@@ -79,6 +79,14 @@ describe('MetaRouter', async () => {
             await expect(provider.frameFacadeMocks.b.isDestroyed()).toBeFalsy();
         });
 
+        it('should preload only a', async () => {
+            const limitedRoutes = [config.routes[0]];
+            await router.preload(limitedRoutes);
+            await expect(provider.frameFacadeMocks.a).toBeDefined();
+            await expect(provider.frameFacadeMocks.a.isDestroyed()).toBeFalsy();
+            await expect(provider.frameFacadeMocks.b).toBeUndefined;
+        });
+
         it('should unload all', async () => {
             await router.preload();
             router.unloadAll();
