@@ -8,6 +8,8 @@ import { MessageBroadcast } from './message-broadcast';
 import { EVENT_MESSAGE } from './constants';
 import { EventListenerFacadeMock } from '../mocks/event-listener-facade.mock';
 import { MessageGetCustomFrameConfiguration } from './message-get-custom-frame-configuration';
+import { MessageStateChanged } from './message-state-changed';
+import { MessageStateDiscard } from './message-state-discard';
 
 describe('MessagingApiBroker', async () => {
     let provider: ServiceProviderMock;
@@ -18,6 +20,8 @@ describe('MessagingApiBroker', async () => {
     let handleGotoCalled = false;
     let handleBroadcastCalled = false;
     let handleSubrouteCalled = false;
+    let handleStateChangedCalled = false;
+    let handleStateDiscardCalled = false;
 
     function initBroker(withHandlers: boolean): void {
         handleRoutedCalled = false;
@@ -26,6 +30,8 @@ describe('MessagingApiBroker', async () => {
         handleBroadcastCalled = false;
         handleSubrouteCalled = false;
         handleGetFrameConfigCalled = false;
+        handleStateChangedCalled = false;
+        handleStateDiscardCalled = false;
         provider = new ServiceProviderMock('http://localhost:8080/#b!a/x');
 
         if (withHandlers) {
@@ -54,6 +60,14 @@ describe('MessagingApiBroker', async () => {
                 },
                 (data: MessageGetCustomFrameConfiguration): Promise<void> => {
                     handleGetFrameConfigCalled = true;
+                    return Promise.resolve();
+                },
+                (data: MessageStateChanged): Promise<void> => {
+                    handleStateChangedCalled = true;
+                    return Promise.resolve();
+                },
+                (data: MessageStateDiscard): Promise<void> => {
+                    handleStateDiscardCalled = true;
                     return Promise.resolve();
                 }
             );
@@ -172,6 +186,34 @@ describe('MessagingApiBroker', async () => {
         const eventMock: EventListenerFacadeMock<MessageEvent> = provider.eventListenerFacadeMocks[EVENT_MESSAGE];
         await eventMock.simulateRoutedMessage('http://10.0.0.1', 'b', 'y', location.origin);
         await expect(handleRoutedCalled).toBeFalsy();
+    });
+
+    it('should call correct handler when state changed message is received', async () => {
+        initBroker(true);
+        const eventMock: EventListenerFacadeMock<MessageEvent> = provider.eventListenerFacadeMocks[EVENT_MESSAGE];
+        const status = await eventMock.simulateStateChangedMessage('http://10.0.0.1', true, location.origin);
+        await expect(handleStateChangedCalled).toBeTruthy();
+    });
+
+    it('should not return error if state changed message handler is not defined', async () => {
+        initBroker(false);
+        const eventMock: EventListenerFacadeMock<MessageEvent> = provider.eventListenerFacadeMocks[EVENT_MESSAGE];
+        await eventMock.simulateStateChangedMessage('http://10.0.0.1', true, location.origin);
+        await expect(handleStateChangedCalled).toBeFalsy();
+    });
+
+    it('should call correct handler when state discard message is received', async () => {
+        initBroker(true);
+        const eventMock: EventListenerFacadeMock<MessageEvent> = provider.eventListenerFacadeMocks[EVENT_MESSAGE];
+        const status = await eventMock.simulateStateDiscardMessage('http://10.0.0.1', location.origin);
+        await expect(handleStateDiscardCalled).toBeTruthy();
+    });
+
+    it('should not return error if state changed discard handler is not defined', async () => {
+        initBroker(false);
+        const eventMock: EventListenerFacadeMock<MessageEvent> = provider.eventListenerFacadeMocks[EVENT_MESSAGE];
+        await eventMock.simulateStateDiscardMessage('http://10.0.0.1', location.origin);
+        await expect(handleStateDiscardCalled).toBeFalsy();
     });
 
     it('should destroy messaging api broker on destroy', async () => {

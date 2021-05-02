@@ -5,7 +5,9 @@ import {
     MESSAGE_GOTO,
     MESSAGE_ROUTED,
     MESSAGE_SET_FRAME_STYLES,
-    MESSAGE_META_ROUTED
+    MESSAGE_META_ROUTED,
+    MESSAGE_STATE_CHANGED,
+    MESSAGE_STATE_DISCARD
 } from './constants';
 import { Destroyable } from './destroyable';
 import { MessageHandlerAsync } from './messaging-api-handler-async';
@@ -15,6 +17,8 @@ import { MessageRouted } from './message-routed';
 import { MessageBase } from './message-base';
 import { MessageGoto } from './message-goto';
 import { MessageMetaRouted } from './message-meta-routed';
+import { MessageStateChanged } from './message-state-changed';
+import { MessageStateDiscard } from './message-state-discard';
 import { IServiceProvider } from './service-provider-interface';
 import { MessageGetCustomFrameConfiguration } from './message-get-custom-frame-configuration';
 
@@ -35,7 +39,9 @@ export class MessagingApiBroker extends Destroyable {
         private readonly handleGoto?: MessageHandlerAsync<MessageGoto>,
         private readonly handleBroadcast?: MessageHandlerAsync<MessageBroadcast>,
         private readonly handleSubroute?: MessageHandlerAsync<MessageMetaRouted>,
-        private readonly handleGetFrameConfig?: MessageHandlerAsync<MessageGetCustomFrameConfiguration>
+        private readonly handleGetFrameConfig?: MessageHandlerAsync<MessageGetCustomFrameConfiguration>,
+        private readonly handleStateChanged?: MessageHandlerAsync<MessageStateChanged>,
+        private readonly handleStateDiscard?: MessageHandlerAsync<MessageStateDiscard>
     ) {
         super();
 
@@ -99,8 +105,32 @@ export class MessagingApiBroker extends Destroyable {
             case MESSAGE_GET_CUSTOM_FRAME_CONFIG:
                 return this.notifyGetCustomFrameConfiguration(data);
 
+            case MESSAGE_STATE_CHANGED:
+                return this.notifyStateChanged(data);
+
+            case MESSAGE_STATE_DISCARD:
+                return this.notifyStateDiscard(data);
+
             default:
                 return Promise.reject(new Error('Unknown message received'));
+        }
+    }
+
+    /** Notify about MessageStateChanged */
+    private notifyStateChanged(data: MessageBase): Promise<void> {
+        if (this.handleStateChanged) {
+            return this.handleStateChanged(<MessageStateChanged>data);
+        } else {
+            return Promise.resolve();
+        }
+    }
+
+    /** Notify about MessageStateDiscard( */
+    private notifyStateDiscard(data: MessageBase): Promise<void> {
+        if (this.handleStateDiscard) {
+            return this.handleStateDiscard(<MessageStateDiscard>data);
+        } else {
+            return Promise.resolve();
         }
     }
 

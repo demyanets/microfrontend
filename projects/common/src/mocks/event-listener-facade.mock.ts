@@ -4,7 +4,9 @@ import {
     MESSAGE_GOTO,
     MESSAGE_ROUTED,
     MESSAGE_SET_FRAME_STYLES,
-    MESSAGE_META_ROUTED
+    MESSAGE_META_ROUTED,
+    MESSAGE_STATE_CHANGED,
+    MESSAGE_STATE_DISCARD
 } from '../lib/constants';
 import { Destroyable } from '../lib/destroyable';
 import { EventListenerNotificationAsync } from '../lib/event-listener-notification-async';
@@ -26,6 +28,22 @@ export class EventListenerFacadeMock<T extends Event> extends Destroyable {
     simulateSubrouteMessage(source: string, route: string, origin: string): Promise<void> {
         const e: unknown = {
             data: { message: MESSAGE_META_ROUTED, route: route },
+            origin: origin
+        };
+        return this.notificationHandler(<T>e);
+    }
+
+    simulateStateChangedMessage(source: string, hasState: boolean, origin: string): Promise<void> {
+        const e: unknown = {
+            data: { message: MESSAGE_STATE_CHANGED, source: source, hasState: hasState },
+            origin: origin
+        };
+        return this.notificationHandler(<T>e);
+    }
+
+    simulateStateDiscardMessage(source: string, origin: string): Promise<void> {
+        const e: unknown = {
+            data: { message: MESSAGE_STATE_DISCARD, source: source },
             origin: origin
         };
         return this.notificationHandler(<T>e);
