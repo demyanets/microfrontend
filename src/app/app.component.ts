@@ -35,6 +35,9 @@ export class AppComponent implements OnInit {
 
         this.router = new MetaRouter(config);
         this.router.outletStateChanged = (state: OutletState) => this.logState(state);
+        this.router.registerRouteChangeCallbackAsync(async (metaroute: string) => {
+            return Promise.resolve(false);
+        });
     }
 
     ngOnInit(): void {
