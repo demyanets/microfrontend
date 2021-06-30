@@ -12,7 +12,7 @@ export class RoutedAppConfig {
     constructor(
         readonly metaRoute: string,
         readonly parentOrigin: string,
-        readonly logLevel: Level = Level.WARNING) {
+        readonly logLevel: Level = Level.LOG) {
         if (metaRoute === '') {
             throw new Error('Empty metaRoute is not permitted');
         }

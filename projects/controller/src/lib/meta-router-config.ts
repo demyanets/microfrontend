@@ -13,7 +13,7 @@ export class MetaRouterConfig {
         readonly handleNotification: HandleBroadcastNotification,
         readonly frameConfig: FrameConfig = new FrameConfig(),
         readonly unknownRouteHandling: UnknownRouteHandlingEnum = UnknownRouteHandlingEnum.ThrowError,
-        readonly  logLevel: Level = Level.WARNING
+        readonly  logLevel: Level = Level.LOG
     ) {
         if (outlet === '') {
             throw new Error('Outlet is empty');

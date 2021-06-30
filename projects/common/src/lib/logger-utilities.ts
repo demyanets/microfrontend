@@ -13,7 +13,7 @@ export class LoggerUtilities {
      * @param lineNumber
      * @returns meta string
      */
-    static prepareMetaString(appName: string, timestamp: string, logLevel: string, fileName: string, lineNumber: string): string {
+    static prepareMetaString(appName: string, timestamp: string, logLevel: string, fileName: string|null, lineNumber: string|null): string {
         const fileDetails = fileName ? ` [${fileName}:${lineNumber}]` : '';
 
         let result = `${timestamp} ${logLevel}${fileDetails}`;
@@ -50,7 +50,7 @@ export class LoggerUtilities {
      *  This allows us to see who called the logger
      *  @return the caller details
      */
-    static getCallerDetails(): { lineNumber: string; fileName: string } {
+    static getCallerDetails(): { lineNumber: string|null; fileName: string|null } {
         const err = new Error('');
 
         try {
