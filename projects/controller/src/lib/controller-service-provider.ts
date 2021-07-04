@@ -1,4 +1,4 @@
-import { ServiceProvider } from '@microfrontend/common';
+import { ServiceProvider, IConsoleFacade } from '@microfrontend/common';
 import { AppRoute } from './app-route';
 import { FrameConfig } from './frame-config';
 import { FrameFacade } from './frame-facade';
@@ -22,8 +22,8 @@ export class ControllerServiceProvider extends ServiceProvider implements IContr
      * @param config
      * @returns
      */
-    getFrameFacade(route: AppRoute, baseUrl: string, outletName: string, config: FrameConfig): IFrameFacade {
-        return new FrameFacade(route, baseUrl, outletName, config);
+    getFrameFacade(route: AppRoute, baseUrl: string, outletName: string, config: FrameConfig, consoleFacade: IConsoleFacade): IFrameFacade {
+        return new FrameFacade(route, baseUrl, outletName, config, consoleFacade);
     }
 
     /**

@@ -4,6 +4,7 @@ import { Destroyable } from './destroyable';
 import { IServiceProvider } from './service-provider-interface';
 import { IConsoleFacade } from './console-facade-interface';
 import { ConsoleFacade } from './console-facade';
+import { Level } from './level.enum';
 
 /**
  * Provides facades for browser services
@@ -13,8 +14,8 @@ export class ServiceProvider implements IServiceProvider {
      * Creates new instance of HistoryAI facade
      * @returns
      */
-    getConsoleFacade(): IConsoleFacade {
-        return new ConsoleFacade();
+    getConsoleFacade(logLevel: Level, appName: string): IConsoleFacade {
+        return new ConsoleFacade(logLevel, appName);
     }
 
     /**

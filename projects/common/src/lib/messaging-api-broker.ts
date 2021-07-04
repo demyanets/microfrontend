@@ -21,6 +21,7 @@ import { MessageStateChanged } from './message-state-changed';
 import { MessageStateDiscard } from './message-state-discard';
 import { IServiceProvider } from './service-provider-interface';
 import { MessageGetCustomFrameConfiguration } from './message-get-custom-frame-configuration';
+import { IConsoleFacade } from './console-facade-interface';
 
 /**
  * Message broker (https://en.wikipedia.org/wiki/Message_broker)
@@ -33,6 +34,7 @@ export class MessagingApiBroker extends Destroyable {
 
     constructor(
         private readonly serviceProvider: IServiceProvider,
+        private readonly consoleFacade: IConsoleFacade,
         private readonly allowedOrigins: string[],
         private readonly handleRouted?: MessageHandlerAsync<MessageRouted>,
         private readonly handleSetFrameStyles?: MessageHandlerAsync<MessageSetFrameStyles>,
@@ -118,6 +120,7 @@ export class MessagingApiBroker extends Destroyable {
 
     /** Notify about MessageStateChanged */
     private notifyStateChanged(data: MessageBase): Promise<void> {
+        this.logNotification(data);
         if (this.handleStateChanged) {
             return this.handleStateChanged(<MessageStateChanged>data);
         } else {
@@ -127,6 +130,7 @@ export class MessagingApiBroker extends Destroyable {
 
     /** Notify about MessageStateDiscard( */
     private notifyStateDiscard(data: MessageBase): Promise<void> {
+        this.logNotification(data);
         if (this.handleStateDiscard) {
             return this.handleStateDiscard(<MessageStateDiscard>data);
         } else {
@@ -136,6 +140,7 @@ export class MessagingApiBroker extends Destroyable {
 
     /** Notify about MessageSubroute */
     private notifySubroute(data: MessageBase): Promise<void> {
+        this.logNotification(data);
         if (this.handleSubroute) {
             return this.handleSubroute(<MessageMetaRouted>data);
         } else {
@@ -145,6 +150,7 @@ export class MessagingApiBroker extends Destroyable {
 
     /** Notify about MessageBroadcast */
     private notifyBroadcast(data: MessageBase): Promise<void> {
+        this.logNotification(data);
         if (this.handleBroadcast) {
             return this.handleBroadcast(<MessageBroadcast>data);
         } else {
@@ -154,6 +160,7 @@ export class MessagingApiBroker extends Destroyable {
 
     /** Notify about MessageNotification */
     private notifyGoto(data: MessageBase): Promise<void> {
+        this.logNotification(data);
         if (this.handleGoto) {
             return this.handleGoto(<MessageGoto>data);
         } else {
@@ -163,6 +170,7 @@ export class MessagingApiBroker extends Destroyable {
 
     /** Notify about MessageSetHeight */
     private notifySetFrameStyles(data: MessageBase): Promise<void> {
+        this.logNotification(data);
         if (this.handleSetFrameStyles) {
             return this.handleSetFrameStyles(<MessageSetFrameStyles>data);
         } else {
@@ -172,6 +180,7 @@ export class MessagingApiBroker extends Destroyable {
 
     /** Notify about MessageGetCustomFrameConfiguration */
     private notifyGetCustomFrameConfiguration(data: MessageBase): Promise<void> {
+        this.logNotification(data);
         if (this.handleGetFrameConfig) {
             return this.handleGetFrameConfig(<MessageGetCustomFrameConfiguration>data);
         } else {
@@ -181,11 +190,20 @@ export class MessagingApiBroker extends Destroyable {
 
     /** Notify about MessageRouted */
     private notifyRouted(data: MessageBase): Promise<void> {
+        this.logNotification(data);
         if (this.handleRouted) {
             return this.handleRouted(<MessageRouted>data);
         } else {
             return Promise.resolve();
         }
+    }
+
+    /**
+     * Logs notification data
+     * @param data notification data
+     */
+    private logNotification(data: MessageBase) {
+        this.consoleFacade.log(`'${data.message}' message notification received: ${JSON.stringify(data)}`);
     }
 
     /**

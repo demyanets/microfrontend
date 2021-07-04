@@ -3,6 +3,7 @@ import {
     HandleBroadcastNotification,
     HandleGetCustomFrameConfiguration,
     IMap,
+    IConsoleFacade,
     MessageBroadcast,
     MessageBroadcastMetadata,
     MessageGetCustomFrameConfiguration,
@@ -31,6 +32,9 @@ export class RoutedApp {
 
     /** Resize listener */
     private resizeListener?: Destroyable = undefined;
+
+    /** ConsoleAPI facade */
+    private consoleFacade: IConsoleFacade;
 
     /** Route changed callback */
     private callbackRouteChange?: (activated: boolean, subRoute?: string) => void;
@@ -61,6 +65,7 @@ export class RoutedApp {
      */
     constructor(readonly config: RoutedAppConfig, private readonly serviceProvider: IClientServiceProvider = new ClientServiceProvider()) {
         this.parentFacade = serviceProvider.getParentFacade();
+        this.consoleFacade = serviceProvider.getConsoleFacade(config.logLevel, config.metaRoute);
 
         if (!this.parentFacade.hasParent()) {
             return;
@@ -69,6 +74,7 @@ export class RoutedApp {
         // tslint:disable no-unsafe-any
         this.messageBroker = new MessagingApiBroker(
             this.serviceProvider,
+            this.consoleFacade,
             [this.config.parentOrigin],
             undefined,
             undefined,
