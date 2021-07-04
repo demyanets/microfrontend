@@ -8,8 +8,12 @@ import { MessageBroadcast } from './message-broadcast';
 import { EVENT_MESSAGE } from './constants';
 import { EventListenerFacadeMock } from '../mocks/event-listener-facade.mock';
 import { MessageGetCustomFrameConfiguration } from './message-get-custom-frame-configuration';
+import { Level } from './level.enum';
+import { IConsoleFacade } from './console-facade-interface';
+import { ConsoleFacade } from './console-facade';
 
 describe('MessagingApiBroker', async () => {
+    let consoleFacade: IConsoleFacade;
     let provider: ServiceProviderMock;
     let broker: MessagingApiBroker;
     let handleRoutedCalled = false;
@@ -20,6 +24,7 @@ describe('MessagingApiBroker', async () => {
     let handleSubrouteCalled = false;
 
     function initBroker(withHandlers: boolean): void {
+        consoleFacade = new ConsoleFacade(Level.LOG, 'MessagingApiBroker');
         handleRoutedCalled = false;
         handleSetFrameStylesCalled = false;
         handleGotoCalled = false;
@@ -31,6 +36,7 @@ describe('MessagingApiBroker', async () => {
         if (withHandlers) {
             broker = new MessagingApiBroker(
                 provider,
+                consoleFacade,
                 [location.origin],
                 (data: MessageRouted): Promise<void> => {
                     handleRoutedCalled = true;
@@ -58,7 +64,7 @@ describe('MessagingApiBroker', async () => {
                 }
             );
         } else {
-            broker = new MessagingApiBroker(provider, [location.origin]);
+            broker = new MessagingApiBroker(provider, consoleFacade, [location.origin]);
         }
     }
 

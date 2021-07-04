@@ -20,7 +20,7 @@ export class FramesManager {
     private consoleFacade: IConsoleFacade;
 
     constructor(private readonly config: MetaRouterConfig, private readonly serviceProvider: IControllerServiceProvider) {
-        this.consoleFacade = serviceProvider.getConsoleFacade();
+        this.consoleFacade = serviceProvider.getConsoleFacade(config.logLevel, config.outlet);
     }
 
     /**

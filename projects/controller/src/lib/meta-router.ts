@@ -66,7 +66,7 @@ export class MetaRouter {
 
         this.locationFacade = serviceProvider.getLocationFacade();
 
-        this.consoleFacade = serviceProvider.getConsoleFacade();
+        this.consoleFacade = serviceProvider.getConsoleFacade(config.logLevel, config.outlet);
 
         // tslint:disable no-unsafe-any
         this.hashtagListener = serviceProvider.getEventListenerFacade(EVENT_HASHCHANGE, this.routeByUrl.bind(this), false);
@@ -79,6 +79,7 @@ export class MetaRouter {
         // tslint:disable no-unsafe-any
         this.messageBroker = new MessagingApiBroker(
             this.serviceProvider,
+            this.consoleFacade,
             origins,
             this.handleRouted.bind(this),
             this.handleSetFrameStyles.bind(this),

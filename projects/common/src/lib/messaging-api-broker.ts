@@ -17,6 +17,7 @@ import { MessageGoto } from './message-goto';
 import { MessageMetaRouted } from './message-meta-routed';
 import { IServiceProvider } from './service-provider-interface';
 import { MessageGetCustomFrameConfiguration } from './message-get-custom-frame-configuration';
+import { IConsoleFacade } from './console-facade-interface';
 
 /**
  * Message broker (https://en.wikipedia.org/wiki/Message_broker)
@@ -29,6 +30,7 @@ export class MessagingApiBroker extends Destroyable {
 
     constructor(
         private readonly serviceProvider: IServiceProvider,
+        private readonly consoleFacade: IConsoleFacade,
         private readonly allowedOrigins: string[],
         private readonly handleRouted?: MessageHandlerAsync<MessageRouted>,
         private readonly handleSetFrameStyles?: MessageHandlerAsync<MessageSetFrameStyles>,
