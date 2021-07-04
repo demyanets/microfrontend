@@ -8,7 +8,7 @@
         { "name": "Manfred Steyer", "email": "manfred.steyer@softwarearchitekt.at", "url": "https://www.softwarearchitekt.at" }
     ],
     "peerDependencies": {
-        "@microfrontend/common": "1.4.0"
+        "@microfrontend/common": "1.6.0"
     },
     "publishConfig": {
         "access": "public"
