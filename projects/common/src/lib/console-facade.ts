@@ -7,7 +7,9 @@ import { IConsoleFacade } from './console-facade-interface';
  * Encapsulates ConsoleAPI handling
  */
 export class ConsoleFacade implements IConsoleFacade {
-    public constructor(private readonly logLevel: Level = Level.INFO, private readonly appName: string = '') {}
+    public constructor(private readonly logLevel: Level = Level.INFO, private readonly appName: string = '') {
+        console.info(`'${appName}' log level: ${Level[logLevel]}`);
+    }
 
     /**
      * Log error

@@ -59,7 +59,7 @@ export class FramesManager {
             if (r) {
                 const route = new AppRoute(metaRoute, subRoute);
                 this.serviceProvider
-                    .getFrameFacade(route, r.baseUrl, this.config.outlet, this.config.frameConfig)
+                    .getFrameFacade(route, r.baseUrl, this.config.outlet, this.config.frameConfig, this.consoleFacade)
                     .initialize()
                     .then((frame) => {
                         resolve(this.frameInitialized(metaRoute, frame));

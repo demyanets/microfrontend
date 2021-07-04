@@ -1,4 +1,4 @@
-import { IMap } from '@microfrontend/common';
+import { IMap, IConsoleFacade } from '@microfrontend/common';
 import { FrameFacadeMock } from './frame-facade.mock';
 import { LocationHistoryFacadeMock } from './location-history-facade.mock';
 import { IControllerServiceProvider } from '../lib/controller-service-provider-interface';
@@ -18,7 +18,7 @@ export class ControllerServiceProviderMock extends ServiceProviderMock implement
         this.locationHistoryFacadeMocks = new LocationHistoryFacadeMock(this.initialPath);
     }
 
-    getFrameFacade(route: AppRoute, baseUrl: string, outletName: string, config: FrameConfig): IFrameFacade {
+    getFrameFacade(route: AppRoute, baseUrl: string, outletName: string, config: FrameConfig, consoleFacade: IConsoleFacade): IFrameFacade {
         if (!this.frameFacadeMocks[route.metaRoute]) {
             this.frameFacadeMocks[route.metaRoute] = new FrameFacadeMock(route, baseUrl, outletName, config);
         }
