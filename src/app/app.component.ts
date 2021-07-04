@@ -1,3 +1,4 @@
+import { Level } from '@microfrontend/common';
 import { Component, OnInit } from '@angular/core';
 import { FrameConfig, IAppConfig, MetaRouter, MetaRouterConfig, UnknownRouteHandlingEnum } from '@microfrontend/controller';
 import { OutletState } from 'projects/controller/src/lib/outlet-state';
@@ -30,7 +31,8 @@ export class AppComponent implements OnInit {
                 console.debug('received message from routed app', { tag, data });
             },
             new FrameConfig({ test: 'myConfig' }, {}, { class: 'my-outlet-frame' }),
-            UnknownRouteHandlingEnum.ThrowError
+            UnknownRouteHandlingEnum.ThrowError,
+            Level.LOG
         );
 
         this.router = new MetaRouter(config);
@@ -42,7 +44,9 @@ export class AppComponent implements OnInit {
     }
 
     async init(): Promise<void> {
-        await this.router.preload([routes[0]]);
+        //Uncomment to preload the microfrontend
+        //await this.router.preload([routes[0]]);
+        await this.router.preload();
         await this.router.initialize();
     }
 

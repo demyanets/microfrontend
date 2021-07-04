@@ -23,3 +23,4 @@ export * from './lib/service-provider-interface';
 export * from './lib/console-facade-interface';
 export * from './lib/destroyable-interface';
 export * from './lib/destroyable';
+export * from './lib/level.enum';

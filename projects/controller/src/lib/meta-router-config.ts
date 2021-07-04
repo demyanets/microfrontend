@@ -1,4 +1,4 @@
-import { HandleBroadcastNotification } from '@microfrontend/common';
+import { HandleBroadcastNotification, Level } from '@microfrontend/common';
 import { IAppConfig } from './app-config';
 import { FrameConfig } from './frame-config';
 import { UnknownRouteHandlingEnum } from './unknown-route-handling-enum';
@@ -12,7 +12,8 @@ export class MetaRouterConfig {
         readonly routes: IAppConfig[],
         readonly handleNotification: HandleBroadcastNotification,
         readonly frameConfig: FrameConfig = new FrameConfig(),
-        readonly unknownRouteHandling: UnknownRouteHandlingEnum = UnknownRouteHandlingEnum.ThrowError
+        readonly unknownRouteHandling: UnknownRouteHandlingEnum = UnknownRouteHandlingEnum.ThrowError,
+        readonly  logLevel: Level = Level.INFO
     ) {
         if (outlet === '') {
             throw new Error('Outlet is empty');

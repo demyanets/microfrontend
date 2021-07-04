@@ -8,8 +8,9 @@ import { ROUTED_APP } from './app.tokens';
 import { BComponent } from './b/b.component';
 import { CComponent } from './c/c.component';
 import { DComponent } from './d/d.component';
+import { Level } from '@microfrontend/common';
 
-const config = new RoutedAppConfig('a', 'http://localhost:30103');
+const config = new RoutedAppConfig('a', 'http://localhost:30103', Level.LOG);
 
 @NgModule({
     declarations: [AppComponent, AComponent, BComponent, CComponent, DComponent],
