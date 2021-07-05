@@ -104,7 +104,7 @@ export class MessagingApiBroker extends Destroyable {
                 return this.notifyGetCustomFrameConfiguration(data);
 
             case MESSAGE_MICROFRONTEND_LOADED:
-                return this.notifyicrofrontendLoaded(data);
+                return this.notifyMicrofrontendLoaded(data);
 
             default:
                 return Promise.reject(new Error('Unknown message received'));
@@ -172,7 +172,7 @@ export class MessagingApiBroker extends Destroyable {
     }
 
     /** Notify about MessageMicrofrontendLoaded */
-    private notifyicrofrontendLoaded(data: MessageBase): Promise<void> {
+    private notifyMicrofrontendLoaded(data: MessageBase): Promise<void> {
         this.logNotification(data);
         if (this.handleMicrofrontendLoaded) {
             return this.handleMicrofrontendLoaded(<MessageMicrofrontendLoaded>data);
