@@ -1,4 +1,4 @@
-import { IDestroyable, IMap, MessageBroadcast, MessageMetaRouted, MessageGetCustomFrameConfiguration } from '@microfrontend/common';
+import { IDestroyable, IMap, MessageBroadcast, MessageMetaRouted, MessageGetCustomFrameConfiguration, MessageMicrofrontendLoaded } from '@microfrontend/common';
 import { AppRoute } from './app-route';
 
 export interface IFrameFacade extends IDestroyable {
@@ -10,7 +10,7 @@ export interface IFrameFacade extends IDestroyable {
     /**
      * Post message into the frame
      */
-    postMessage(msg: MessageBroadcast | MessageMetaRouted | MessageGetCustomFrameConfiguration): void;
+    postMessage(msg: MessageBroadcast | MessageMetaRouted | MessageGetCustomFrameConfiguration | MessageMicrofrontendLoaded): void;
 
     /**
      * Provides visibility status of the frame

@@ -5,7 +5,7 @@ import {
     MESSAGE_GOTO,
     MESSAGE_ROUTED,
     MESSAGE_SET_FRAME_STYLES,
-    MESSAGE_META_ROUTED
+    MESSAGE_META_ROUTED, MESSAGE_MICROFRONTEND_LOADED
 } from './constants';
 import { Destroyable } from './destroyable';
 import { MessageHandlerAsync } from './messaging-api-handler-async';
@@ -17,6 +17,7 @@ import { MessageGoto } from './message-goto';
 import { MessageMetaRouted } from './message-meta-routed';
 import { IServiceProvider } from './service-provider-interface';
 import { MessageGetCustomFrameConfiguration } from './message-get-custom-frame-configuration';
+import { MessageMicrofrontendLoaded } from './message-microfrontend-loaded';
 import { IConsoleFacade } from './console-facade-interface';
 
 /**
@@ -37,7 +38,8 @@ export class MessagingApiBroker extends Destroyable {
         private readonly handleGoto?: MessageHandlerAsync<MessageGoto>,
         private readonly handleBroadcast?: MessageHandlerAsync<MessageBroadcast>,
         private readonly handleSubroute?: MessageHandlerAsync<MessageMetaRouted>,
-        private readonly handleGetFrameConfig?: MessageHandlerAsync<MessageGetCustomFrameConfiguration>
+        private readonly handleGetFrameConfig?: MessageHandlerAsync<MessageGetCustomFrameConfiguration>,
+        private readonly handleMicrofrontendLoaded?: MessageHandlerAsync<MessageMicrofrontendLoaded>
     ) {
         super();
 
@@ -101,6 +103,9 @@ export class MessagingApiBroker extends Destroyable {
             case MESSAGE_GET_CUSTOM_FRAME_CONFIG:
                 return this.notifyGetCustomFrameConfiguration(data);
 
+            case MESSAGE_MICROFRONTEND_LOADED:
+                return this.notifyMicrofrontendLoaded(data);
+
             default:
                 return Promise.reject(new Error('Unknown message received'));
         }
@@ -161,6 +166,16 @@ export class MessagingApiBroker extends Destroyable {
         this.logNotification(data);
         if (this.handleRouted) {
             return this.handleRouted(<MessageRouted>data);
+        } else {
+            return Promise.resolve();
+        }
+    }
+
+    /** Notify about MessageMicrofrontendLoaded */
+    private notifyMicrofrontendLoaded(data: MessageBase): Promise<void> {
+        this.logNotification(data);
+        if (this.handleMicrofrontendLoaded) {
+            return this.handleMicrofrontendLoaded(<MessageMicrofrontendLoaded>data);
         } else {
             return Promise.resolve();
         }

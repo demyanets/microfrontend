@@ -11,6 +11,7 @@ import { MessageGetCustomFrameConfiguration } from './message-get-custom-frame-c
 import { Level } from './level.enum';
 import { IConsoleFacade } from './console-facade-interface';
 import { ConsoleFacade } from './console-facade';
+import {MessageMicrofrontendLoaded} from './message-microfrontend-loaded';
 
 describe('MessagingApiBroker', async () => {
     let consoleFacade: IConsoleFacade;
@@ -22,6 +23,7 @@ describe('MessagingApiBroker', async () => {
     let handleGotoCalled = false;
     let handleBroadcastCalled = false;
     let handleSubrouteCalled = false;
+    let handleMicrofrontendLoadedCalled = false;
 
     function initBroker(withHandlers: boolean): void {
         consoleFacade = new ConsoleFacade(Level.LOG, 'MessagingApiBroker');
@@ -60,6 +62,10 @@ describe('MessagingApiBroker', async () => {
                 },
                 (data: MessageGetCustomFrameConfiguration): Promise<void> => {
                     handleGetFrameConfigCalled = true;
+                    return Promise.resolve();
+                },
+                (data: MessageMicrofrontendLoaded): Promise<void> => {
+                    handleMicrofrontendLoadedCalled = true;
                     return Promise.resolve();
                 }
             );
@@ -178,6 +184,12 @@ describe('MessagingApiBroker', async () => {
         const eventMock: EventListenerFacadeMock<MessageEvent> = provider.eventListenerFacadeMocks[EVENT_MESSAGE];
         await eventMock.simulateRoutedMessage('http://10.0.0.1', 'b', 'y', location.origin);
         await expect(handleRoutedCalled).toBeFalsy();
+    });
+    it('should not return error when routed handler is not defined', async () => {
+        initBroker(false);
+        const eventMock: EventListenerFacadeMock<MessageEvent> = provider.eventListenerFacadeMocks[EVENT_MESSAGE];
+        await eventMock.simulateMicrofrontendLoadedMessage('http://10.0.0.1', 'b');
+        await expect(handleMicrofrontendLoadedCalled).toBeFalsy();
     });
 
     it('should destroy messaging api broker on destroy', async () => {

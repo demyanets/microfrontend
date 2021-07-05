@@ -4,6 +4,7 @@ import {
     IMap,
     MessageBroadcast,
     MessageGetCustomFrameConfiguration,
+    MessageMicrofrontendLoaded,
     MessageMetaRouted,
     STYLE_NAME_DISPLAY,
     MessageBase,
@@ -120,7 +121,7 @@ export class FrameFacade extends Destroyable implements IFrameFacade {
     /**
      * Post message into the frame
      */
-    postMessage(msg: MessageBroadcast | MessageMetaRouted | MessageGetCustomFrameConfiguration): void {
+    postMessage(msg: MessageBroadcast | MessageMetaRouted | MessageGetCustomFrameConfiguration | MessageMicrofrontendLoaded): void {
         if (this.iframe) {
             this.preventUsageUponDestruction();
             if (this.iframe.contentWindow !== null) {

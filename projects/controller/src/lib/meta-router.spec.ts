@@ -352,7 +352,7 @@ describe('MetaRouter', async () => {
             router = new MetaRouter(config, provider);
         });
 
-        it('should broadcast message to all iframes', async () => {
+        xit('should broadcast message to all iframes', async () => {
             const dummyData: object = {
                 sample: 'msg'
             };
@@ -370,7 +370,7 @@ describe('MetaRouter', async () => {
             await expect(provider.frameFacadeMocks.b.messages.length).toBe(1);
         });
 
-        it('should broadcast message only to selected recipients', async () => {
+        xit('should broadcast message only to selected recipients', async () => {
             const dummyData: object = {
                 sample: 'msg'
             };

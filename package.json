@@ -12,7 +12,7 @@
     "lint": "ng lint common && ng lint controller && ng lint client",
     "e2e": "concurrently  -k --success first --kill-others \"npm run serve\" \"npm run wait && npm run protractor\"",
     "protractor": "./node_modules/.bin/protractor e2e/protractor.conf.js",
-    "webdriver:update": "./node_modules/.bin/webdriver-manager update",
+    "webdriver:update": "./node_modules/.bin/webdriver-manager update --ignore_ssl",
     "prettier": "prettier --write \"{projects,src,e2e}/**/*.ts\"",
     "wait": "./node_modules/.bin/wait-on tcp:30103"
   },
