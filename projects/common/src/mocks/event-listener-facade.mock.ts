@@ -4,7 +4,7 @@ import {
     MESSAGE_GOTO,
     MESSAGE_ROUTED,
     MESSAGE_SET_FRAME_STYLES,
-    MESSAGE_META_ROUTED
+    MESSAGE_META_ROUTED, MESSAGE_MICROFRONTEND_LOADED
 } from '../lib/constants';
 import { Destroyable } from '../lib/destroyable';
 import { EventListenerNotificationAsync } from '../lib/event-listener-notification-async';
@@ -50,6 +50,14 @@ export class EventListenerFacadeMock<T extends Event> extends Destroyable {
     simulateRoutedMessage(source: string, metaRoute: string, subRoute: string, origin: string): Promise<void> {
         const e: unknown = {
             data: { message: MESSAGE_ROUTED, source: source, metaRoute: metaRoute, subRoute: subRoute },
+            origin: origin
+        };
+        return this.notificationHandler(<T>e);
+    }
+
+    simulateMicrofrontendLoadedMessage(source: string, metaRoute: string): Promise<void> {
+        const e: unknown = {
+            data: { message: MESSAGE_MICROFRONTEND_LOADED, source: source, metaRoute: metaRoute },
             origin: origin
         };
         return this.notificationHandler(<T>e);
