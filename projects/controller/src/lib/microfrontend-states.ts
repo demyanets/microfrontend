@@ -6,16 +6,29 @@ import { AppRoute } from './app-route';
  * o prevent data loss
  */
 export class MicrofrontendStates {
+    /** Key to use is subRoute is missing */
+    private static emptySubrouteKey = '';
+
     /** Last reported microfrontend state */
-    private microfrontendsStates: IMap<boolean> = {};
+    private microfrontendsStates: IMap<IMap<boolean>> = {};
 
     /**
      * Check if route has state that might get lost set
      */
-     public hasState(activeRoute: AppRoute): boolean {
-        if (this.microfrontendsStates.hasOwnProperty(activeRoute.metaRoute)) {
-            if (this.microfrontendsStates[activeRoute.metaRoute]) {
-                return true;
+     public hasState(route: AppRoute): boolean {
+        if (this.microfrontendsStates.hasOwnProperty(route.metaRoute)) {
+            if (route.subRoute) {
+                if (this.microfrontendsStates[route.metaRoute].hasOwnProperty(route.subRoute)) {
+                    if (this.microfrontendsStates[route.metaRoute][route.subRoute]) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }
+            } else {
+                if (this.microfrontendsStates[route.metaRoute][MicrofrontendStates.emptySubrouteKey]) {
+                    return true;
+                }
             }
         }
         return false;
@@ -25,6 +38,14 @@ export class MicrofrontendStates {
      * Check if route has state set that might get lost
      */
      public setState(route: AppRoute, hasState: boolean): void {
-        this.microfrontendsStates[route.metaRoute] = hasState;
+        if (!this.microfrontendsStates.hasOwnProperty(route.metaRoute)) {
+            this.microfrontendsStates[route.metaRoute] = {};
+        }
+
+        if (route.subRoute) {
+            this.microfrontendsStates[route.metaRoute][route.subRoute] = hasState;
+        } else {
+            this.microfrontendsStates[route.metaRoute][MicrofrontendStates.emptySubrouteKey] = hasState;
+        }
     }
 }

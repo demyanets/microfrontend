@@ -391,7 +391,7 @@ describe('MetaRouter', async () => {
 
     describe('Prevent data loss in a microfrontend', async () => {
         beforeEach(() => {
-            provider = new ControllerServiceProviderMock('http://localhost:8080/#a/b');
+            provider = new ControllerServiceProviderMock('http://localhost:8080/#a!b');
             router = new MetaRouter(config, provider);
         });
 

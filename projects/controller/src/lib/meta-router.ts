@@ -64,7 +64,7 @@ export class MetaRouter {
     public outletStateChanged?: OutletStateChanged;
 
     /** Route changed callback */
-    private callbackDiscardStateAsync?: (metaroute: string) => Promise<boolean>;
+    private callbackDiscardStateAsync?: (metaroute: string, subRoute?: string) => Promise<boolean>;
 
     constructor(
         private readonly config: MetaRouterConfig,
@@ -171,7 +171,7 @@ export class MetaRouter {
      * Navigates to a configured meta route
      */
     async go(metaRoute: string, subRoute?: string): Promise<void> {
-        this.consoleFacade.debug('go(%s/%s)', metaRoute, subRoute);
+        this.consoleFacade.debug(`go(${metaRoute}/${subRoute})`);
         return this.goInner(new AppRoute(metaRoute, subRoute), true);
     }
 
@@ -188,7 +188,7 @@ export class MetaRouter {
      * Registers a callback that allows the meta router to request
      * confirmation to prevent data loss in a microfrontend
      */
-     registerRouteChangeCallbackAsync(callback: (metaRoute: string) => Promise<boolean>): void {
+     registerRouteChangeCallbackAsync(callback: (metaRoute: string, subRoute?: string) => Promise<boolean>): void {
         this.callbackDiscardStateAsync = callback;
     }
 
@@ -211,9 +211,10 @@ export class MetaRouter {
      * Makes sure that routing away from active route is allowed to prevent data loss
      */
     private async checkIfRoutingAllowed(activeRoute: AppRoute): Promise<boolean> {
+        this.consoleFacade.debug(`checkIfRoutingAllowed(${activeRoute.metaRoute}/${activeRoute.subRoute})`);
         if (this.callbackDiscardStateAsync) {
             if (this.microfrontendsStates.hasState(activeRoute)) {
-                    return this.callbackDiscardStateAsync(activeRoute.metaRoute);
+                    return this.callbackDiscardStateAsync(activeRoute.metaRoute, activeRoute.subRoute);
             }
         }
         return Promise.resolve(true);
@@ -223,7 +224,7 @@ export class MetaRouter {
      * Handler for microfrontend state change
      */
      private handleStateChanded(msg: MessageStateChanged): Promise<void> {
-        this.microfrontendsStates.setState(new AppRoute(msg.source), msg.hasState);
+        this.microfrontendsStates.setState(new AppRoute(msg.source, msg.subRoute), msg.hasState);
         return Promise.resolve();
     }
 
@@ -305,7 +306,7 @@ export class MetaRouter {
      * Activates route
      */
     private async activateRoute(routeToActivate: AppRoute, frame: IFrameFacade, click?: boolean): Promise<void> {
-        this.consoleFacade.debug('activateRoute(%s/%s)', routeToActivate.metaRoute, routeToActivate.subRoute);
+        this.consoleFacade.debug(`activateRoute(${routeToActivate.metaRoute}/${routeToActivate.subRoute})`);
         this.makeActiveRouteVisible(routeToActivate);
         this.activateRouteInHash(this.config.outlet, routeToActivate, click);
         return this.notifyAppAboutActivation(routeToActivate, frame);
@@ -316,7 +317,7 @@ export class MetaRouter {
      * @param routeToActivate
      */
     private makeActiveRouteVisible(routeToActivate: AppRoute): void {
-        this.consoleFacade.debug('makeActiveRouteVisible(%s/%s)', routeToActivate.metaRoute, routeToActivate.subRoute);
+        this.consoleFacade.debug(`makeActiveRouteVisible(${routeToActivate.metaRoute}/${routeToActivate.subRoute})`);
         this.framesManager.forEach((frame) => {
             if (frame.getRoute().metaRoute === routeToActivate.metaRoute) {
                 frame.show();
@@ -331,7 +332,7 @@ export class MetaRouter {
      * @param routeToActivate
      */
     private async notifyAppAboutActivation(routeToActivate: AppRoute, frame: IFrameFacade): Promise<void> {
-        this.consoleFacade.debug('notifyAppAboutActivation(%s/%s)', routeToActivate.metaRoute, routeToActivate.subRoute);
+        this.consoleFacade.debug(`notifyAppAboutActivation(${routeToActivate.metaRoute}/${routeToActivate.subRoute})`);
         const msg = new MessageMetaRouted(SHELL_NAME, true, routeToActivate.subRoute);
         frame.postMessage(msg);
     }
@@ -361,7 +362,7 @@ export class MetaRouter {
      */
     private setRouteInHashInner(outlet: string, currentRoutes: IMap<AppRoute[]>, click?: boolean): void {
         const url = UrlHelper.constructFullUrl(this.locationFacade.getPath(), currentRoutes, outlet);
-        this.consoleFacade.debug('setRouteInHashInner(%s, %s)', outlet, url);
+        this.consoleFacade.debug(`setRouteInHashInner(${outlet}/${url})`);
         this.historyApiFacade.go(url, undefined, click);
         this.notifyOutletStateChanged(outlet, currentRoutes[outlet]);
     }
@@ -381,7 +382,7 @@ export class MetaRouter {
      */
     private parseHash(outlet: string): IMap<AppRoute[]> {
         const hash = this.locationFacade.getTruncatedHash();
-        this.consoleFacade.debug('parseHash(%s) -> %s', outlet, hash);
+        this.consoleFacade.debug(`parseHash(${outlet}) -> ${hash})`);
         if (hash) {
             return UrlHelper.parseUrl(hash, outlet);
         } else {

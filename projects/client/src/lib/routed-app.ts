@@ -93,8 +93,8 @@ export class RoutedApp {
     }
 
     /** Sends the current state status to the meta router */
-    changeState(hasState: boolean): void {
-        const message = new MessageStateChanged(this.config.metaRoute, hasState);
+    changeState(hasState: boolean, subRoute?: string): void {
+        const message = new MessageStateChanged(this.config.metaRoute, hasState, subRoute);
         this.parentFacade.postMessage(message, this.config.parentOrigin);
     }
 

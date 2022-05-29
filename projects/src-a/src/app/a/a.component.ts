@@ -28,6 +28,6 @@ export class AComponent {
 
     toggleState(): void {
         this.haveState = !this.haveState;
-        this.routedApp.changeState(this.haveState);
+        this.routedApp.changeState(this.haveState, 'a');
     }
 }

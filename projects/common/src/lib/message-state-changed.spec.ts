@@ -23,4 +23,10 @@ describe('MessageStateChanged', async () => {
         message = new MessageStateChanged('a', true);
         await expect(message.hasState).toBe(true);
     });
+
+    it('should set subRoute correctly', async () => {
+        message = new MessageStateChanged('a', true, 'x');
+        await expect(message.subRoute).toBeDefined();
+        await expect(message.subRoute).toBe('x');
+    });
 });
