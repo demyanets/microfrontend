@@ -17,7 +17,10 @@ module.exports = function (config) {
     },
     coverageReporter: {
       dir: require('path').join(__dirname, '../../coverage/controller'),
-      reports: ['html', 'lcovonly', 'text-summary', 'json-summary'],
+      reporters: [
+        { type: 'html', subdir: 'html-report' },
+        { type: 'json', subdir: 'json-report' }
+      ],
       fixWebpackSourcePaths: true
     },
     reporters: ['progress', 'kjhtml'],
