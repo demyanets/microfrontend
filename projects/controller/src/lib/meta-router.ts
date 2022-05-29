@@ -12,6 +12,7 @@ import {
     MessageMetaRouted,
     MessagingApiBroker,
     MessageStateChanged,
+    MessageStateDiscard,
     SHELL_NAME
 } from '@microfrontend/common';
 import { UrlHelper } from './url-helper';
@@ -64,7 +65,7 @@ export class MetaRouter {
     public outletStateChanged?: OutletStateChanged;
 
     /** Route changed callback */
-    private callbackDiscardStateAsync?: (metaroute: string, subRoute?: string) => Promise<boolean>;
+    private callbackAllowStateDiscardStateAsync?: (metaroute: string, subRoute?: string) => Promise<boolean>;
 
     constructor(
         private readonly config: MetaRouterConfig,
@@ -96,7 +97,8 @@ export class MetaRouter {
             undefined,
             this.handleGetFrameConfiguration.bind(this),
             undefined,
-            this.handleStateChanded.bind(this)
+            this.handleStateChanded.bind(this),
+            undefined
         );
 
         this.framesManager = new FramesManager(this.config, this.serviceProvider);
@@ -189,18 +191,19 @@ export class MetaRouter {
      * Registers a callback that allows the meta router to request
      * confirmation to prevent data loss in a microfrontend
      */
-     registerRouteChangeCallbackAsync(callback: (metaRoute: string, subRoute?: string) => Promise<boolean>): void {
-        this.callbackDiscardStateAsync = callback;
+     registerAllowStateDiscardCallbackAsync(callback: (metaRoute: string, subRoute?: string) => Promise<boolean>): void {
+        this.callbackAllowStateDiscardStateAsync = callback;
     }
 
     /**
-     * Navigates to a configured meta route id possible
+     * Navigates to a configured meta route if possible
      */
     private async goInner(route: AppRoute, click?: boolean): Promise<void> {
         const activeRoute = this.getOutletState(this.config.outlet).activeRoute;
         const continueRouting: boolean = await this.checkIfRoutingAllowed(activeRoute);
         this.consoleFacade.debug(`goInner::continueRouting => ${continueRouting}`);
         if (continueRouting) {
+            await this.notifyDiscardState(activeRoute);
             const frame = await this.goPromiseSingleton.decorate(this.framesManager.getFrameWithRoute(route));
             return this.activateRoute(route, frame, click);
         } else {
@@ -213,9 +216,9 @@ export class MetaRouter {
      */
     private async checkIfRoutingAllowed(activeRoute: AppRoute): Promise<boolean> {
         this.consoleFacade.debug(`checkIfRoutingAllowed(${activeRoute.metaRoute}/${activeRoute.subRoute})`);
-        if (this.callbackDiscardStateAsync) {
+        if (this.callbackAllowStateDiscardStateAsync) {
             if (this.microfrontendsStates.hasState(activeRoute)) {
-                    return this.callbackDiscardStateAsync(activeRoute.metaRoute, activeRoute.subRoute);
+                    return this.callbackAllowStateDiscardStateAsync(activeRoute.metaRoute, activeRoute.subRoute);
             }
         }
         return Promise.resolve(true);
@@ -228,6 +231,7 @@ export class MetaRouter {
         this.microfrontendsStates.setState(new AppRoute(msg.source, msg.subRoute), msg.hasState);
         return Promise.resolve();
     }
+
 
     /**
      * Handler for new outlet route
@@ -327,6 +331,20 @@ export class MetaRouter {
             }
         });
     }
+
+    /**
+     * Notify app about state discard
+     */
+     private async notifyDiscardState(route: AppRoute): Promise<void> {
+        this.consoleFacade.debug(`notifyDiscardState(${route.metaRoute}/${route.subRoute})`);
+        const msg = new MessageStateDiscard(SHELL_NAME, route.metaRoute, route.subRoute);
+        this.framesManager.forEach((frame) => {
+            if (frame.getRoute().metaRoute === route.metaRoute) {
+                frame.postMessage(msg);
+            }
+        });
+    }
+
 
     /**
      * Notify app about activation

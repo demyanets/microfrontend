@@ -38,8 +38,8 @@ export class AppComponent implements OnInit {
 
         this.router = new MetaRouter(config);
         this.router.outletStateChanged = (state: OutletState) => this.logState(state);
-        this.router.registerRouteChangeCallbackAsync(async (metaroute: string, subRoute?: string) => {
-            console.log(`registerRouteChangeCallbackAsync: ${metaroute}/${subRoute}`);
+        this.router.registerAllowStateDiscardCallbackAsync(async (metaroute: string, subRoute?: string) => {
+            console.log(`registerAllowStateDiscardCallbackAsync: ${metaroute}/${subRoute}`);
             if (subRoute) {
                 if (subRoute === 'a') {
                     return Promise.resolve(false);
