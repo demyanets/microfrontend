@@ -18,4 +18,16 @@ export class AppComponent {
             console.debug(`app-b hasShell: ${this.routedApp.hasShell}`);
         });
     }
+
+    gotoA(): void {
+        this.routedApp.goTo('a');
+    }
+
+    gotoAA(): void {
+        this.routedApp.goTo('a', 'a');
+    }
+
+    gotoAB(): void {
+        this.routedApp.goTo('a', 'b');
+    }
 }

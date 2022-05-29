@@ -1,3 +1,5 @@
+import { Level } from '@microfrontend/common';
+
 /**
  * Micro frontend custom
  */
@@ -7,7 +9,10 @@ export class RoutedAppConfig {
      * @param metaRoute
      * @param parentOrigin
      */
-    constructor(readonly metaRoute: string, readonly parentOrigin: string) {
+    constructor(
+        readonly metaRoute: string,
+        readonly parentOrigin: string,
+        readonly logLevel: Level = Level.INFO) {
         if (metaRoute === '') {
             throw new Error('Empty metaRoute is not permitted');
         }

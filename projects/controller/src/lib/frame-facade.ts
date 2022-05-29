@@ -4,8 +4,11 @@ import {
     IMap,
     MessageBroadcast,
     MessageGetCustomFrameConfiguration,
+    MessageMicrofrontendLoaded,
     MessageMetaRouted,
-    STYLE_NAME_DISPLAY
+    STYLE_NAME_DISPLAY,
+    MessageBase,
+    IConsoleFacade
 } from '@microfrontend/common';
 import { FrameConfig } from './frame-config';
 import { AppRoute } from './app-route';
@@ -28,7 +31,8 @@ export class FrameFacade extends Destroyable implements IFrameFacade {
         private readonly route: AppRoute,
         private readonly baseUrl: string,
         private readonly outletName: string,
-        private readonly config: FrameConfig
+        private readonly config: FrameConfig,
+        private readonly consoleFacade: IConsoleFacade
     ) {
         super();
     }
@@ -117,14 +121,24 @@ export class FrameFacade extends Destroyable implements IFrameFacade {
     /**
      * Post message into the frame
      */
-    postMessage(msg: MessageBroadcast | MessageMetaRouted | MessageGetCustomFrameConfiguration): void {
+    postMessage(msg: MessageBroadcast | MessageMetaRouted | MessageGetCustomFrameConfiguration | MessageMicrofrontendLoaded): void {
         if (this.iframe) {
             this.preventUsageUponDestruction();
             if (this.iframe.contentWindow !== null) {
                 this.iframe.contentWindow.postMessage(msg, this.baseUrl);
+                this.logPostMessage(msg);
             }
         }
     }
+
+    /**
+     * Logs posted message
+     * @param msg posted message
+     */
+     private logPostMessage(msg: MessageBase) {
+        this.consoleFacade.log(`'${msg.message}' message has been posted to '${this.route.metaRoute}': ${JSON.stringify(msg)}`);
+    }
+
 
     /**
      * Provides visibility status of the frame

@@ -4,7 +4,10 @@ import {
     MESSAGE_GOTO,
     MESSAGE_ROUTED,
     MESSAGE_SET_FRAME_STYLES,
-    MESSAGE_META_ROUTED
+    MESSAGE_META_ROUTED,
+    MESSAGE_MICROFRONTEND_LOADED,
+    MESSAGE_STATE_CHANGED,
+    MESSAGE_STATE_DISCARD
 } from '../lib/constants';
 import { Destroyable } from '../lib/destroyable';
 import { EventListenerNotificationAsync } from '../lib/event-listener-notification-async';
@@ -31,6 +34,22 @@ export class EventListenerFacadeMock<T extends Event> extends Destroyable {
         return this.notificationHandler(<T>e);
     }
 
+    simulateStateChangedMessage(source: string, hasState: boolean, origin: string): Promise<void> {
+        const e: unknown = {
+            data: { message: MESSAGE_STATE_CHANGED, source: source, hasState: hasState },
+            origin: origin
+        };
+        return this.notificationHandler(<T>e);
+    }
+
+    simulateStateDiscardMessage(source: string, origin: string): Promise<void> {
+        const e: unknown = {
+            data: { message: MESSAGE_STATE_DISCARD, source: source },
+            origin: origin
+        };
+        return this.notificationHandler(<T>e);
+    }
+
     simulateSetFrameStylesMessage(source: string, styles: IMap<string>, origin: string): Promise<void> {
         const e: unknown = {
             data: { message: MESSAGE_SET_FRAME_STYLES, source: source, styles: styles },
@@ -50,6 +69,14 @@ export class EventListenerFacadeMock<T extends Event> extends Destroyable {
     simulateRoutedMessage(source: string, metaRoute: string, subRoute: string, origin: string): Promise<void> {
         const e: unknown = {
             data: { message: MESSAGE_ROUTED, source: source, metaRoute: metaRoute, subRoute: subRoute },
+            origin: origin
+        };
+        return this.notificationHandler(<T>e);
+    }
+
+    simulateMicrofrontendLoadedMessage(source: string, metaRoute: string): Promise<void> {
+        const e: unknown = {
+            data: { message: MESSAGE_MICROFRONTEND_LOADED, source: source, metaRoute: metaRoute },
             origin: origin
         };
         return this.notificationHandler(<T>e);

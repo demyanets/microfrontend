@@ -3,14 +3,18 @@ import {
     HandleBroadcastNotification,
     HandleGetCustomFrameConfiguration,
     IMap,
+    IConsoleFacade,
     MessageBroadcast,
     MessageBroadcastMetadata,
     MessageGetCustomFrameConfiguration,
+    MessageMicrofrontendLoaded,
     MessageGoto,
     MessageRouted,
     MessageSetFrameStyles,
     MessageMetaRouted,
-    MessagingApiBroker
+    MessagingApiBroker,
+    MessageStateDiscard,
+    MessageStateChanged
 } from '@microfrontend/common';
 import { RoutedAppConfig } from './routed-app-config';
 import { IParentFacade } from './parent-facade-interface';
@@ -30,14 +34,23 @@ export class RoutedApp {
     /** Resize listener */
     private resizeListener?: Destroyable = undefined;
 
+    /** ConsoleAPI facade */
+    private consoleFacade: IConsoleFacade;
+
     /** Route changed callback */
     private callbackRouteChange?: (activated: boolean, subRoute?: string) => void;
+
+    /** Microfrontend loaded callback */
+    private callbackMicrofrontendLoaded?: (metaRoute: string) => void;
 
     /** Broadcast callback */
     private callbackBroadcast?: HandleBroadcastNotification;
 
     /** Broadcast callback */
     private callbackGetCustomConfig?: HandleGetCustomFrameConfiguration;
+
+    /** Discard state callback */
+    private callbackDiscardState?: () => void;
 
     /** Event broker handling Messaging API events */
     // tslint:disable no-unused-variable
@@ -56,6 +69,7 @@ export class RoutedApp {
      */
     constructor(readonly config: RoutedAppConfig, private readonly serviceProvider: IClientServiceProvider = new ClientServiceProvider()) {
         this.parentFacade = serviceProvider.getParentFacade();
+        this.consoleFacade = serviceProvider.getConsoleFacade(config.logLevel, config.metaRoute);
 
         if (!this.parentFacade.hasParent()) {
             return;
@@ -64,19 +78,29 @@ export class RoutedApp {
         // tslint:disable no-unsafe-any
         this.messageBroker = new MessagingApiBroker(
             this.serviceProvider,
+            this.consoleFacade,
             [this.config.parentOrigin],
             undefined,
             undefined,
             undefined,
             this.handleBroadcast.bind(this),
             this.handleMetaRouted.bind(this),
-            this.handleGetCustomFrameConfig.bind(this)
+            this.handleGetCustomFrameConfig.bind(this),
+            this.handleMicrofrontendLoaded.bind(this),
+            undefined,
+            this.handleStateDiscard.bind(this)
         );
     }
 
     /** Indicates if the application is running in a shell  */
     get hasShell(): boolean {
         return this.parentFacade.hasParent();
+    }
+
+    /** Sends the current state status to the meta router */
+    changeState(hasState: boolean, subRoute?: string): void {
+        const message = new MessageStateChanged(this.config.metaRoute, hasState, subRoute);
+        this.parentFacade.postMessage(message, this.config.parentOrigin);
     }
 
     /** Sends the current route to the meta router to include it into the url */
@@ -105,6 +129,21 @@ export class RoutedApp {
     setFrameStyles(styles: IMap<string>): void {
         const message = new MessageSetFrameStyles(this.config.metaRoute, styles);
         this.parentFacade.postMessage(message, this.config.parentOrigin);
+    }
+
+    /**
+     * Registers a callback that allows the meta router to request
+     * the microfronend to discard its state
+     */
+     registerDiscardStateCallback(callback: () => void): void {
+        this.callbackDiscardState = callback;
+    }
+
+    /**
+     * Registers a callback to react to the newly loaded microfrontend
+     */
+     registerMicrofrontendLoadedCallback(callback: (metaRoute: string) => void): void {
+        this.callbackMicrofrontendLoaded = callback;
     }
 
     /**
@@ -141,6 +180,17 @@ export class RoutedApp {
     }
 
     /**
+     * Handle microfrontend loaded message
+     * @param msg
+     */
+     private handleMicrofrontendLoaded(msg: MessageMicrofrontendLoaded): Promise<void> {
+        if (this.callbackMicrofrontendLoaded) {
+            this.callbackMicrofrontendLoaded(msg.metaRoute);
+        }
+        return Promise.resolve();
+    }
+
+    /**
      * Handle broadcast message
      * @param msg
      */
@@ -169,6 +219,17 @@ export class RoutedApp {
     private handleGetCustomFrameConfig(msg: MessageGetCustomFrameConfiguration): Promise<void> {
         if (this.callbackGetCustomConfig) {
             this.callbackGetCustomConfig(msg.configuration);
+        }
+        return Promise.resolve();
+    }
+
+    /**
+     * Handle state discard message
+     * @param msg
+     */
+     private handleStateDiscard(msg: MessageStateDiscard): Promise<void> {
+        if (this.callbackDiscardState) {
+            this.callbackDiscardState();
         }
         return Promise.resolve();
     }

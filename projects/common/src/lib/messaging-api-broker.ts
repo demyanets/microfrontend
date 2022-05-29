@@ -5,7 +5,10 @@ import {
     MESSAGE_GOTO,
     MESSAGE_ROUTED,
     MESSAGE_SET_FRAME_STYLES,
-    MESSAGE_META_ROUTED
+    MESSAGE_META_ROUTED,
+    MESSAGE_MICROFRONTEND_LOADED,
+    MESSAGE_STATE_CHANGED,
+    MESSAGE_STATE_DISCARD
 } from './constants';
 import { Destroyable } from './destroyable';
 import { MessageHandlerAsync } from './messaging-api-handler-async';
@@ -15,8 +18,12 @@ import { MessageRouted } from './message-routed';
 import { MessageBase } from './message-base';
 import { MessageGoto } from './message-goto';
 import { MessageMetaRouted } from './message-meta-routed';
+import { MessageStateChanged } from './message-state-changed';
+import { MessageStateDiscard } from './message-state-discard';
 import { IServiceProvider } from './service-provider-interface';
 import { MessageGetCustomFrameConfiguration } from './message-get-custom-frame-configuration';
+import { MessageMicrofrontendLoaded } from './message-microfrontend-loaded';
+import { IConsoleFacade } from './console-facade-interface';
 
 /**
  * Message broker (https://en.wikipedia.org/wiki/Message_broker)
@@ -29,13 +36,17 @@ export class MessagingApiBroker extends Destroyable {
 
     constructor(
         private readonly serviceProvider: IServiceProvider,
+        private readonly consoleFacade: IConsoleFacade,
         private readonly allowedOrigins: string[],
         private readonly handleRouted?: MessageHandlerAsync<MessageRouted>,
         private readonly handleSetFrameStyles?: MessageHandlerAsync<MessageSetFrameStyles>,
         private readonly handleGoto?: MessageHandlerAsync<MessageGoto>,
         private readonly handleBroadcast?: MessageHandlerAsync<MessageBroadcast>,
         private readonly handleSubroute?: MessageHandlerAsync<MessageMetaRouted>,
-        private readonly handleGetFrameConfig?: MessageHandlerAsync<MessageGetCustomFrameConfiguration>
+        private readonly handleGetFrameConfig?: MessageHandlerAsync<MessageGetCustomFrameConfiguration>,
+        private readonly handleMicrofrontendLoaded?: MessageHandlerAsync<MessageMicrofrontendLoaded>,
+        private readonly handleStateChanged?: MessageHandlerAsync<MessageStateChanged>,
+        private readonly handleStateDiscard?: MessageHandlerAsync<MessageStateDiscard>
     ) {
         super();
 
@@ -99,13 +110,43 @@ export class MessagingApiBroker extends Destroyable {
             case MESSAGE_GET_CUSTOM_FRAME_CONFIG:
                 return this.notifyGetCustomFrameConfiguration(data);
 
+            case MESSAGE_MICROFRONTEND_LOADED:
+                return this.notifyMicrofrontendLoaded(data);
+
+            case MESSAGE_STATE_CHANGED:
+                return this.notifyStateChanged(data);
+
+            case MESSAGE_STATE_DISCARD:
+                return this.notifyStateDiscard(data);
+
             default:
                 return Promise.reject(new Error('Unknown message received'));
         }
     }
 
+    /** Notify about MessageStateChanged */
+    private notifyStateChanged(data: MessageBase): Promise<void> {
+        this.logNotification(data);
+        if (this.handleStateChanged) {
+            return this.handleStateChanged(<MessageStateChanged>data);
+        } else {
+            return Promise.resolve();
+        }
+    }
+
+    /** Notify about MessageStateDiscard( */
+    private notifyStateDiscard(data: MessageBase): Promise<void> {
+        this.logNotification(data);
+        if (this.handleStateDiscard) {
+            return this.handleStateDiscard(<MessageStateDiscard>data);
+        } else {
+            return Promise.resolve();
+        }
+    }
+
     /** Notify about MessageSubroute */
     private notifySubroute(data: MessageBase): Promise<void> {
+        this.logNotification(data);
         if (this.handleSubroute) {
             return this.handleSubroute(<MessageMetaRouted>data);
         } else {
@@ -115,6 +156,7 @@ export class MessagingApiBroker extends Destroyable {
 
     /** Notify about MessageBroadcast */
     private notifyBroadcast(data: MessageBase): Promise<void> {
+        this.logNotification(data);
         if (this.handleBroadcast) {
             return this.handleBroadcast(<MessageBroadcast>data);
         } else {
@@ -124,6 +166,7 @@ export class MessagingApiBroker extends Destroyable {
 
     /** Notify about MessageNotification */
     private notifyGoto(data: MessageBase): Promise<void> {
+        this.logNotification(data);
         if (this.handleGoto) {
             return this.handleGoto(<MessageGoto>data);
         } else {
@@ -133,6 +176,7 @@ export class MessagingApiBroker extends Destroyable {
 
     /** Notify about MessageSetHeight */
     private notifySetFrameStyles(data: MessageBase): Promise<void> {
+        this.logNotification(data);
         if (this.handleSetFrameStyles) {
             return this.handleSetFrameStyles(<MessageSetFrameStyles>data);
         } else {
@@ -142,6 +186,7 @@ export class MessagingApiBroker extends Destroyable {
 
     /** Notify about MessageGetCustomFrameConfiguration */
     private notifyGetCustomFrameConfiguration(data: MessageBase): Promise<void> {
+        this.logNotification(data);
         if (this.handleGetFrameConfig) {
             return this.handleGetFrameConfig(<MessageGetCustomFrameConfiguration>data);
         } else {
@@ -151,11 +196,30 @@ export class MessagingApiBroker extends Destroyable {
 
     /** Notify about MessageRouted */
     private notifyRouted(data: MessageBase): Promise<void> {
+        this.logNotification(data);
         if (this.handleRouted) {
             return this.handleRouted(<MessageRouted>data);
         } else {
             return Promise.resolve();
         }
+    }
+
+    /** Notify about MessageMicrofrontendLoaded */
+    private notifyMicrofrontendLoaded(data: MessageBase): Promise<void> {
+        this.logNotification(data);
+        if (this.handleMicrofrontendLoaded) {
+            return this.handleMicrofrontendLoaded(<MessageMicrofrontendLoaded>data);
+        } else {
+            return Promise.resolve();
+        }
+    }
+
+    /**
+     * Logs notification data
+     * @param data notification data
+     */
+    private logNotification(data: MessageBase) {
+        this.consoleFacade.log(`'${data.message}' message notification received: ${JSON.stringify(data)}`);
     }
 
     /**

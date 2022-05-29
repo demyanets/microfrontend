@@ -8,6 +8,7 @@ import { RoutedApp } from '@microfrontend/client';
     styleUrls: ['./a.component.css']
 })
 export class AComponent {
+    public haveState: boolean = false;
     constructor(@Inject(ROUTED_APP) private routedApp: RoutedApp) {}
 
     sendBroadcast(): void {
@@ -23,5 +24,10 @@ export class AComponent {
             console.log('requestCustomFrameConfiguration');
             this.routedApp.requestCustomFrameConfiguration();
         }
+    }
+
+    toggleState(): void {
+        this.haveState = !this.haveState;
+        this.routedApp.changeState(this.haveState, 'a');
     }
 }

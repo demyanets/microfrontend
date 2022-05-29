@@ -1,4 +1,4 @@
-import { IConsoleFacade, IMap } from '@microfrontend/common';
+import { IConsoleFacade, IMap, MessageMicrofrontendLoaded, SHELL_NAME } from '@microfrontend/common';
 import { MetaRouterConfig } from './meta-router-config';
 import { AppRoute } from './app-route';
 import { IFrameFacade } from './frame-facade-interface';
@@ -20,7 +20,7 @@ export class FramesManager {
     private consoleFacade: IConsoleFacade;
 
     constructor(private readonly config: MetaRouterConfig, private readonly serviceProvider: IControllerServiceProvider) {
-        this.consoleFacade = serviceProvider.getConsoleFacade();
+        this.consoleFacade = serviceProvider.getConsoleFacade(config.logLevel, config.outlet);
     }
 
     /**
@@ -59,7 +59,7 @@ export class FramesManager {
             if (r) {
                 const route = new AppRoute(metaRoute, subRoute);
                 this.serviceProvider
-                    .getFrameFacade(route, r.baseUrl, this.config.outlet, this.config.frameConfig)
+                    .getFrameFacade(route, r.baseUrl, this.config.outlet, this.config.frameConfig, this.consoleFacade)
                     .initialize()
                     .then((frame) => {
                         resolve(this.frameInitialized(metaRoute, frame));
@@ -100,6 +100,8 @@ export class FramesManager {
     private frameInitialized(metaRoute: string, frame: IFrameFacade): IFrameFacade {
         this.consoleFacade.debug(`frameInitialized: delete initializer for: ${metaRoute}`);
         delete this.frameInitializers[metaRoute];
+        const msg = new MessageMicrofrontendLoaded(SHELL_NAME, frame.getRoute().metaRoute);
+        this.forEach((f) => f.postMessage(msg));
         this.frames[metaRoute] = frame;
         return frame;
     }

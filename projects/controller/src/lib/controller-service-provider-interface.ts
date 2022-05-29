@@ -1,4 +1,4 @@
-import { IServiceProvider } from '@microfrontend/common';
+import { IConsoleFacade, IServiceProvider } from '@microfrontend/common';
 import { AppRoute } from './app-route';
 import { FrameConfig } from './frame-config';
 import { IFrameFacade } from './frame-facade-interface';
@@ -15,7 +15,7 @@ export interface IControllerServiceProvider extends IServiceProvider {
      * @param config
      * @returns
      */
-    getFrameFacade(route: AppRoute, baseUrl: string, outletName: string, config: FrameConfig): IFrameFacade;
+    getFrameFacade(route: AppRoute, baseUrl: string, outletName: string, config: FrameConfig, consoleFacade: IConsoleFacade): IFrameFacade;
 
     /**
      * Creates new instance of HistoryAI facade
