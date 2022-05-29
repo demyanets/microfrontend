@@ -7,6 +7,7 @@ import {
     MESSAGE_ROUTED,
     MESSAGE_SET_FRAME_STYLES,
     MESSAGE_META_ROUTED,
+    MESSAGE_STATE_CHANGED,
     MessageBroadcastMetadata
 } from '@microfrontend/common';
 import { MESSAGE_GET_CUSTOM_FRAME_CONFIG } from 'projects/common/src/lib/constants';
@@ -18,6 +19,14 @@ export class EventListenerFacadeMock<T extends Event> extends Destroyable {
 
     simulatePlainEvent(origin: string): Promise<void> {
         const e: unknown = {
+            origin: origin
+        };
+        return this.notificationHandler(<T>e);
+    }
+
+    simulateStateChangedMessage(source: string, hasState: boolean): Promise<void> {
+        const e: unknown = {
+            data: { message: MESSAGE_STATE_CHANGED, source: source, hasState: hasState },
             origin: origin
         };
         return this.notificationHandler(<T>e);

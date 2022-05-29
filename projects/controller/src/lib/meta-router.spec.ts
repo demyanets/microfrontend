@@ -388,4 +388,45 @@ describe('MetaRouter', async () => {
             await expect(provider.frameFacadeMocks.b.messages.length).toBe(1);
         });
     });
+
+    describe('Prevent data loss in a microfrontend', async () => {
+        beforeEach(() => {
+            provider = new ControllerServiceProviderMock('http://localhost:8080/#a/b');
+            router = new MetaRouter(config, provider);
+        });
+
+        it('should register callback', async () => {
+            await router.registerRouteChangeCallbackAsync(async (metaroute: string) => {
+                return Promise.resolve(false);
+            });
+        });
+
+        it('should be able to route', async () => {
+            await router.registerRouteChangeCallbackAsync(async (metaroute: string) => {
+                return Promise.resolve(true);
+            });
+            await router.preload();
+
+            await router.go('a');
+            const eventMock: EventListenerFacadeMock<MessageEvent> = provider.eventListenerFacadeMocks[EVENT_MESSAGE];
+            eventMock.simulateStateChangedMessage('a', true);
+
+            await router.go('b');
+            await expect(provider.frameFacadeMocks.a.visible).toBeFalsy();
+            await expect(provider.frameFacadeMocks.b.visible).toBeTruthy();
+        });
+
+        it('should be rejected to prevent state loss', async () => {
+            await router.registerRouteChangeCallbackAsync(async (metaroute: string) => {
+                return Promise.resolve(false);
+            });
+            await router.preload();
+
+            await router.go('a');
+            const eventMock: EventListenerFacadeMock<MessageEvent> = provider.eventListenerFacadeMocks[EVENT_MESSAGE];
+            eventMock.simulateStateChangedMessage('a', true);
+
+            await expectAsync(router.go('b')).toBeRejected();
+        });
+    });
 });
