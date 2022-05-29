@@ -28,20 +28,20 @@ jobs:
       uses: demyanets/angular-coverage-badges-action@v1
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        coverage-summary-path: coverage/common/json-report/coverage-final.json
+        coverage-summary-path: coverage/common/json-report/coverage-summary.json
         protected-branches: '["master", "develop"]'
         write-debug-logs: true
     - name: Generate coverage badges for common library
       uses: demyanets/angular-coverage-badges-action@v1
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        coverage-summary-path: coverage/controller/json-report/coverage-final.json
+        coverage-summary-path: coverage/controller/json-report/coverage-summary.json
         protected-branches: '["master", "develop"]'
         write-debug-logs: true
     - name: Generate coverage badges for controller library
       uses: demyanets/angular-coverage-badges-action@v1
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        coverage-summary-path: coverage/client/json-report/coverage-final.json
+        coverage-summary-path: coverage/client/json-report/coverage-summary.json
         protected-branches: '["master", "develop"]'
         write-debug-logs: true
