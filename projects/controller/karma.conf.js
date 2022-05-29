@@ -19,7 +19,7 @@ module.exports = function (config) {
       dir: require('path').join(__dirname, '../../coverage/controller'),
       reporters: [
         { type: 'html', subdir: 'html-report' },
-        { type: 'json', subdir: 'json-report' }
+        { type: 'json-summary', subdir: 'json-report' }
       ],
       fixWebpackSourcePaths: true
     },
