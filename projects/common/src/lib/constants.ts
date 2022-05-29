@@ -13,6 +13,7 @@ export const MESSAGE_ROUTED = 'routed';
 export const MESSAGE_GOTO = 'goto';
 export const MESSAGE_BROADCAST = 'broadcast';
 export const MESSAGE_META_ROUTED = 'meta-routed';
+export const MESSAGE_MICROFRONTEND_LOADED = 'microfrontend-loaded';
 
 export const EVENT_MESSAGE = 'message';
 export const EVENT_LOAD = 'load';

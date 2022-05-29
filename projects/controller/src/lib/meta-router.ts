@@ -95,6 +95,7 @@ export class MetaRouter {
             this.handleBroadcast.bind(this),
             undefined,
             this.handleGetFrameConfiguration.bind(this),
+            undefined,
             this.handleStateChanded.bind(this)
         );
 

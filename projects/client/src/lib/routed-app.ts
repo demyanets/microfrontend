@@ -7,6 +7,7 @@ import {
     MessageBroadcast,
     MessageBroadcastMetadata,
     MessageGetCustomFrameConfiguration,
+    MessageMicrofrontendLoaded,
     MessageGoto,
     MessageRouted,
     MessageSetFrameStyles,
@@ -38,6 +39,9 @@ export class RoutedApp {
 
     /** Route changed callback */
     private callbackRouteChange?: (activated: boolean, subRoute?: string) => void;
+
+    /** Microfrontend loaded callback */
+    private callbackMicrofrontendLoaded?: (metaRoute: string) => void;
 
     /** Broadcast callback */
     private callbackBroadcast?: HandleBroadcastNotification;
@@ -82,6 +86,7 @@ export class RoutedApp {
             this.handleBroadcast.bind(this),
             this.handleMetaRouted.bind(this),
             this.handleGetCustomFrameConfig.bind(this),
+            this.handleMicrofrontendLoaded.bind(this),
             undefined,
             this.handleStateDiscard.bind(this)
         );
@@ -135,6 +140,13 @@ export class RoutedApp {
     }
 
     /**
+     * Registers a callback to react to the newly loaded microfrontend
+     */
+     registerMicrofrontendLoadedCallback(callback: (metaRoute: string) => void): void {
+        this.callbackMicrofrontendLoaded = callback;
+    }
+
+    /**
      * Registers a callback that allows the meta router to request
      * a new route within the routed application
      */
@@ -165,6 +177,17 @@ export class RoutedApp {
     requestCustomFrameConfiguration(): void {
         const message = new MessageGetCustomFrameConfiguration(this.config.metaRoute, {});
         this.parentFacade.postMessage(message, this.config.parentOrigin);
+    }
+
+    /**
+     * Handle microfrontend loaded message
+     * @param msg
+     */
+     private handleMicrofrontendLoaded(msg: MessageMicrofrontendLoaded): Promise<void> {
+        if (this.callbackMicrofrontendLoaded) {
+            this.callbackMicrofrontendLoaded(msg.metaRoute);
+        }
+        return Promise.resolve();
     }
 
     /**
