@@ -28,6 +28,7 @@ import { IControllerServiceProvider } from './controller-service-provider-interf
 import { ControllerServiceProvider } from './controller-service-provider';
 import { OutletState } from './outlet-state';
 import { OutletStateChanged } from './outlet-state-changed';
+import { MicrofrontendStates } from './microfrontend-states';
 
 /**
  * MetaRouter for routing between micro frontends
@@ -37,7 +38,7 @@ export class MetaRouter {
     private framesManager: FramesManager;
 
     /** Last reported microfrontend state */
-    private microfrontendsStates: IMap<boolean> = {};
+    private microfrontendsStates: MicrofrontendStates = new MicrofrontendStates();
 
     /** ConsoleAPI facade */
     private consoleFacade: IConsoleFacade;
@@ -211,10 +212,8 @@ export class MetaRouter {
      */
     private async checkIfRoutingAllowed(activeRoute: AppRoute): Promise<boolean> {
         if (this.callbackDiscardStateAsync) {
-            if (this.microfrontendsStates.hasOwnProperty(activeRoute.metaRoute)) {
-                if (this.microfrontendsStates[activeRoute.metaRoute]) {
+            if (this.microfrontendsStates.hasState(activeRoute)) {
                     return this.callbackDiscardStateAsync(activeRoute.metaRoute);
-                }
             }
         }
         return Promise.resolve(true);
@@ -224,7 +223,7 @@ export class MetaRouter {
      * Handler for microfrontend state change
      */
      private handleStateChanded(msg: MessageStateChanged): Promise<void> {
-        this.microfrontendsStates[msg.source] = msg.hasState;
+        this.microfrontendsStates.setState(new AppRoute(msg.source), msg.hasState);
         return Promise.resolve();
     }
 
