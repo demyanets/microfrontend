@@ -2,6 +2,7 @@ import { Level } from '@microfrontend/common';
 import { Component, OnInit } from '@angular/core';
 import { FrameConfig, IAppConfig, MetaRouter, MetaRouterConfig, UnknownRouteHandlingEnum } from '@microfrontend/controller';
 import { OutletState } from 'projects/controller/src/lib/outlet-state';
+import { $ } from 'protractor';
 
 const routes: IAppConfig[] = [
     {
@@ -37,6 +38,18 @@ export class AppComponent implements OnInit {
 
         this.router = new MetaRouter(config);
         this.router.outletStateChanged = (state: OutletState) => this.logState(state);
+        this.router.registerRouteChangeCallbackAsync(async (metaroute: string, subRoute?: string) => {
+            console.log(`registerRouteChangeCallbackAsync: ${metaroute}/${subRoute}`);
+            if (subRoute) {
+                if (subRoute === 'a') {
+                    return Promise.resolve(false);
+                } else {
+                    return Promise.resolve(true);
+                }
+            }
+
+            return Promise.resolve(true);
+        });
     }
 
     ngOnInit(): void {
@@ -59,6 +72,6 @@ export class AppComponent implements OnInit {
     }
 
     logState(state: OutletState): void {
-        console.log(`Active roite in '${state.outlet}' is '${state.activeRoute.url}'`);
+        console.log(`Active route in '${state.outlet}' is '${state.activeRoute.url}'`);
     }
 }

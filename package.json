@@ -11,10 +11,10 @@
     "coverage": "ng build common && ng test common --watch=false --browsers=ChromeHeadlessCustom --codeCoverage=true && ng test controller --watch=false --browsers=ChromeHeadlessCustom --codeCoverage=true && ng test client --watch=false --browsers=ChromeHeadlessCustom --codeCoverage=true",
     "lint": "ng lint common && ng lint controller && ng lint client",
     "e2e": "concurrently  -k --success first --kill-others \"npm run serve\" \"npm run wait && npm run protractor\"",
-    "protractor": "./node_modules/.bin/protractor e2e/protractor.conf.js",
-    "webdriver:update": "./node_modules/.bin/webdriver-manager update --ignore_ssl",
+    "protractor": "protractor e2e/protractor.conf.js",
+    "webdriver:update": "webdriver-manager update",
     "prettier": "prettier --write \"{projects,src,e2e}/**/*.ts\"",
-    "wait": "./node_modules/.bin/wait-on tcp:30103"
+    "wait": "wait-on tcp:30103"
   },
   "private": true,
   "dependencies": {
@@ -39,12 +39,12 @@
     "@types/jasminewd2": "~2.0.8",
     "@types/node": "^14.6.4",
     "codelyzer": "^6.0.0",
-    "concurrently": "^5.3.0",
+    "concurrently": "^7.2.0",
     "jasmine-core": "~3.6.0",
     "jasmine-spec-reporter": "~5.0.0",
-    "karma": "~6.3.4",
+    "karma": "^6.3.20",
     "karma-chrome-launcher": "~3.1.0",
-    "karma-coverage-istanbul-reporter": "~3.0.3",
+    "karma-coverage": "~2.1.1",
     "karma-jasmine": "~4.0.0",
     "karma-jasmine-html-reporter": "^1.5.0",
     "ng-packagr": "^12.1.0",
@@ -53,6 +53,6 @@
     "ts-node": "~9.0.0",
     "tslint": "~6.1.3",
     "typescript": "~4.3.5",
-    "wait-on": "^5.2.0"
+    "wait-on": "^6.0.1"
   }
 }

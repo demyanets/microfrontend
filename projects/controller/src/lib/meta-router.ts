@@ -11,6 +11,7 @@ import {
     MessageSetFrameStyles,
     MessageMetaRouted,
     MessagingApiBroker,
+    MessageStateChanged,
     SHELL_NAME
 } from '@microfrontend/common';
 import { UrlHelper } from './url-helper';
@@ -27,6 +28,7 @@ import { IControllerServiceProvider } from './controller-service-provider-interf
 import { ControllerServiceProvider } from './controller-service-provider';
 import { OutletState } from './outlet-state';
 import { OutletStateChanged } from './outlet-state-changed';
+import { MicrofrontendStates } from './microfrontend-states';
 
 /**
  * MetaRouter for routing between micro frontends
@@ -34,6 +36,9 @@ import { OutletStateChanged } from './outlet-state-changed';
 export class MetaRouter {
     /** Map for all meta routes and their corresponding frames */
     private framesManager: FramesManager;
+
+    /** Last reported microfrontend state */
+    private microfrontendsStates: MicrofrontendStates = new MicrofrontendStates();
 
     /** ConsoleAPI facade */
     private consoleFacade: IConsoleFacade;
@@ -57,6 +62,9 @@ export class MetaRouter {
 
     /** Outlet state changed callback */
     public outletStateChanged?: OutletStateChanged;
+
+    /** Route changed callback */
+    private callbackDiscardStateAsync?: (metaroute: string, subRoute?: string) => Promise<boolean>;
 
     constructor(
         private readonly config: MetaRouterConfig,
@@ -86,7 +94,8 @@ export class MetaRouter {
             this.handleGoto.bind(this),
             this.handleBroadcast.bind(this),
             undefined,
-            this.handleGetFrameConfiguration.bind(this)
+            this.handleGetFrameConfiguration.bind(this),
+            this.handleStateChanded.bind(this)
         );
 
         this.framesManager = new FramesManager(this.config, this.serviceProvider);
@@ -162,7 +171,7 @@ export class MetaRouter {
      * Navigates to a configured meta route
      */
     async go(metaRoute: string, subRoute?: string): Promise<void> {
-        this.consoleFacade.debug('go(%s/%s)', metaRoute, subRoute);
+        this.consoleFacade.debug(`go(${metaRoute}/${subRoute})`);
         return this.goInner(new AppRoute(metaRoute, subRoute), true);
     }
 
@@ -176,11 +185,47 @@ export class MetaRouter {
     }
 
     /**
-     * Navigates to a configured meta route
+     * Registers a callback that allows the meta router to request
+     * confirmation to prevent data loss in a microfrontend
+     */
+     registerRouteChangeCallbackAsync(callback: (metaRoute: string, subRoute?: string) => Promise<boolean>): void {
+        this.callbackDiscardStateAsync = callback;
+    }
+
+    /**
+     * Navigates to a configured meta route id possible
      */
     private async goInner(route: AppRoute, click?: boolean): Promise<void> {
-        const frame = await this.goPromiseSingleton.decorate(this.framesManager.getFrameWithRoute(route));
-        return this.activateRoute(route, frame, click);
+        const activeRoute = this.getOutletState(this.config.outlet).activeRoute;
+        const continueRouting: boolean = await this.checkIfRoutingAllowed(activeRoute);
+        this.consoleFacade.debug(`goInner::continueRouting => ${continueRouting}`);
+        if (continueRouting) {
+            const frame = await this.goPromiseSingleton.decorate(this.framesManager.getFrameWithRoute(route));
+            return this.activateRoute(route, frame, click);
+        } else {
+            return Promise.reject(`Routing from "${activeRoute.metaRoute}" was rejected by the user to prevent data loss!`);
+        }
+    }
+
+    /**
+     * Makes sure that routing away from active route is allowed to prevent data loss
+     */
+    private async checkIfRoutingAllowed(activeRoute: AppRoute): Promise<boolean> {
+        this.consoleFacade.debug(`checkIfRoutingAllowed(${activeRoute.metaRoute}/${activeRoute.subRoute})`);
+        if (this.callbackDiscardStateAsync) {
+            if (this.microfrontendsStates.hasState(activeRoute)) {
+                    return this.callbackDiscardStateAsync(activeRoute.metaRoute, activeRoute.subRoute);
+            }
+        }
+        return Promise.resolve(true);
+    }
+
+    /**
+     * Handler for microfrontend state change
+     */
+     private handleStateChanded(msg: MessageStateChanged): Promise<void> {
+        this.microfrontendsStates.setState(new AppRoute(msg.source, msg.subRoute), msg.hasState);
+        return Promise.resolve();
     }
 
     /**
@@ -261,7 +306,7 @@ export class MetaRouter {
      * Activates route
      */
     private async activateRoute(routeToActivate: AppRoute, frame: IFrameFacade, click?: boolean): Promise<void> {
-        this.consoleFacade.debug('activateRoute(%s/%s)', routeToActivate.metaRoute, routeToActivate.subRoute);
+        this.consoleFacade.debug(`activateRoute(${routeToActivate.metaRoute}/${routeToActivate.subRoute})`);
         this.makeActiveRouteVisible(routeToActivate);
         this.activateRouteInHash(this.config.outlet, routeToActivate, click);
         return this.notifyAppAboutActivation(routeToActivate, frame);
@@ -272,7 +317,7 @@ export class MetaRouter {
      * @param routeToActivate
      */
     private makeActiveRouteVisible(routeToActivate: AppRoute): void {
-        this.consoleFacade.debug('makeActiveRouteVisible(%s/%s)', routeToActivate.metaRoute, routeToActivate.subRoute);
+        this.consoleFacade.debug(`makeActiveRouteVisible(${routeToActivate.metaRoute}/${routeToActivate.subRoute})`);
         this.framesManager.forEach((frame) => {
             if (frame.getRoute().metaRoute === routeToActivate.metaRoute) {
                 frame.show();
@@ -287,7 +332,7 @@ export class MetaRouter {
      * @param routeToActivate
      */
     private async notifyAppAboutActivation(routeToActivate: AppRoute, frame: IFrameFacade): Promise<void> {
-        this.consoleFacade.debug('notifyAppAboutActivation(%s/%s)', routeToActivate.metaRoute, routeToActivate.subRoute);
+        this.consoleFacade.debug(`notifyAppAboutActivation(${routeToActivate.metaRoute}/${routeToActivate.subRoute})`);
         const msg = new MessageMetaRouted(SHELL_NAME, true, routeToActivate.subRoute);
         frame.postMessage(msg);
     }
@@ -317,7 +362,7 @@ export class MetaRouter {
      */
     private setRouteInHashInner(outlet: string, currentRoutes: IMap<AppRoute[]>, click?: boolean): void {
         const url = UrlHelper.constructFullUrl(this.locationFacade.getPath(), currentRoutes, outlet);
-        this.consoleFacade.debug('setRouteInHashInner(%s, %s)', outlet, url);
+        this.consoleFacade.debug(`setRouteInHashInner(${outlet}/${url})`);
         this.historyApiFacade.go(url, undefined, click);
         this.notifyOutletStateChanged(outlet, currentRoutes[outlet]);
     }
@@ -337,7 +382,7 @@ export class MetaRouter {
      */
     private parseHash(outlet: string): IMap<AppRoute[]> {
         const hash = this.locationFacade.getTruncatedHash();
-        this.consoleFacade.debug('parseHash(%s) -> %s', outlet, hash);
+        this.consoleFacade.debug(`parseHash(${outlet}) -> ${hash})`);
         if (hash) {
             return UrlHelper.parseUrl(hash, outlet);
         } else {
