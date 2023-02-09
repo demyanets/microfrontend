@@ -29,13 +29,24 @@ describe('MicrofrontendStates', async () => {
         expect(mfStates.hasState(missingRoute)).toBeFalse();
     });
 
-    it('should check microfrontend states with subroute correctly', () => {
+    // Not supported anymore; not required
+    // it('should check microfrontend states with subroute correctly', () => {
+    //     const mfStates = new MicrofrontendStates();
+    //     const route = new AppRoute('b');
+    //     mfStates.setState(route, true);
+    //     const missingRoute1 = new AppRoute('b', 'x');
+    //     expect(mfStates.hasState(missingRoute1)).toBeFalse();
+    //     const missingRoute2 = new AppRoute('b', 'y');
+    //     expect(mfStates.hasState(missingRoute2)).toBeFalse();
+    // });
+
+    it('should check for multiple states correctly', () => {
+        const metaRoute = 'a';
         const mfStates = new MicrofrontendStates();
-        const route = new AppRoute('b');
-        mfStates.setState(route, true);
-        const missingRoute1 = new AppRoute('b', 'x');
-        expect(mfStates.hasState(missingRoute1)).toBeFalse();
-        const missingRoute2 = new AppRoute('b', 'y');
-        expect(mfStates.hasState(missingRoute2)).toBeFalse();
+
+        mfStates.setState(new AppRoute(metaRoute, 'CustomerEditForm'), false);
+        mfStates.setState(new AppRoute(metaRoute, 'CustomerAddressEditForm'), true);
+
+        expect(mfStates.hasState(new AppRoute(metaRoute))).toBeTrue();
     });
 });
