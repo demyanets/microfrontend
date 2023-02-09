@@ -7,29 +7,18 @@ import { AppRoute } from './app-route';
  */
 export class MicrofrontendStates {
     /** Key to use is subRoute is missing */
-    private static emptySubrouteKey = '';
+    private static readonly emptySubrouteKey = '';
 
     /** Last reported microfrontend state */
-    private microfrontendsStates: IMap<IMap<boolean>> = {};
+    private readonly microfrontendsStates: IMap<IMap<boolean>> = {};
 
     /**
      * Check if route has state that might get lost set
      */
-     public hasState(route: AppRoute): boolean {
+    public hasState(route: AppRoute): boolean {
         if (this.microfrontendsStates.hasOwnProperty(route.metaRoute)) {
-            if (route.subRoute) {
-                if (this.microfrontendsStates[route.metaRoute].hasOwnProperty(route.subRoute)) {
-                    if (this.microfrontendsStates[route.metaRoute][route.subRoute]) {
-                        return true;
-                    } else {
-                        return false;
-                    }
-                }
-            } else {
-                if (this.microfrontendsStates[route.metaRoute][MicrofrontendStates.emptySubrouteKey]) {
-                    return true;
-                }
-            }
+            // Check if metaroute has any dirty state
+            return Object.values(this.microfrontendsStates[route.metaRoute]).some((hasState) => hasState);
         }
         return false;
     }
@@ -37,11 +26,13 @@ export class MicrofrontendStates {
     /**
      * Check if route has state set that might get lost
      */
-     public setState(route: AppRoute, hasState: boolean): void {
+    public setState(route: AppRoute, hasState: boolean): void {
         if (!this.microfrontendsStates.hasOwnProperty(route.metaRoute)) {
             this.microfrontendsStates[route.metaRoute] = {};
         }
 
+        // The subRoute may be any string and must not correspond
+        // to a valid application route.
         if (route.subRoute) {
             this.microfrontendsStates[route.metaRoute][route.subRoute] = hasState;
         } else {
