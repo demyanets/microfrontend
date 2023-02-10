@@ -7,29 +7,30 @@ import {
     MessageBroadcastMetadata,
     MessageGetCustomFrameConfiguration,
     MessageGoto,
+    MessageMetaRouted,
     MessageRouted,
     MessageSetFrameStyles,
-    MessageMetaRouted,
-    MessagingApiBroker,
     MessageStateChanged,
     MessageStateDiscard,
+    MessagingApiBroker,
     SHELL_NAME
 } from '@microfrontend/common';
-import { UrlHelper } from './url-helper';
-import { MetaRouterConfig } from './meta-router-config';
-import { AppRoute } from './app-route';
 import { IAppConfig } from './app-config';
-import { MetaRouteHelper } from './meta-route-helper';
+import { AppRoute } from './app-route';
+import { ControllerServiceProvider } from './controller-service-provider';
+import { IControllerServiceProvider } from './controller-service-provider-interface';
+import { IFrameFacade } from './frame-facade-interface';
+import { FramesManager } from './frames-manager';
 import { IHistoryApiFacade } from './history-api-facade-interface';
 import { ILocationFacade } from './location-facade-interface';
-import { FramesManager } from './frames-manager';
-import { IFrameFacade } from './frame-facade-interface';
-import { PromiseSingletonDecorator } from './promise-singleton-decorator';
-import { IControllerServiceProvider } from './controller-service-provider-interface';
-import { ControllerServiceProvider } from './controller-service-provider';
+import { MetaRouteHelper } from './meta-route-helper';
+import { MetaRouteStateEvaluation } from './meta-route-state-evaluation';
+import { MetaRouterConfig } from './meta-router-config';
+import { MicrofrontendStates } from './microfrontend-states';
 import { OutletState } from './outlet-state';
 import { OutletStateChanged } from './outlet-state-changed';
-import { MicrofrontendStates } from './microfrontend-states';
+import { PromiseSingletonDecorator } from './promise-singleton-decorator';
+import { UrlHelper } from './url-helper';
 
 /**
  * MetaRouter for routing between micro frontends
@@ -66,6 +67,7 @@ export class MetaRouter {
 
     /** Route changed callback */
     private callbackAllowStateDiscardStateAsync?: (metaroute: string, subRoute?: string) => Promise<boolean>;
+    private stateEvaluation?: MetaRouteStateEvaluation;
 
     constructor(
         private readonly config: MetaRouterConfig,
@@ -154,7 +156,6 @@ export class MetaRouter {
         return state;
     }
 
-
     /**
      * Routes by URL
      */
@@ -191,7 +192,11 @@ export class MetaRouter {
      * Registers a callback that allows the meta router to request
      * confirmation to prevent data loss in a microfrontend
      */
-     registerAllowStateDiscardCallbackAsync(callback: (metaRoute: string, subRoute?: string) => Promise<boolean>): void {
+    registerAllowStateDiscardCallbackAsync(
+        callback: (metaRoute: string, subRoute?: string) => Promise<boolean>,
+        stateEvaluation?: MetaRouteStateEvaluation
+    ): void {
+        this.stateEvaluation = stateEvaluation;
         this.callbackAllowStateDiscardStateAsync = callback;
     }
 
@@ -217,8 +222,8 @@ export class MetaRouter {
     private async checkIfRoutingAllowed(activeRoute: AppRoute): Promise<boolean> {
         this.consoleFacade.debug(`checkIfRoutingAllowed(${activeRoute.metaRoute}/${activeRoute.subRoute})`);
         if (this.callbackAllowStateDiscardStateAsync) {
-            if (this.microfrontendsStates.hasState(activeRoute)) {
-                    return this.callbackAllowStateDiscardStateAsync(activeRoute.metaRoute, activeRoute.subRoute);
+            if (this.microfrontendsStates.hasState(activeRoute, this.stateEvaluation)) {
+                return this.callbackAllowStateDiscardStateAsync(activeRoute.metaRoute, activeRoute.subRoute);
             }
         }
         return Promise.resolve(true);
@@ -227,11 +232,10 @@ export class MetaRouter {
     /**
      * Handler for microfrontend state change
      */
-     private handleStateChanded(msg: MessageStateChanged): Promise<void> {
+    private handleStateChanded(msg: MessageStateChanged): Promise<void> {
         this.microfrontendsStates.setState(new AppRoute(msg.source, msg.subRoute), msg.hasState);
         return Promise.resolve();
     }
-
 
     /**
      * Handler for new outlet route
@@ -335,7 +339,7 @@ export class MetaRouter {
     /**
      * Notify app about state discard
      */
-     private async notifyDiscardState(route: AppRoute): Promise<void> {
+    private async notifyDiscardState(route: AppRoute): Promise<void> {
         this.consoleFacade.debug(`notifyDiscardState(${route.metaRoute}/${route.subRoute})`);
         const msg = new MessageStateDiscard(SHELL_NAME, route.metaRoute, route.subRoute);
         this.framesManager.forEach((frame) => {
@@ -344,7 +348,6 @@ export class MetaRouter {
             }
         });
     }
-
 
     /**
      * Notify app about activation

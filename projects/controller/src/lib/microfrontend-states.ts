@@ -1,5 +1,6 @@
 import { IMap } from '@microfrontend/common';
 import { AppRoute } from './app-route';
+import { MetaRouteStateEvaluation } from './meta-route-state-evaluation';
 
 /**
  * MicrofrontendStates manages information about state of the microfrontend
@@ -15,12 +16,35 @@ export class MicrofrontendStates {
     /**
      * Check if route has state that might get lost set
      */
-    public hasState(route: AppRoute): boolean {
-        if (this.microfrontendsStates.hasOwnProperty(route.metaRoute)) {
-            // Check if metaroute has any dirty state
-            return Object.values(this.microfrontendsStates[route.metaRoute]).some((hasState) => hasState);
+    public hasState(route: AppRoute, stateHandling: MetaRouteStateEvaluation = MetaRouteStateEvaluation.RouteBased): boolean {
+        if (!this.microfrontendsStates.hasOwnProperty(route.metaRoute)) {
+            return false;
         }
-        return false;
+
+        switch (stateHandling) {
+            case MetaRouteStateEvaluation.RouteBased:
+                if (route.subRoute) {
+                    if (this.microfrontendsStates[route.metaRoute].hasOwnProperty(route.subRoute)) {
+                        if (this.microfrontendsStates[route.metaRoute][route.subRoute]) {
+                            return true;
+                        } else {
+                            return false;
+                        }
+                    }
+                } else {
+                    if (this.microfrontendsStates[route.metaRoute][MicrofrontendStates.emptySubrouteKey]) {
+                        return true;
+                    }
+                }
+                return false;
+
+            case MetaRouteStateEvaluation.AppBased:
+                // Check if metaroute has any dirty state
+                return Object.values(this.microfrontendsStates[route.metaRoute]).some((hasState) => hasState);
+
+            default:
+                throw new Error(`unhandled MetaRouteStateEvaluation in hasState: '${stateHandling}'`);
+        }
     }
 
     /**
