@@ -1,11 +1,11 @@
 import { EVENT_HASHCHANGE, EVENT_MESSAGE } from '@microfrontend/common';
-import { MetaRouter } from './meta-router';
-import { AppRoute } from './app-route';
-import { MetaRouterConfig } from './meta-router-config';
 import { ControllerServiceProviderMock } from '../mocks/controller-service-provider.mock';
-import { FrameFacadeMock } from '../mocks/frame-facade.mock';
 import { EventListenerFacadeMock } from '../mocks/event-listener-facade.mock';
-import { MessageGetCustomFrameConfiguration } from 'projects/common/src/lib/message-get-custom-frame-configuration';
+import { FrameFacadeMock } from '../mocks/frame-facade.mock';
+import { AppRoute } from './app-route';
+import { MetaRouteStateEvaluation } from './meta-route-state-evaluation';
+import { MetaRouter } from './meta-router';
+import { MetaRouterConfig } from './meta-router-config';
 import { OutletState } from './outlet-state';
 
 describe('MetaRouter', async () => {
@@ -427,6 +427,36 @@ describe('MetaRouter', async () => {
             eventMock.simulateStateChangedMessage('a', true);
 
             await expectAsync(router.go('b')).toBeRejected();
+        });
+
+        describe('using MetaRouteStateEvaluation', async () => {
+            it('should NOT reject routing if active route is not dirty using MetaRouteStateEvaluation.RouteBased', async () => {
+                await router.registerAllowStateDiscardCallbackAsync(async (metaroute: string) => {
+                    return Promise.resolve(false);
+                });
+                await router.preload();
+
+                await router.go('a');
+                const eventMock: EventListenerFacadeMock<MessageEvent> = provider.eventListenerFacadeMocks[EVENT_MESSAGE];
+                eventMock.simulateStateChangedMessage('a', true, 'myRoute');
+
+                // Must resolve using MetaRouteStateEvaluation.RouteBased, because 'myRoute' is not the active route
+                await expectAsync(router.go('b')).toBeResolved();
+            });
+
+            it('should reject routing if any route is dirty using MetaRouteStateEvaluation.AppBased', async () => {
+                await router.registerAllowStateDiscardCallbackAsync(async (metaroute: string) => {
+                    return Promise.resolve(false);
+                }, MetaRouteStateEvaluation.AppBased);
+                await router.preload();
+
+                await router.go('a');
+                const eventMock: EventListenerFacadeMock<MessageEvent> = provider.eventListenerFacadeMocks[EVENT_MESSAGE];
+                eventMock.simulateStateChangedMessage('a', true, 'CustomerEditForm');
+
+                // Must reject using MetaRouteStateEvaluation.AppBased, because some route is dirty
+                await expectAsync(router.go('b')).toBeRejected();
+            });
         });
     });
 });
