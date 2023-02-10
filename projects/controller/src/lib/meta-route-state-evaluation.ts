@@ -1,6 +1,6 @@
 /**
  * Defines how the meta router determines
- * wheter the metaroute (microfronend) has a state (= dirty)
+ * whether the metaroute (microfronend) has a state (= dirty)
  */
 export enum MetaRouteStateEvaluation {
     /**
