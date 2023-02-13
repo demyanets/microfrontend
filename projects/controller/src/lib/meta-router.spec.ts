@@ -457,6 +457,21 @@ describe('MetaRouter', async () => {
                 // Must reject using MetaRouteStateEvaluation.AppBased, because some route is dirty
                 await expectAsync(router.go('b')).toBeRejected();
             });
+
+            it('should not reject routing if when not route is dirty using MetaRouteStateEvaluation.AppBased', async () => {
+                await router.registerAllowStateDiscardCallbackAsync(async (metaroute: string) => {
+                    return Promise.resolve(false);
+                }, MetaRouteStateEvaluation.RouteBased);
+                await router.preload();
+
+                await router.go('a', 'myRoute');
+                const eventMock: EventListenerFacadeMock<MessageEvent> = provider.eventListenerFacadeMocks[EVENT_MESSAGE];
+                eventMock.simulateStateChangedMessage('a', false, 'myRoute');
+                eventMock.simulateStateChangedMessage('a', true, 'ToDoEditForm');
+
+                // Must reject using MetaRouteStateEvaluation.AppBased, because some route is dirty
+                await expectAsync(router.go('b', 'newRoute')).toBeResolved();
+            });
         });
     });
 });
