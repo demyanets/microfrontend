@@ -25,8 +25,7 @@ const config = new RoutedAppConfig('a', 'http://localhost:30103', Level.LOG);
                 { path: '**', redirectTo: 'a' }
             ],
             {
-    useHash: true,
-    relativeLinkResolution: 'legacy'
+    useHash: true
 }
         )
     ],
