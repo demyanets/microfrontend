@@ -1,4 +1,5 @@
 import { AppRoute } from './app-route';
+import { MetaRouteStateEvaluation } from './meta-route-state-evaluation';
 import { MicrofrontendStates } from './microfrontend-states';
 
 describe('MicrofrontendStates', async () => {
@@ -37,5 +38,18 @@ describe('MicrofrontendStates', async () => {
         expect(mfStates.hasState(missingRoute1)).toBeFalse();
         const missingRoute2 = new AppRoute('b', 'y');
         expect(mfStates.hasState(missingRoute2)).toBeFalse();
+    });
+
+    it('should check for multiple states correctly', () => {
+        const metaRoute = 'a';
+        const mfStates = new MicrofrontendStates();
+
+        mfStates.setState(new AppRoute(metaRoute, 'CustomerEditForm'), false);
+        mfStates.setState(new AppRoute(metaRoute, 'CustomerAddressEditForm'), true);
+
+        // If querying route based this must return false as this route is not dirty
+        expect(mfStates.hasState(new AppRoute(metaRoute, 'x'), MetaRouteStateEvaluation.RouteBased)).toBeFalse();
+        // If querying app based this must return true as *some* route is dirty
+        expect(mfStates.hasState(new AppRoute(metaRoute, 'x'), MetaRouteStateEvaluation.AppBased)).toBeTrue();
     });
 });

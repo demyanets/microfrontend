@@ -2,13 +2,13 @@ import {
     Destroyable,
     EventListenerNotificationAsync,
     IMap,
+    MessageBroadcastMetadata,
     MESSAGE_BROADCAST,
     MESSAGE_GOTO,
+    MESSAGE_META_ROUTED,
     MESSAGE_ROUTED,
     MESSAGE_SET_FRAME_STYLES,
-    MESSAGE_META_ROUTED,
-    MESSAGE_STATE_CHANGED,
-    MessageBroadcastMetadata
+    MESSAGE_STATE_CHANGED
 } from '@microfrontend/common';
 import { MESSAGE_GET_CUSTOM_FRAME_CONFIG } from 'projects/common/src/lib/constants';
 
@@ -24,9 +24,9 @@ export class EventListenerFacadeMock<T extends Event> extends Destroyable {
         return this.notificationHandler(<T>e);
     }
 
-    simulateStateChangedMessage(source: string, hasState: boolean): Promise<void> {
+    simulateStateChangedMessage(source: string, hasState: boolean, subRoute?: string): Promise<void> {
         const e: unknown = {
-            data: { message: MESSAGE_STATE_CHANGED, source: source, hasState: hasState },
+            data: { message: MESSAGE_STATE_CHANGED, source: source, hasState: hasState, subRoute: subRoute },
             origin: origin
         };
         return this.notificationHandler(<T>e);
