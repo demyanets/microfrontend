@@ -1,6 +1,5 @@
 import { AppRoute } from './app-route';
 
-
 /**
  * OutletState manages state of the outlet
  */
