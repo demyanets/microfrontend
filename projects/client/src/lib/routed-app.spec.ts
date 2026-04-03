@@ -27,7 +27,7 @@ describe('RoutedApp', async () => {
     });
 
     it('should return true when hasParent is called', async () => {
-        const returnValue: Boolean = routedApp.hasShell;
+        const returnValue: boolean = routedApp.hasShell;
         await expect(returnValue).toBe(true);
     });
 

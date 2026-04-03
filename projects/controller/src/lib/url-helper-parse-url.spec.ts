@@ -2,8 +2,6 @@ import { UrlHelper } from './url-helper';
 
 const DEFAULT_OUTLET = 'outlet';
 
-/* tslint:disable no-string-literal */
-/* tslint:disable no-magic-numbers */
 describe('UrlHelper / parseUrl', async () => {
     it('parses x/y/z', async () => {
         const url = 'x/y/z';

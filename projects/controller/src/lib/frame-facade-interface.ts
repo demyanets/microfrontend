@@ -1,4 +1,5 @@
-import { IDestroyable, IMap, MessageBroadcast, MessageMetaRouted, MessageGetCustomFrameConfiguration, MessageMicrofrontendLoaded } from '@microfrontend/common';
+import { IDestroyable, IMap, MessageBroadcast, MessageMetaRouted, MessageGetCustomFrameConfiguration, MessageMicrofrontendLoaded } 
+    from '@microfrontend/common';
 import { AppRoute } from './app-route';
 
 export interface IFrameFacade extends IDestroyable {

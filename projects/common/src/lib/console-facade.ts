@@ -1,4 +1,5 @@
-/* tslint:disable no-any */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable no-console */
 import { Level } from './level.enum';
 import { LoggerUtilities } from './logger-utilities';
 import { IConsoleFacade } from './console-facade-interface';
@@ -51,6 +52,7 @@ export class ConsoleFacade implements IConsoleFacade {
         if (message && isLog2Console) {
             const logLevelString = Level[level];
 
+            // eslint-disable-next-line no-param-reassign 
             message = LoggerUtilities.prepareMessage(message);
 
             const timestamp = new Date().toISOString();
@@ -76,6 +78,7 @@ export class ConsoleFacade implements IConsoleFacade {
         const color = LoggerUtilities.getColor(level);
 
         // make sure additional isn't null or undefined so that ...additional doesn't error
+        // eslint-disable-next-line no-param-reassign 
         additional = additional || [];
 
         switch (level) {

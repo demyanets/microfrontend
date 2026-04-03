@@ -6,7 +6,7 @@ import { EventListenerNotificationAsync } from './event-listener-notification-as
  */
 export class EventListenerFacade<T extends Event> extends Destroyable {
     /** Event context required for destruction */
-    // tslint:disable no-any
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     private eventContext: any;
 
     constructor(private event: string, private notificationHandler: EventListenerNotificationAsync<T>, capture: boolean) {
@@ -14,7 +14,6 @@ export class EventListenerFacade<T extends Event> extends Destroyable {
 
         this.eventContext = this.handleEvent.bind(this);
 
-        // tslint:disable no-unsafe-any
         window.addEventListener(this.event, this.eventContext, capture);
     }
 
@@ -32,7 +31,6 @@ export class EventListenerFacade<T extends Event> extends Destroyable {
     destroy(): void {
         super.destroy();
 
-        // tslint:disable no-unsafe-any
         window.removeEventListener(this.event, this.eventContext);
     }
 }

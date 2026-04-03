@@ -31,7 +31,6 @@ import { IConsoleFacade } from './console-facade-interface';
  */
 export class MessagingApiBroker extends Destroyable {
     /** Message listener */
-    // tslint:disable no-unused-variable
     private messageListener: Destroyable;
 
     constructor(
@@ -50,7 +49,6 @@ export class MessagingApiBroker extends Destroyable {
     ) {
         super();
 
-        // tslint:disable no-unsafe-any
         this.messageListener = serviceProvider.getEventListenerFacade<MessageEvent>(EVENT_MESSAGE, this.handleEvent.bind(this), false);
     }
 
@@ -83,7 +81,6 @@ export class MessagingApiBroker extends Destroyable {
             return Promise.reject(new Error('Received message from not allowed origin'));
         }
 
-        // tslint:disable no-unsafe-any
         return this.notify(event.data);
     }
 
