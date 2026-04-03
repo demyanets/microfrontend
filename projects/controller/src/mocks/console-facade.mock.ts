@@ -1,5 +1,3 @@
-/* tslint:disable no-any */
-
 import { IConsoleFacade } from '@microfrontend/common';
 
 /**

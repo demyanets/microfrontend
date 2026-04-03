@@ -4,40 +4,22 @@
     "baseUrl": "./",
     "outDir": "./dist/out-tsc",
     "sourceMap": true,
+    "esModuleInterop": true,
     "declaration": false,
-    "downlevelIteration": true,
     "experimentalDecorators": true,
     "module": "es2020",
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "importHelpers": true,
     "target": "ES2022",
     "strict": true,
-    "typeRoots": [
-      "node_modules/@types"
-    ],
-    "lib": [
-      "es2018",
-      "dom"
-    ],
+    "typeRoots": ["node_modules/@types"],
     "paths": {
-      "@microfrontend/common": [
-        "dist/common"
-      ],
-      "@microfrontend/common/*": [
-        "dist/common/*"
-      ],
-      "@microfrontend/client": [
-        "dist/client"
-      ],
-      "@microfrontend/client/*": [
-        "dist/client/*"
-      ],
-      "@microfrontend/controller": [
-        "dist/controller"
-      ],
-      "@microfrontend/controller/*": [
-        "dist/controller/*"
-      ]
+      "@microfrontend/common": ["dist/common"],
+      "@microfrontend/common/*": ["dist/common/*"],
+      "@microfrontend/client": ["dist/client"],
+      "@microfrontend/client/*": ["dist/client/*"],
+      "@microfrontend/controller": ["dist/controller"],
+      "@microfrontend/controller/*": ["dist/controller/*"]
     },
     "useDefineForClassFields": false
   },

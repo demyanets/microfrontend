@@ -1,3 +1,7 @@
+/* eslint-disable @typescript-eslint/no-magic-numbers */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable no-param-reassign */
+/* eslint-disable no-empty */
 import { Level } from './level.enum';
 
 /**
@@ -62,13 +66,13 @@ export class LoggerUtilities {
 
                 return {
                     fileName: fileLineNumber[0],
-                    lineNumber: fileLineNumber[1],
+                    lineNumber: fileLineNumber[1]
                 };
             }
         } catch (e) {}
         return {
             fileName: null,
-            lineNumber: null,
+            lineNumber: null
         };
     }
 

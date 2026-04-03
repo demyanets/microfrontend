@@ -34,7 +34,7 @@ export class UrlHelper {
     /**
      * Parse URL into meta routes object
      */
-    // tslint:disable-next-line:cyclomatic-complexity
+    // eslint-disable-next-line complexity
     public static parseUrl(url: string, defaultOutlet: string): IMap<AppRoute[]> {
         type STATE = 'key' | 'value';
 
@@ -44,7 +44,7 @@ export class UrlHelper {
         let state: STATE = 'value';
         const result: IMap<AppRoute[]> = {};
 
-        const urlInner = url + '\0';
+        const urlInner = `${url  }\0`;
 
         for (let i = 0; i < urlInner.length; i++) {
             const c = urlInner.substr(i, 1);
@@ -96,7 +96,6 @@ export class UrlHelper {
      * @param value
      */
     private static addAppRoute(result: IMap<AppRoute[]>, key: string, value: string): void {
-        // tslint:disable strict-boolean-expressions
         if (!result[key]) {
             result[key] = [];
         }
@@ -115,7 +114,6 @@ export class UrlHelper {
      */
     public static constructUrl(routes: IMap<AppRoute[]>, outlet: string): string {
         let url = '';
-        // tslint:disable strict-boolean-expressions
         if (routes[outlet]) {
             if (Object.keys(routes).length > 1) {
                 url = this.getUrlForKey(routes, outlet);

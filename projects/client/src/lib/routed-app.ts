@@ -53,7 +53,6 @@ export class RoutedApp {
     private callbackDiscardState?: () => void;
 
     /** Event broker handling Messaging API events */
-    // tslint:disable no-unused-variable
     private messageBroker?: Destroyable;
 
     /** Parent facade */
@@ -75,7 +74,6 @@ export class RoutedApp {
             return;
         }
 
-        // tslint:disable no-unsafe-any
         this.messageBroker = new MessagingApiBroker(
             this.serviceProvider,
             this.consoleFacade,

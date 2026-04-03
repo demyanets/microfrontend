@@ -1,123 +1,122 @@
-import { browser, by, element, ElementFinder, ElementArrayFinder, promise } from 'protractor';
+import { type Page, type FrameLocator } from '@playwright/test';
 
-export class NgPackagedPage {
-    waitUntilpageLoads(): void {
-        browser.waitForAngularEnabled(false);
-    }
+export class AppPage {
+  private activeFrame: Page | FrameLocator;
 
-    async navigateTo(): Promise<string> {
-        return browser.get('/');
-    }
+  constructor(private page: Page) {
+    this.activeFrame = page;
+  }
 
-    async getParagraphText(id: string): Promise<string> {
-        return element(by.id(id)).getText();
-    }
+  async navigateTo(): Promise<void> {
+    await this.page.goto('/');
+    await this.page.waitForSelector('iframe');
+  }
 
-    async getPageHeaderText(): Promise<string> {
-        return element(by.tagName('h1')).getText();
-    }
+  async getParagraphText(id: string): Promise<string> {
+    return this.page.locator(`#${id}`).innerText();
+  }
 
-    getCurrentUrl(): promise.Promise<string> {
-        return browser.getCurrentUrl();
-    }
+  async getPageHeaderText(): Promise<string> {
+    return (this.activeFrame as FrameLocator).locator('h1').innerText();
+  }
 
-    getPageUrl(): promise.Promise<string> {
-        return browser.executeScript('return document.location.href');
-    }
+  async getCurrentUrl(): Promise<string> {
+    return this.page.url();
+  }
 
-    async getIframeUrl(id: string): Promise<string> {
-        await this.switchToIframe(id);
-        return this.getPageUrl();
-    }
+  async getPageUrl(): Promise<string> {
+    return this.page.evaluate(() => document.location.href);
+  }
 
-    async getUrlOfVisibleIframe(): Promise<string> {
-        const iframes: ElementArrayFinder = this.getElements('iframe');
-        const visibleIframes: ElementArrayFinder = iframes.filter((iframe) => {
-            return iframe.isDisplayed();
-        });
-        const visibleIframeId: string = await visibleIframes.first().getAttribute('id');
-        return this.getIframeUrl(visibleIframeId);
-    }
+  async switchToIframe(id: string): Promise<void> {
+    this.activeFrame = this.page.frameLocator(`iframe#${id}`);
+  }
 
-    async switchToIframe(id: string): Promise<void> {
-        const driver = browser.driver;
-        const loc = by.id(id);
-        const el = await driver.findElement(loc);
-        return browser.switchTo().frame(el);
-    }
+  async switchToMainFrame(): Promise<void> {
+    this.activeFrame = this.page;
+  }
 
-    async switchToMainFrame(): Promise<void> {
-        await browser.switchTo().defaultContent();
+  async getUrlOfVisibleIframe(): Promise<string> {
+    const iframes = this.page.locator('iframe');
+    const count = await iframes.count();
+    for (let i = 0; i < count; i++) {
+      const iframe = iframes.nth(i);
+      if (await iframe.isVisible()) {
+        const id = await iframe.getAttribute('id');
+        if (id) {
+          // Use the iframe's FrameLocator to evaluate location.href inside the frame
+          const frameLocator = this.page.frameLocator(`iframe#${id}`);
+          return frameLocator.locator('html').evaluate(() => document.location.href);
+        }
+      }
     }
+    return '';
+  }
 
-    async clickLink(selector: string): Promise<void> {
-        return element(by.css(selector)).click();
+  async getIdOfVisibleIframe(): Promise<string> {
+    const iframes = this.page.locator('iframe');
+    const count = await iframes.count();
+    for (let i = 0; i < count; i++) {
+      const iframe = iframes.nth(i);
+      if (await iframe.isVisible()) {
+        return (await iframe.getAttribute('id')) ?? '';
+      }
     }
+    return '';
+  }
 
-    async clickTo(url: string): Promise<void> {
-        return element(by.css(`a[href*= ${url}]`)).click();
+  async clickLink(selector: string): Promise<void> {
+    if (this.activeFrame === this.page) {
+      await this.page.locator(selector).click();
+    } else {
+      await (this.activeFrame as FrameLocator).locator(selector).click();
     }
+    await this.page.waitForTimeout(300);
+  }
 
-    async isElementVisible(id: string): Promise<boolean> {
-        return element(by.id(id)).isDisplayed();
-    }
+  async clickTo(url: string): Promise<void> {
+    await (this.activeFrame as FrameLocator).locator(`a[href*= ${url}]`).click();
+    await this.page.waitForTimeout(300);
+  }
 
-    async navigateToBack(): Promise<void> {
-        return browser.navigate().back();
-    }
+  async getElementsCount(tagName: string): Promise<number> {
+    return this.page.locator(tagName).count();
+  }
 
-    async navigateToForward(): Promise<void> {
-        return browser.navigate().forward();
+  async getVisibleElementsCount(tagName: string): Promise<number> {
+    const elements = this.page.locator(tagName);
+    const count = await elements.count();
+    let visibleCount = 0;
+    for (let i = 0; i < count; i++) {
+      if (await elements.nth(i).isVisible()) {
+        visibleCount++;
+      }
     }
+    return visibleCount;
+  }
 
-    getWindowSize(): promise.Promise<{ width: number; height: number }> {
-        return browser.driver
-            .manage()
-            .window()
-            .getSize();
-    }
+  async getIframeHeight(id: string): Promise<number> {
+    const box = await this.page.locator(`iframe#${id}`).boundingBox();
+    return box?.height ?? 0;
+  }
 
-    setWindowSize(width: number, height: number): promise.Promise<void> {
-        return browser.driver
-            .manage()
-            .window()
-            .setSize(width, height);
-    }
+  async getDocumentElementHeight(): Promise<number> {
+    return (this.activeFrame as FrameLocator).locator('html').evaluate(
+      (el) => (el as HTMLElement).offsetHeight
+    );
+  }
 
-    getIdOfVisibleIframe(): promise.Promise<string> {
-        const visibleIframes: ElementArrayFinder = this.getVisibleElements('iframe');
-        return visibleIframes.first().getAttribute('id');
-    }
+  async navigateToBack(): Promise<void> {
+    await this.page.goBack({ waitUntil: 'load' });
+    await this.page.waitForTimeout(300);
+  }
 
-    async getElementsCount(el: string): Promise<number> {
-        return this.getElements(el).count();
-    }
+  async navigateToForward(): Promise<void> {
+    await this.page.goForward({ waitUntil: 'load' });
+    await this.page.waitForTimeout(300);
+  }
 
-    async getVisibleElementsCount(el: string): Promise<number> {
-        return this.getVisibleElements(el).count();
-    }
-
-    async getIframeHeight(id: string): Promise<number> {
-        return (await element(by.id(id)).getSize()).height;
-    }
-
-    getDocumentElementHeight(): promise.Promise<number> {
-        return browser.executeScript('return document.documentElement.offsetHeight');
-    }
-
-    getElements(elem: string): ElementArrayFinder {
-        return element.all(by.tagName(elem));
-    }
-
-    private getVisibleElements(el: string): ElementArrayFinder {
-        const elements: ElementArrayFinder = this.getElements(el);
-        const visibleElements: ElementArrayFinder = elements.filter((ef) => {
-            return ef.isDisplayed();
-        });
-        return visibleElements;
-    }
-
-    getUrlFragment(url: string): string {
-        return url.split('#')[1];
-    }
+  getUrlFragment(url: string): string {
+    return url.split('#')[1];
+  }
 }

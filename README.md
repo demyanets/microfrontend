@@ -156,8 +156,13 @@ Exclude auxilary files from the code coverage with `codeCoverageExclude` setting
 
 ## Running end-to-end tests
 
-Run `npm run e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-Make sure that `HTTPS_PROXY` environment variable is set to the enterprise proxy address if you are working behind the firewall ([Bug #6358](https://github.com/angular/angular-cli/issues/6358))
+E2E tests use [Playwright](https://playwright.dev/). Playwright automatically starts all three dev servers (shell on port 30103, src-a on port 30307, src-b on port 30809) before running the tests and shuts them down afterwards.
+
+Run `npm run e2e` to execute the end-to-end tests in headless mode.
+
+Run `npm run e2e:headed` to execute the end-to-end tests with a visible browser window.
+
+> **Note:** If you are working behind a corporate proxy, Playwright's browser download may fail. In that case install the browser manually using a machine with direct internet access or configure the `HTTPS_PROXY` environment variable before running `npx playwright install chromium`. Alternatively, use the locally installed browser by setting `channel: 'msedge'` (or `'chrome'`) in `playwright.config.ts` — this bypasses the download entirely.
 
 ## Linting
 

@@ -2,7 +2,7 @@ import { ILocationFacade } from '../lib/location-facade-interface';
 import { IHistoryApiFacade } from '../lib/history-api-facade-interface';
 
 export class LocationHistoryFacadeMock implements ILocationFacade, IHistoryApiFacade {
-    public history: Array<{ url: string; title: string | undefined }> = [];
+    public history: { url: string; title: string | undefined }[] = [];
 
     constructor(public path: string) {
         //this.history.push({ url: path, title: undefined });
