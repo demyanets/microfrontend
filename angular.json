@@ -67,19 +67,19 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "src:build",
-            "port": 30103
+            "port": 30103,
+            "buildTarget": "src:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "src:build:production"
+              "buildTarget": "src:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "src:build"
+            "buildTarget": "src:build"
           }
         },
         "test": {
@@ -177,19 +177,19 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "src-a:build",
-            "port": 30307
+            "port": 30307,
+            "buildTarget": "src-a:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "src-a:build:production"
+              "buildTarget": "src-a:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "src-a:build"
+            "buildTarget": "src-a:build"
           }
         },
         "test": {
@@ -287,19 +287,19 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "src-b:build",
-            "port": 30809
+            "port": 30809,
+            "buildTarget": "src-b:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "src-b:build:production"
+              "buildTarget": "src-b:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "src-b:build"
+            "buildTarget": "src-b:build"
           }
         },
         "test": {
