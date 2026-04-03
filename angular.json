@@ -104,24 +104,11 @@
           "options": {
             "tsConfig": [
               "tsconfig.app.json",
-              "tsconfig.spec.json",
-              "e2e/tsconfig.json"
+              "tsconfig.spec.json"
             ],
             "exclude": [
               "**/node_modules/**"
             ]
-          }
-        },
-        "e2e": {
-          "builder": "@angular-devkit/build-angular:protractor",
-          "options": {
-            "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "src:serve"
-          },
-          "configurations": {
-            "production": {
-              "devServerTarget": "src:serve:production"
-            }
           }
         }
       }
@@ -227,24 +214,11 @@
           "options": {
             "tsConfig": [
               "projects/src-a/tsconfig.app.json",
-              "projects/src-a/tsconfig.spec.json",
-              "projects/src-a/e2e/tsconfig.json"
+              "projects/src-a/tsconfig.spec.json"
             ],
             "exclude": [
               "**/node_modules/**"
             ]
-          }
-        },
-        "e2e": {
-          "builder": "@angular-devkit/build-angular:protractor",
-          "options": {
-            "protractorConfig": "projects/src-a/e2e/protractor.conf.js",
-            "devServerTarget": "src-a:serve"
-          },
-          "configurations": {
-            "production": {
-              "devServerTarget": "src-a:serve:production"
-            }
           }
         }
       }
@@ -350,24 +324,11 @@
           "options": {
             "tsConfig": [
               "projects/src-b/tsconfig.app.json",
-              "projects/src-b/tsconfig.spec.json",
-              "projects/src-b/e2e/tsconfig.json"
+              "projects/src-b/tsconfig.spec.json"
             ],
             "exclude": [
               "**/node_modules/**"
             ]
-          }
-        },
-        "e2e": {
-          "builder": "@angular-devkit/build-angular:protractor",
-          "options": {
-            "protractorConfig": "projects/src-b/e2e/protractor.conf.js",
-            "devServerTarget": "src-b:serve"
-          },
-          "configurations": {
-            "production": {
-              "devServerTarget": "src-b:serve:production"
-            }
           }
         }
       }
@@ -520,5 +481,8 @@
         }
       }
     }
+  },
+  "cli": {
+    "analytics": false
   }
 }

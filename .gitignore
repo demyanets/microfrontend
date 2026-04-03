@@ -41,9 +41,11 @@ testem.logk
 /e2e/*.js
 /e2e/*.map
 
-# e2e
-/e2e/*.js
-/e2e/*.map
+# Playwright
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
 
 # System Files
 .DS_Store
