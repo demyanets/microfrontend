@@ -36,7 +36,7 @@
     "@angular/language-service": "^17.3.12",
     "@playwright/test": "^1.58.2",
     "@types/jasmine": "~4.3.0",
-    "@types/node": "^14.6.4",
+    "@types/node": "^20.0.0",
     "codelyzer": "^6.0.0",
     "concurrently": "^7.2.0",
     "karma": "^6.3.20",
