@@ -33,12 +33,12 @@ describe('MetaRouteHelper', async () => {
             await expect(currentRoutes.hasOwnProperty(outlet)).toBeTruthy();
             await expect(currentRoutes[outlet].length).toBe(2);
 
-            let outletFirstRoute = currentRoutes[outlet][0];
+            const outletFirstRoute = currentRoutes[outlet][0];
             await expect(outletFirstRoute.url).toBe('a');
             await expect(outletFirstRoute.metaRoute).toBe('a');
             await expect(outletFirstRoute.subRoute).toBe('');
 
-            let outletSecondRoute = currentRoutes[outlet][1];
+            const outletSecondRoute = currentRoutes[outlet][1];
             await expect(outletSecondRoute.url).toBe('b');
             await expect(outletSecondRoute.metaRoute).toBe('b');
             await expect(outletSecondRoute.subRoute).toBeFalsy();
@@ -53,12 +53,12 @@ describe('MetaRouteHelper', async () => {
             await expect(currentRoutes.hasOwnProperty(outlet)).toBeTruthy();
             await expect(currentRoutes[outlet].length).toBe(2);
 
-            let outletFirstRoute = currentRoutes[outlet][0];
+            const outletFirstRoute = currentRoutes[outlet][0];
             await expect(outletFirstRoute.url).toBe('a/x');
             await expect(outletFirstRoute.metaRoute).toBe('a');
             await expect(outletFirstRoute.subRoute).toBe('x');
 
-            let outletSecondRoute = currentRoutes[outlet][1];
+            const outletSecondRoute = currentRoutes[outlet][1];
             await expect(outletSecondRoute.url).toBe('b');
             await expect(outletSecondRoute.metaRoute).toBe('b');
             await expect(outletSecondRoute.subRoute).toBeFalsy();
@@ -73,12 +73,12 @@ describe('MetaRouteHelper', async () => {
             await expect(currentRoutes.hasOwnProperty(outlet)).toBeTruthy();
             await expect(currentRoutes[outlet].length).toBe(2);
 
-            let outletFirstRoute = currentRoutes[outlet][0];
+            const outletFirstRoute = currentRoutes[outlet][0];
             await expect(outletFirstRoute.url).toBe('a/x');
             await expect(outletFirstRoute.metaRoute).toBe('a');
             await expect(outletFirstRoute.subRoute).toBe('x');
 
-            let outletSecondRoute = currentRoutes[outlet][1];
+            const outletSecondRoute = currentRoutes[outlet][1];
             await expect(outletSecondRoute.url).toBe('b');
             await expect(outletSecondRoute.metaRoute).toBe('b');
             await expect(outletSecondRoute.subRoute).toBeFalsy();
@@ -93,12 +93,12 @@ describe('MetaRouteHelper', async () => {
             await expect(currentRoutes.hasOwnProperty(outlet)).toBeTruthy();
             await expect(currentRoutes[outlet].length).toBe(2);
 
-            let outletFirstRoute = currentRoutes[outlet][0];
+            const outletFirstRoute = currentRoutes[outlet][0];
             await expect(outletFirstRoute.url).toBe('a/x');
             await expect(outletFirstRoute.metaRoute).toBe('a');
             await expect(outletFirstRoute.subRoute).toBe('x');
 
-            let outletSecondRoute = currentRoutes[outlet][1];
+            const outletSecondRoute = currentRoutes[outlet][1];
             await expect(outletSecondRoute.url).toBe('b');
             await expect(outletSecondRoute.metaRoute).toBe('b');
             await expect(outletSecondRoute.subRoute).toBeFalsy();
@@ -112,17 +112,17 @@ describe('MetaRouteHelper', async () => {
             currentRoutes = MetaRouteHelper.activateRoute(routeToActivate, currentRoutes, outlet);
             await expect(currentRoutes[outlet].length).toBe(3);
 
-            let outletFirstRoute = currentRoutes[outlet][0];
+            const outletFirstRoute = currentRoutes[outlet][0];
             await expect(outletFirstRoute.url).toBe('b/y');
             await expect(outletFirstRoute.metaRoute).toBe('b');
             await expect(outletFirstRoute.subRoute).toBe('y');
 
-            let outletSecondRoute = currentRoutes[outlet][1];
+            const outletSecondRoute = currentRoutes[outlet][1];
             await expect(outletSecondRoute.url).toBe('a/x');
             await expect(outletSecondRoute.metaRoute).toBe('a');
             await expect(outletSecondRoute.subRoute).toBe('x');
 
-            let outletThirdRoute = currentRoutes[outlet][2];
+            const outletThirdRoute = currentRoutes[outlet][2];
             await expect(outletThirdRoute.url).toBe('c/x');
             await expect(outletThirdRoute.metaRoute).toBe('c');
             await expect(outletThirdRoute.subRoute).toBe('x');
@@ -136,17 +136,17 @@ describe('MetaRouteHelper', async () => {
             currentRoutes = MetaRouteHelper.activateRoute(routeToActivate, currentRoutes, outlet);
             await expect(currentRoutes[outlet].length).toBe(3);
 
-            let outletFirstRoute = currentRoutes[outlet][0];
+            const outletFirstRoute = currentRoutes[outlet][0];
             await expect(outletFirstRoute.url).toBe('b/y');
             await expect(outletFirstRoute.metaRoute).toBe('b');
             await expect(outletFirstRoute.subRoute).toBe('y');
 
-            let outletSecondRoute = currentRoutes[outlet][1];
+            const outletSecondRoute = currentRoutes[outlet][1];
             await expect(outletSecondRoute.url).toBe('a/x');
             await expect(outletSecondRoute.metaRoute).toBe('a');
             await expect(outletSecondRoute.subRoute).toBe('x');
 
-            let outletThirdRoute = currentRoutes[outlet][2];
+            const outletThirdRoute = currentRoutes[outlet][2];
             await expect(outletThirdRoute.url).toBe('c/x');
             await expect(outletThirdRoute.metaRoute).toBe('c');
             await expect(outletThirdRoute.subRoute).toBe('x');
@@ -173,12 +173,12 @@ describe('MetaRouteHelper', async () => {
             await expect(currentRoutes.hasOwnProperty(outlet)).toBeTruthy();
             await expect(currentRoutes[outlet].length).toBe(2);
 
-            let outletFirstRoute = currentRoutes[outlet][0];
+            const outletFirstRoute = currentRoutes[outlet][0];
             await expect(outletFirstRoute.url).toBe('a/x');
             await expect(outletFirstRoute.metaRoute).toBe('a');
             await expect(outletFirstRoute.subRoute).toBe('x');
 
-            let outletSecondRoute = currentRoutes[outlet][1];
+            const outletSecondRoute = currentRoutes[outlet][1];
             await expect(outletSecondRoute.url).toBe('b');
             await expect(outletSecondRoute.metaRoute).toBe('b');
             await expect(outletSecondRoute.subRoute).toBeFalsy();
@@ -193,17 +193,17 @@ describe('MetaRouteHelper', async () => {
             await expect(currentRoutes.hasOwnProperty(outlet)).toBeTruthy();
             await expect(currentRoutes[outlet].length).toBe(3);
 
-            let outletFirstRoute = currentRoutes[outlet][0];
+            const outletFirstRoute = currentRoutes[outlet][0];
             await expect(outletFirstRoute.url).toBe('a/x');
             await expect(outletFirstRoute.metaRoute).toBe('a');
             await expect(outletFirstRoute.subRoute).toBe('x');
 
-            let outletSecondRoute = currentRoutes[outlet][1];
+            const outletSecondRoute = currentRoutes[outlet][1];
             await expect(outletSecondRoute.url).toBe('b/x');
             await expect(outletSecondRoute.metaRoute).toBe('b');
             await expect(outletSecondRoute.subRoute).toBe('x');
 
-            let outletThirdRoute = currentRoutes[outlet][2];
+            const outletThirdRoute = currentRoutes[outlet][2];
             await expect(outletThirdRoute.url).toBe('c/x');
             await expect(outletThirdRoute.metaRoute).toBe('c');
             await expect(outletThirdRoute.subRoute).toBe('x');
@@ -212,7 +212,7 @@ describe('MetaRouteHelper', async () => {
 
     describe('join', async () => {
         let existingRoutes: AppRoute[];
-        let configRoutes: IAppConfig[] = [
+        const configRoutes: IAppConfig[] = [
             {
                 metaRoute: 'a',
                 baseUrl: '/app-a/'
@@ -229,12 +229,12 @@ describe('MetaRouteHelper', async () => {
 
             await expect(routes.length).toBe(2);
 
-            let firstRoute = routes[0];
+            const firstRoute = routes[0];
             await expect(firstRoute.url).toBe('a/x');
             await expect(firstRoute.metaRoute).toBe('a');
             await expect(firstRoute.subRoute).toBe('x');
 
-            let secondRoute = routes[1];
+            const secondRoute = routes[1];
             await expect(secondRoute.url).toBe('b');
             await expect(secondRoute.metaRoute).toBe('b');
             await expect(secondRoute.subRoute).toBeFalsy();

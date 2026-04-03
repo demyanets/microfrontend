@@ -2,7 +2,6 @@ import { Level } from '@microfrontend/common';
 import { Component, OnInit } from '@angular/core';
 import { FrameConfig, IAppConfig, MetaRouter, MetaRouterConfig, UnknownRouteHandlingEnum } from '@microfrontend/controller';
 import { OutletState } from 'projects/controller/src/lib/outlet-state';
-import { $ } from 'protractor';
 
 const routes: IAppConfig[] = [
     {
@@ -18,7 +17,8 @@ const routes: IAppConfig[] = [
 @Component({
     selector: 'app-root',
     templateUrl: './app.component.html',
-    styleUrls: ['./app.component.css']
+    styleUrls: ['./app.component.css'],
+    standalone: false
 })
 export class AppComponent implements OnInit {
     title = 'microfrontend';

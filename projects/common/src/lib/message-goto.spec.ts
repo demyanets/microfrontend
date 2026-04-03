@@ -3,7 +3,7 @@ import { MESSAGE_GOTO } from './constants';
 
 describe('MessageGoto', async () => {
     let message: MessageGoto;
-    let source: string = 'source';
+    const source: string = 'source';
 
     it('should create message notification object', async () => {
         message = new MessageGoto(source, 'a', 'x');

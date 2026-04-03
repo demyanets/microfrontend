@@ -52,11 +52,9 @@ export class MetaRouter {
     private locationFacade: ILocationFacade;
 
     /** Hashtag listener */
-    // tslint:disable no-unused-variable
     private hashtagListener: Destroyable;
 
     /** Event broker handling Messaging API events */
-    // tslint:disable no-unused-variable
     private messageBroker: Destroyable;
 
     /** Active promise from Go  */
@@ -79,7 +77,6 @@ export class MetaRouter {
 
         this.consoleFacade = serviceProvider.getConsoleFacade(config.logLevel, config.outlet);
 
-        // tslint:disable no-unsafe-any
         this.hashtagListener = serviceProvider.getEventListenerFacade(EVENT_HASHCHANGE, this.routeByUrl.bind(this), false);
 
         const origins: string[] = [];
@@ -87,7 +84,6 @@ export class MetaRouter {
             origins.push(r.baseUrl);
         }
 
-        // tslint:disable no-unsafe-any
         this.messageBroker = new MessagingApiBroker(
             this.serviceProvider,
             this.consoleFacade,

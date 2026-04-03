@@ -21,11 +21,11 @@ describe('MetaRouter', async () => {
             [
                 {
                     metaRoute: 'a',
-                    baseUrl: location.origin + '/app-a/'
+                    baseUrl: `${location.origin  }/app-a/`
                 },
                 {
                     metaRoute: 'b',
-                    baseUrl: location.origin + '/app-b/'
+                    baseUrl: `${location.origin  }/app-b/`
                 }
             ],
             (tag, data) => {

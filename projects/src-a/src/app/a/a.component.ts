@@ -5,7 +5,8 @@ import { RoutedApp } from '@microfrontend/client';
 @Component({
     selector: 'app-a',
     templateUrl: './a.component.html',
-    styleUrls: ['./a.component.css']
+    styleUrls: ['./a.component.css'],
+    standalone: false
 })
 export class AComponent {
     public haveState: boolean = false;

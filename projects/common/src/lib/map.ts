@@ -1,6 +1,4 @@
 /**
  * Generic map
  */
-export interface IMap<T> {
-    [index: string]: T;
-}
+export type IMap<T> = Record<string, T>;

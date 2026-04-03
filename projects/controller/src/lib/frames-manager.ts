@@ -111,7 +111,7 @@ export class FramesManager {
      * @param metaRoute
      * @param error
      */
-    // tslint:disable no-any
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     private frameInitializationFailed(metaRoute: string, error: any): any {
         this.consoleFacade.debug(`ensureFrameExists: delete initializer on catch for: ${metaRoute}`);
         delete this.frameInitializers[metaRoute];
@@ -123,7 +123,7 @@ export class FramesManager {
      */
     async preload(routes: AppRoute[]): Promise<IFrameFacade[]> {
         this.consoleFacade.debug('Before preload()');
-        const promises: Array<Promise<IFrameFacade>> = [];
+        const promises: Promise<IFrameFacade>[] = [];
         for (const route of routes) {
             promises.push(this.getFrameWithRoute(route));
         }
