@@ -11,12 +11,15 @@
       "prefix": "app",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:browser",
+          "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/src",
+            "outputPath": {
+              "base": "dist/src"
+            },
             "index": "src/index.html",
-            "main": "src/main.ts",
-            "polyfills": "src/polyfills.ts",
+            "polyfills": [
+              "src/polyfills.ts"
+            ],
             "tsConfig": "tsconfig.app.json",
             "assets": [
               "src/favicon.ico",
@@ -26,12 +29,11 @@
               "src/styles.css"
             ],
             "scripts": [],
-            "vendorChunk": true,
             "extractLicenses": false,
-            "buildOptimizer": false,
             "sourceMap": true,
             "optimization": false,
-            "namedChunks": true
+            "namedChunks": true,
+            "browser": "src/main.ts"
           },
           "configurations": {
             "production": {
@@ -46,8 +48,6 @@
               "sourceMap": false,
               "namedChunks": false,
               "extractLicenses": true,
-              "vendorChunk": false,
-              "buildOptimizer": true,
               "budgets": [
                 {
                   "type": "initial",
@@ -121,12 +121,15 @@
       "prefix": "app",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:browser",
+          "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/src-a",
+            "outputPath": {
+              "base": "dist/src-a"
+            },
             "index": "projects/src-a/src/index.html",
-            "main": "projects/src-a/src/main.ts",
-            "polyfills": "projects/src-a/src/polyfills.ts",
+            "polyfills": [
+              "projects/src-a/src/polyfills.ts"
+            ],
             "tsConfig": "projects/src-a/tsconfig.app.json",
             "assets": [
               "projects/src-a/src/favicon.ico",
@@ -136,12 +139,11 @@
               "projects/src-a/src/styles.css"
             ],
             "scripts": [],
-            "vendorChunk": true,
             "extractLicenses": false,
-            "buildOptimizer": false,
             "sourceMap": true,
             "optimization": false,
-            "namedChunks": true
+            "namedChunks": true,
+            "browser": "projects/src-a/src/main.ts"
           },
           "configurations": {
             "production": {
@@ -156,8 +158,6 @@
               "sourceMap": false,
               "namedChunks": false,
               "extractLicenses": true,
-              "vendorChunk": false,
-              "buildOptimizer": true,
               "budgets": [
                 {
                   "type": "initial",
@@ -231,12 +231,15 @@
       "prefix": "app",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:browser",
+          "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/src-b",
+            "outputPath": {
+              "base": "dist/src-b"
+            },
             "index": "projects/src-b/src/index.html",
-            "main": "projects/src-b/src/main.ts",
-            "polyfills": "projects/src-b/src/polyfills.ts",
+            "polyfills": [
+              "projects/src-b/src/polyfills.ts"
+            ],
             "tsConfig": "projects/src-b/tsconfig.app.json",
             "assets": [
               "projects/src-b/src/favicon.ico",
@@ -246,12 +249,11 @@
               "projects/src-b/src/styles.css"
             ],
             "scripts": [],
-            "vendorChunk": true,
             "extractLicenses": false,
-            "buildOptimizer": false,
             "sourceMap": true,
             "optimization": false,
-            "namedChunks": true
+            "namedChunks": true,
+            "browser": "projects/src-b/src/main.ts"
           },
           "configurations": {
             "production": {
@@ -266,8 +268,6 @@
               "sourceMap": false,
               "namedChunks": false,
               "extractLicenses": true,
-              "vendorChunk": false,
-              "buildOptimizer": true,
               "budgets": [
                 {
                   "type": "initial",

@@ -18,8 +18,7 @@ export default defineConfig({
   },
   webServer: {
     command: 'npm run serve',
-    stdout: 'pipe',
-    wait: { stdout: /Compiled successfully/ },
+    url: 'http://localhost:30103',
     reuseExistingServer: !process.env['CI'],
     timeout: 180000,
   },
