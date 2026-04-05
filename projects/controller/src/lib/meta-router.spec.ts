@@ -352,6 +352,21 @@ describe('MetaRouter', async () => {
             router = new MetaRouter(config, provider);
         });
 
+        it('should broadcast message only to selected recipients', async () => {
+            const dummyData: object = {
+                sample: 'msg'
+            };
+
+            await router.preload();
+            spyOn(provider.frameFacadeMocks.a, 'postMessage').and.callThrough();
+            spyOn(provider.frameFacadeMocks.b, 'postMessage').and.callThrough();
+
+            await router.broadcast('sampleTag', dummyData, ['b']);
+
+            await expect(provider.frameFacadeMocks.a.postMessage).not.toHaveBeenCalled();
+            await expect(provider.frameFacadeMocks.b.postMessage).toHaveBeenCalled();
+        });
+
         xit('should broadcast message to all iframes', async () => {
             const dummyData: object = {
                 sample: 'msg'
@@ -472,6 +487,23 @@ describe('MetaRouter', async () => {
                 // Must reject using MetaRouteStateEvaluation.AppBased, because some route is dirty
                 await expectAsync(router.go('b', 'newRoute')).toBeResolved();
             });
+        });
+    });
+
+    describe('Message routing edge cases', async () => {
+        beforeEach(async () => {
+            provider = new ControllerServiceProviderMock('http://localhost:8080/#b!a/x');
+            router = new MetaRouter(config, provider);
+            await router.initialize();
+        });
+
+        it('should ignore routed messages from unknown source', async () => {
+            const eventMock: EventListenerFacadeMock<MessageEvent> = provider.eventListenerFacadeMocks[EVENT_MESSAGE];
+            const originalHash = provider.locationHistoryFacadeMocks.getTruncatedHash();
+
+            await eventMock.simulateRoutedMessage('unknown-source', 'a', 'new-sub', location.origin);
+
+            await expect(provider.locationHistoryFacadeMocks.getTruncatedHash()).toBe(originalHash);
         });
     });
 });

@@ -25,21 +25,21 @@ jobs:
     - name: Run test with coverage
       run: npm run coverage
     - name: Generate coverage badges for client library
-      uses: demyanets/angular-coverage-badges-action@v2
+      uses: demyanets/angular-coverage-badges-action@v3
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         coverage-summary-path: coverage/common/json-report/coverage-summary.json
         protected-branches: '["master", "develop"]'
         write-debug-logs: true
     - name: Generate coverage badges for common library
-      uses: demyanets/angular-coverage-badges-action@v2
+      uses: demyanets/angular-coverage-badges-action@v3
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         coverage-summary-path: coverage/controller/json-report/coverage-summary.json
         protected-branches: '["master", "develop"]'
         write-debug-logs: true
     - name: Generate coverage badges for controller library
-      uses: demyanets/angular-coverage-badges-action@v2
+      uses: demyanets/angular-coverage-badges-action@v3
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         coverage-summary-path: coverage/client/json-report/coverage-summary.json
