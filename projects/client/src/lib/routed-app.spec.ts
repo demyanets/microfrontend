@@ -8,7 +8,9 @@ import {
     MessageRouted,
     MessageSetFrameStyles,
     MessageGetCustomFrameConfiguration,
-    MessageStateChanged
+    MessageMetaRouted,
+    MessageStateChanged,
+    MessageStateDiscard
 } from '@microfrontend/common';
 import { RoutedApp } from './routed-app';
 import { RoutedAppConfig } from './routed-app-config';
@@ -136,5 +138,53 @@ describe('RoutedApp', async () => {
             location.origin
         );
         await expect(handled).toBeTruthy();
+    });
+
+    it('should invoke private handlers when callbacks are registered', async () => {
+        let routeChanged = false;
+        let broadcastHandled = false;
+        let customConfigHandled = false;
+        let discardHandled = false;
+        let loadedHandled = false;
+
+        routedApp.registerRouteChangeCallback(() => {
+            routeChanged = true;
+        });
+        routedApp.registerBroadcastCallback(() => {
+            broadcastHandled = true;
+        });
+        routedApp.registerCustomFrameConfigCallback(() => {
+            customConfigHandled = true;
+        });
+        routedApp.registerDiscardStateCallback(() => {
+            discardHandled = true;
+        });
+        routedApp.registerMicrofrontendLoadedCallback(() => {
+            loadedHandled = true;
+        });
+
+        await (routedApp as any).handleMetaRouted(new MessageMetaRouted('shell', true, 'x'));
+        await (routedApp as any).handleBroadcast(new MessageBroadcast(new MessageBroadcastMetadata('tag', 'source'), { a: 1 }));
+        await (routedApp as any).handleGetCustomFrameConfig(new MessageGetCustomFrameConfiguration('shell', { h: '22px' }));
+        await (routedApp as any).handleStateDiscard(new MessageStateDiscard('shell', 'a'));
+        await (routedApp as any).handleMicrofrontendLoaded({ metaRoute: 'a' });
+
+        await expect(routeChanged).toBeTruthy();
+        await expect(broadcastHandled).toBeTruthy();
+        await expect(customConfigHandled).toBeTruthy();
+        await expect(discardHandled).toBeTruthy();
+        await expect(loadedHandled).toBeTruthy();
+    });
+
+    it('should resolve private handlers when callbacks are not registered', async () => {
+        await expectAsync((routedApp as any).handleMetaRouted(new MessageMetaRouted('shell', true, 'x'))).toBeResolved();
+        await expectAsync(
+            (routedApp as any).handleBroadcast(new MessageBroadcast(new MessageBroadcastMetadata('tag', 'source'), { a: 1 }))
+        ).toBeResolved();
+        await expectAsync(
+            (routedApp as any).handleGetCustomFrameConfig(new MessageGetCustomFrameConfiguration('shell', { h: '22px' }))
+        ).toBeResolved();
+        await expectAsync((routedApp as any).handleStateDiscard(new MessageStateDiscard('shell', 'a'))).toBeResolved();
+        await expectAsync((routedApp as any).handleMicrofrontendLoaded({ metaRoute: 'a' })).toBeResolved();
     });
 });
