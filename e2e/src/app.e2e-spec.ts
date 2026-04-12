@@ -230,6 +230,73 @@ test.describe('meta-router App', () => {
     });
   });
 
+  test.describe('browser back button data loss', () => {
+    test('should lose input data when navigating back without protection', async () => {
+      // Start at #a
+      let url = await page.getCurrentUrl();
+      expect(baseUrl + '#a').toBe(url);
+
+      // Navigate to src-b
+      await page.clickLink('#link-b');
+      url = await page.getCurrentUrl();
+      expect(baseUrl + '#b!a').toBe(url);
+
+      // Type "State" into the input field in src-b
+      await page.typeInIframeInput('b', '#test-input', 'State');
+      const valueBefore = await page.getIframeInputValue('b', '#test-input');
+      expect(valueBefore).toBe('State');
+
+      // Press browser back button - navigates back to #a
+      await page.navigateToBack();
+      url = await page.getCurrentUrl();
+      expect(baseUrl + '#a').toBe(url);
+
+      // Navigate forward to src-b again
+      await page.navigateToForward();
+      url = await page.getCurrentUrl();
+      expect(baseUrl + '#b!a').toBe(url);
+
+      // The input field should be empty - data "State" is lost
+      const valueAfter = await page.getIframeInputValue('b', '#test-input');
+      expect(valueAfter).toBe('');
+    });
+
+    test('should show data-loss warning when navigating back with unsaved state', async ({ page: playwrightPage }) => {
+      // Start at #a - no warning visible
+      expect(await page.isElementVisible('#data-loss-warning')).toBe(false);
+
+      // Navigate to src-b
+      await page.clickLink('#link-b');
+      const url = await page.getCurrentUrl();
+      expect(baseUrl + '#b!a').toBe(url);
+
+      // Type "State" to trigger state-changed message
+      await page.typeInIframeInput('b', '#test-input', 'State');
+      const valueBefore = await page.getIframeInputValue('b', '#test-input');
+      expect(valueBefore).toBe('State');
+
+      // Wait for the state-changed message to be processed by the shell
+      await playwrightPage.waitForTimeout(500);
+
+      // Press browser back button
+      await page.navigateToBack();
+
+      // Wait for Angular change detection to process the warning
+      await playwrightPage.waitForTimeout(500);
+
+      // The data-loss warning should be visible in the shell
+      expect(await page.isElementVisible('#data-loss-warning')).toBe(true);
+
+      // Warning should contain text about data loss
+      const warningText = await page.getElementText('#data-loss-warning');
+      expect(warningText).toContain('unsaved data');
+
+      // Dismiss the warning
+      await page.clickLink('#dismiss-warning');
+      expect(await page.isElementVisible('#data-loss-warning')).toBe(false);
+    });
+  });
+
   test.describe('forward button functionalities', () => {
     test('should activate old state page when navigate one time forward', async () => {
       await page.clickLink('#link-b'); // result url => #b!a

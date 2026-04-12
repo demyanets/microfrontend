@@ -7,4 +7,9 @@
   <a id="link-state" (click)="logState(this.router.getOutletState())">Log state</a>
 </div>
 
+<div id="data-loss-warning" class="data-loss-warning" *ngIf="showDataLossWarning">
+  <span>Warning: You navigated away and unsaved data may have been lost.</span>
+  <button id="dismiss-warning" (click)="dismissWarning()">Dismiss</button>
+</div>
+
 <div id="outlet" style="height: 100%"></div>

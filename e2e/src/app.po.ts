@@ -116,6 +116,27 @@ export class AppPage {
     await this.page.waitForTimeout(300);
   }
 
+  async typeInIframeInput(iframeId: string, selector: string, text: string): Promise<void> {
+    const frame = this.page.frameLocator(`iframe#${iframeId}`);
+    await frame.locator(selector).click();
+    await frame.locator(selector).pressSequentially(text);
+    await this.page.waitForTimeout(300);
+  }
+
+  async getIframeInputValue(iframeId: string, selector: string): Promise<string> {
+    const frame = this.page.frameLocator(`iframe#${iframeId}`);
+    return frame.locator(selector).inputValue();
+  }
+
+  async isElementVisible(selector: string): Promise<boolean> {
+    const locator = this.page.locator(selector);
+    return locator.isVisible();
+  }
+
+  async getElementText(selector: string): Promise<string> {
+    return this.page.locator(selector).innerText();
+  }
+
   getUrlFragment(url: string): string {
     return url.split('#')[1];
   }

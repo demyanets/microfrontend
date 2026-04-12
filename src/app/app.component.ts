@@ -1,5 +1,5 @@
 import { Level } from '@microfrontend/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, NgZone, OnInit } from '@angular/core';
 import { FrameConfig, IAppConfig, MetaRouter, MetaRouterConfig, UnknownRouteHandlingEnum } from '@microfrontend/controller';
 import { OutletState } from 'projects/controller/src/lib/outlet-state';
 
@@ -23,8 +23,9 @@ const routes: IAppConfig[] = [
 export class AppComponent implements OnInit {
     title = 'microfrontend';
     router: MetaRouter;
+    showDataLossWarning = false;
 
-    constructor() {
+    constructor(private ngZone: NgZone) {
         const config = new MetaRouterConfig(
             'outlet',
             routes,
@@ -40,14 +41,9 @@ export class AppComponent implements OnInit {
         this.router.outletStateChanged = (state: OutletState) => this.logState(state);
         this.router.registerAllowStateDiscardCallbackAsync(async (metaroute: string, subRoute?: string) => {
             console.log(`registerAllowStateDiscardCallbackAsync: ${metaroute}/${subRoute}`);
-            if (subRoute) {
-                if (subRoute === 'a') {
-                    return Promise.resolve(false);
-                } else {
-                    return Promise.resolve(true);
-                }
-            }
-
+            this.ngZone.run(() => {
+                this.showDataLossWarning = true;
+            });
             return Promise.resolve(true);
         });
     }
@@ -69,6 +65,10 @@ export class AppComponent implements OnInit {
 
     broadcast(): void {
         this.router.broadcast('custom_tag', { message: 'Message from router' }, ['a', 'b']);
+    }
+
+    dismissWarning(): void {
+        this.showDataLossWarning = false;
     }
 
     logState(state: OutletState): void {

@@ -18,6 +18,19 @@ export class AppComponent {
             console.debug('app-b received broadcast', { tag, data });
             console.debug(`app-b hasShell: ${this.routedApp.hasShell}`);
         });
+
+        this.routedApp.registerDiscardStateCallback(() => {
+            const input = document.getElementById('test-input') as HTMLInputElement;
+            if (input) {
+                input.value = '';
+            }
+            this.routedApp.changeState(false);
+        });
+    }
+
+    onInputChange(event: Event): void {
+        const value = (event.target as HTMLInputElement).value;
+        this.routedApp.changeState(value.length > 0);
     }
 
     gotoA(): void {
