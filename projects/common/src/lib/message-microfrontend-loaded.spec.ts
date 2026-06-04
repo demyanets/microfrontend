@@ -1,5 +1,5 @@
 import { MessageMicrofrontendLoaded } from './message-microfrontend-loaded';
-import {MESSAGE_MICROFRONTEND_LOADED} from './constants';
+import { MESSAGE_MICROFRONTEND_LOADED } from './constants';
 
 describe('MessageSubroute', async () => {
     let message: MessageMicrofrontendLoaded;

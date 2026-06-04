@@ -133,14 +133,14 @@ export class RoutedApp {
      * Registers a callback that allows the meta router to request
      * the microfronend to discard its state
      */
-     registerDiscardStateCallback(callback: () => void): void {
+    registerDiscardStateCallback(callback: () => void): void {
         this.callbackDiscardState = callback;
     }
 
     /**
      * Registers a callback to react to the newly loaded microfrontend
      */
-     registerMicrofrontendLoadedCallback(callback: (metaRoute: string) => void): void {
+    registerMicrofrontendLoadedCallback(callback: (metaRoute: string) => void): void {
         this.callbackMicrofrontendLoaded = callback;
     }
 
@@ -181,7 +181,7 @@ export class RoutedApp {
      * Handle microfrontend loaded message
      * @param msg
      */
-     private handleMicrofrontendLoaded(msg: MessageMicrofrontendLoaded): Promise<void> {
+    private handleMicrofrontendLoaded(msg: MessageMicrofrontendLoaded): Promise<void> {
         if (this.callbackMicrofrontendLoaded) {
             this.callbackMicrofrontendLoaded(msg.metaRoute);
         }
@@ -225,7 +225,7 @@ export class RoutedApp {
      * Handle state discard message
      * @param msg
      */
-     private handleStateDiscard(msg: MessageStateDiscard): Promise<void> {
+    private handleStateDiscard(msg: MessageStateDiscard): Promise<void> {
         if (this.callbackDiscardState) {
             this.callbackDiscardState();
         }

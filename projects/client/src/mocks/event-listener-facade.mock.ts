@@ -8,9 +8,9 @@ import {
     MESSAGE_SET_FRAME_STYLES,
     MESSAGE_META_ROUTED,
     MessageBroadcastMetadata,
-    MESSAGE_STATE_DISCARD
+    MESSAGE_STATE_DISCARD,
+    MESSAGE_GET_CUSTOM_FRAME_CONFIG
 } from '@microfrontend/common';
-import { MESSAGE_GET_CUSTOM_FRAME_CONFIG } from 'projects/common/src/lib/constants';
 
 export class EventListenerFacadeMock<T extends Event> extends Destroyable {
     constructor(public event: string, public notificationHandler: EventListenerNotificationAsync<T>, capture: boolean) {

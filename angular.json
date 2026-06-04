@@ -1,6 +1,6 @@
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
-  "version": 1, 
+  "version": 1,
   "newProjectRoot": "projects",
   "projects": {
     "src": {
@@ -11,23 +11,16 @@
       "prefix": "app",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:application",
+          "builder": "@angular/build:application",
           "options": {
             "outputPath": {
               "base": "dist/src"
             },
             "index": "src/index.html",
-            "polyfills": [
-              "src/polyfills.ts"
-            ],
+            "polyfills": ["src/polyfills.ts"],
             "tsConfig": "tsconfig.app.json",
-            "assets": [
-              "src/favicon.ico",
-              "src/assets"
-            ],
-            "styles": [
-              "src/styles.css"
-            ],
+            "assets": ["src/favicon.ico", "src/assets"],
+            "styles": ["src/styles.css"],
             "scripts": [],
             "extractLicenses": false,
             "sourceMap": true,
@@ -65,7 +58,7 @@
           "defaultConfiguration": ""
         },
         "serve": {
-          "builder": "@angular-devkit/build-angular:dev-server",
+          "builder": "@angular/build:dev-server",
           "options": {
             "port": 30103,
             "buildTarget": "src:build"
@@ -77,35 +70,27 @@
           }
         },
         "extract-i18n": {
-          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "builder": "@angular/build:extract-i18n",
           "options": {
             "buildTarget": "src:build"
           }
         },
         "test": {
-          "builder": "@angular-devkit/build-angular:karma",
+          "builder": "@angular/build:karma",
           "options": {
             "main": "src/test.ts",
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.spec.json",
             "karmaConfig": "karma.conf.js",
-            "assets": [
-              "src/favicon.ico",
-              "src/assets"
-            ],
-            "styles": [
-              "src/styles.css"
-            ],
+            "assets": ["src/favicon.ico", "src/assets"],
+            "styles": ["src/styles.css"],
             "scripts": []
           }
         },
         "lint": {
           "builder": "@angular-eslint/builder:lint",
           "options": {
-            "lintFilePatterns": [
-              "src/**/*.ts",
-              "src/**/*.html"
-            ]
+            "lintFilePatterns": ["src/**/*.ts", "src/**/*.html"]
           }
         }
       }
@@ -118,23 +103,16 @@
       "prefix": "app",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:application",
+          "builder": "@angular/build:application",
           "options": {
             "outputPath": {
               "base": "dist/src-a"
             },
             "index": "projects/src-a/src/index.html",
-            "polyfills": [
-              "projects/src-a/src/polyfills.ts"
-            ],
+            "polyfills": ["projects/src-a/src/polyfills.ts"],
             "tsConfig": "projects/src-a/tsconfig.app.json",
-            "assets": [
-              "projects/src-a/src/favicon.ico",
-              "projects/src-a/src/assets"
-            ],
-            "styles": [
-              "projects/src-a/src/styles.css"
-            ],
+            "assets": ["projects/src-a/src/favicon.ico", "projects/src-a/src/assets"],
+            "styles": ["projects/src-a/src/styles.css"],
             "scripts": [],
             "extractLicenses": false,
             "sourceMap": true,
@@ -172,7 +150,7 @@
           "defaultConfiguration": ""
         },
         "serve": {
-          "builder": "@angular-devkit/build-angular:dev-server",
+          "builder": "@angular/build:dev-server",
           "options": {
             "port": 30307,
             "buildTarget": "src-a:build"
@@ -184,35 +162,27 @@
           }
         },
         "extract-i18n": {
-          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "builder": "@angular/build:extract-i18n",
           "options": {
             "buildTarget": "src-a:build"
           }
         },
         "test": {
-          "builder": "@angular-devkit/build-angular:karma",
+          "builder": "@angular/build:karma",
           "options": {
             "main": "projects/src-a/src/test.ts",
             "polyfills": "projects/src-a/src/polyfills.ts",
             "tsConfig": "projects/src-a/tsconfig.spec.json",
             "karmaConfig": "projects/src-a/karma.conf.js",
-            "assets": [
-              "projects/src-a/src/favicon.ico",
-              "projects/src-a/src/assets"
-            ],
-            "styles": [
-              "projects/src-a/src/styles.css"
-            ],
+            "assets": ["projects/src-a/src/favicon.ico", "projects/src-a/src/assets"],
+            "styles": ["projects/src-a/src/styles.css"],
             "scripts": []
           }
         },
         "lint": {
           "builder": "@angular-eslint/builder:lint",
           "options": {
-            "lintFilePatterns": [
-              "projects/src-a/**/*.ts",
-              "projects/src-a/**/*.html"
-            ]
+            "lintFilePatterns": ["projects/src-a/**/*.ts", "projects/src-a/**/*.html"]
           }
         }
       }
@@ -225,23 +195,16 @@
       "prefix": "app",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:application",
+          "builder": "@angular/build:application",
           "options": {
             "outputPath": {
               "base": "dist/src-b"
             },
             "index": "projects/src-b/src/index.html",
-            "polyfills": [
-              "projects/src-b/src/polyfills.ts"
-            ],
+            "polyfills": ["projects/src-b/src/polyfills.ts"],
             "tsConfig": "projects/src-b/tsconfig.app.json",
-            "assets": [
-              "projects/src-b/src/favicon.ico",
-              "projects/src-b/src/assets"
-            ],
-            "styles": [
-              "projects/src-b/src/styles.css"
-            ],
+            "assets": ["projects/src-b/src/favicon.ico", "projects/src-b/src/assets"],
+            "styles": ["projects/src-b/src/styles.css"],
             "scripts": [],
             "extractLicenses": false,
             "sourceMap": true,
@@ -279,7 +242,7 @@
           "defaultConfiguration": ""
         },
         "serve": {
-          "builder": "@angular-devkit/build-angular:dev-server",
+          "builder": "@angular/build:dev-server",
           "options": {
             "port": 30809,
             "buildTarget": "src-b:build"
@@ -291,35 +254,27 @@
           }
         },
         "extract-i18n": {
-          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "builder": "@angular/build:extract-i18n",
           "options": {
             "buildTarget": "src-b:build"
           }
         },
         "test": {
-          "builder": "@angular-devkit/build-angular:karma",
+          "builder": "@angular/build:karma",
           "options": {
             "main": "projects/src-b/src/test.ts",
             "polyfills": "projects/src-b/src/polyfills.ts",
             "tsConfig": "projects/src-b/tsconfig.spec.json",
             "karmaConfig": "projects/src-b/karma.conf.js",
-            "assets": [
-              "projects/src-b/src/favicon.ico",
-              "projects/src-b/src/assets"
-            ],
-            "styles": [
-              "projects/src-b/src/styles.css"
-            ],
+            "assets": ["projects/src-b/src/favicon.ico", "projects/src-b/src/assets"],
+            "styles": ["projects/src-b/src/styles.css"],
             "scripts": []
           }
         },
         "lint": {
           "builder": "@angular-eslint/builder:lint",
           "options": {
-            "lintFilePatterns": [
-              "projects/src-b/**/*.ts",
-              "projects/src-b/**/*.html"
-            ]
+            "lintFilePatterns": ["projects/src-b/**/*.ts", "projects/src-b/**/*.html"]
           }
         }
       }
@@ -331,7 +286,7 @@
       "prefix": "lib",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "builder": "@angular/build:ng-packagr",
           "options": {
             "tsConfig": "projects/common/tsconfig.lib.json",
             "project": "projects/common/ng-package.json"
@@ -343,24 +298,18 @@
           }
         },
         "test": {
-          "builder": "@angular-devkit/build-angular:karma",
+          "builder": "@angular/build:karma",
           "options": {
             "main": "projects/common/src/test.ts",
             "tsConfig": "projects/common/tsconfig.spec.json",
             "karmaConfig": "projects/common/karma.conf.js",
-            "codeCoverageExclude": [
-              "projects/common/src/mocks/**/*",
-              "projects/common/src/test.ts"
-            ]
+            "codeCoverageExclude": ["projects/common/src/mocks/**/*", "projects/common/src/test.ts"]
           }
         },
         "lint": {
           "builder": "@angular-eslint/builder:lint",
           "options": {
-            "lintFilePatterns": [
-              "projects/common/**/*.ts",
-              "projects/common/**/*.html"
-            ]
+            "lintFilePatterns": ["projects/common/**/*.ts", "projects/common/**/*.html"]
           }
         }
       }
@@ -372,7 +321,7 @@
       "prefix": "lib",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "builder": "@angular/build:ng-packagr",
           "options": {
             "tsConfig": "projects/controller/tsconfig.lib.json",
             "project": "projects/controller/ng-package.json"
@@ -384,7 +333,7 @@
           }
         },
         "test": {
-          "builder": "@angular-devkit/build-angular:karma",
+          "builder": "@angular/build:karma",
           "options": {
             "main": "projects/controller/src/test.ts",
             "tsConfig": "projects/controller/tsconfig.spec.json",
@@ -402,10 +351,7 @@
         "lint": {
           "builder": "@angular-eslint/builder:lint",
           "options": {
-            "lintFilePatterns": [
-              "projects/controller/**/*.ts",
-              "projects/controller/**/*.html"
-            ]
+            "lintFilePatterns": ["projects/controller/**/*.ts", "projects/controller/**/*.html"]
           }
         }
       }
@@ -417,7 +363,7 @@
       "prefix": "lib",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "builder": "@angular/build:ng-packagr",
           "options": {
             "tsConfig": "projects/client/tsconfig.lib.json",
             "project": "projects/client/ng-package.json"
@@ -429,7 +375,7 @@
           }
         },
         "test": {
-          "builder": "@angular-devkit/build-angular:karma",
+          "builder": "@angular/build:karma",
           "options": {
             "main": "projects/client/src/test.ts",
             "tsConfig": "projects/client/tsconfig.spec.json",
@@ -446,10 +392,7 @@
         "lint": {
           "builder": "@angular-eslint/builder:lint",
           "options": {
-            "lintFilePatterns": [
-              "projects/client/**/*.ts",
-              "projects/client/**/*.html"
-            ]
+            "lintFilePatterns": ["projects/client/**/*.ts", "projects/client/**/*.html"]
           }
         }
       }

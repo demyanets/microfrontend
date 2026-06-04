@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, ChangeDetectionStrategy } from '@angular/core';
 import { ROUTED_APP } from '../app.tokens';
 import { RoutedApp } from '@microfrontend/client';
 
@@ -6,7 +6,8 @@ import { RoutedApp } from '@microfrontend/client';
     selector: 'app-a',
     templateUrl: './a.component.html',
     styleUrls: ['./a.component.css'],
-    standalone: false
+    changeDetection: ChangeDetectionStrategy.Eager,
+    standalone: false,
 })
 export class AComponent {
     public haveState: boolean = false;

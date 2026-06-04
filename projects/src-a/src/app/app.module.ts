@@ -22,14 +22,14 @@ const config = new RoutedAppConfig('a', 'http://localhost:30103', Level.LOG);
                 { path: 'b', component: BComponent },
                 { path: 'c', component: CComponent },
                 { path: 'd', component: DComponent },
-                { path: '**', redirectTo: 'a' }
+                { path: '**', redirectTo: 'a' },
             ],
             {
-    useHash: true
-}
-        )
+                useHash: true,
+            }
+        ),
     ],
     providers: [{ provide: ROUTED_APP, useFactory: () => new RoutedApp(config) }],
-    bootstrap: [AppComponent]
+    bootstrap: [AppComponent],
 })
 export class AppModule {}

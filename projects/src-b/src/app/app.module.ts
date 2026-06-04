@@ -12,6 +12,6 @@ const config = new RoutedAppConfig('b', 'http://localhost:30103', Level.LOG);
     declarations: [AppComponent],
     imports: [BrowserModule],
     providers: [{ provide: ROUTED_APP, useFactory: () => new RoutedApp(config) }],
-    bootstrap: [AppComponent]
+    bootstrap: [AppComponent],
 })
 export class AppModule {}

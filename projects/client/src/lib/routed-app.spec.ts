@@ -133,10 +133,7 @@ describe('RoutedApp', async () => {
             handled = true;
         };
         routedApp.registerDiscardStateCallback(dummyHandleNotification);
-        provider.eventListenerFacadeMocks[EVENT_MESSAGE].simulateStateDiscardMessage(
-            'http://localhost:8080',
-            location.origin
-        );
+        provider.eventListenerFacadeMocks[EVENT_MESSAGE].simulateStateDiscardMessage('http://localhost:8080', location.origin);
         await expect(handled).toBeTruthy();
     });
 

@@ -1,12 +1,13 @@
 import { ROUTED_APP } from './app.tokens';
 import { RoutedApp } from '@microfrontend/client';
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
     selector: 'app-root',
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.css'],
-    standalone: false
+    changeDetection: ChangeDetectionStrategy.Eager,
+    standalone: false,
 })
 export class AppComponent {
     title = 'app';

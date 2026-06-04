@@ -1,5 +1,5 @@
 import { MessageBase } from './message-base';
-import {MESSAGE_MICROFRONTEND_LOADED} from './constants';
+import { MESSAGE_MICROFRONTEND_LOADED } from './constants';
 
 /**
  * Microfrontend loaded message

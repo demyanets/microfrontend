@@ -135,10 +135,9 @@ export class FrameFacade extends Destroyable implements IFrameFacade {
      * Logs posted message
      * @param msg posted message
      */
-     private logPostMessage(msg: MessageBase) {
+    private logPostMessage(msg: MessageBase) {
         this.consoleFacade.log(`'${msg.message}' message has been posted to '${this.route.metaRoute}': ${JSON.stringify(msg)}`);
     }
-
 
     /**
      * Provides visibility status of the frame

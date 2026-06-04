@@ -8,10 +8,7 @@ describe('OutletState', async () => {
 
     beforeEach(() => {
         outlet = 'outlet';
-        routes = [
-            new AppRoute('a'),
-            new AppRoute('b')
-        ];
+        routes = [new AppRoute('a'), new AppRoute('b')];
     });
 
     it('should create meta outlet state object', async () => {

@@ -1,24 +1,24 @@
 import { Level } from '@microfrontend/common';
-import { Component, OnInit } from '@angular/core';
-import { FrameConfig, IAppConfig, MetaRouter, MetaRouterConfig, UnknownRouteHandlingEnum } from '@microfrontend/controller';
-import { OutletState } from 'projects/controller/src/lib/outlet-state';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { FrameConfig, IAppConfig, MetaRouter, MetaRouterConfig, UnknownRouteHandlingEnum, OutletState } from '@microfrontend/controller';
 
 const routes: IAppConfig[] = [
     {
         metaRoute: 'a',
-        baseUrl: 'http://localhost:30307'
+        baseUrl: 'http://localhost:30307',
     },
     {
         metaRoute: 'b',
-        baseUrl: 'http://localhost:30809'
-    }
+        baseUrl: 'http://localhost:30809',
+    },
 ];
 
 @Component({
     selector: 'app-root',
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.css'],
-    standalone: false
+    changeDetection: ChangeDetectionStrategy.Eager,
+    standalone: false,
 })
 export class AppComponent implements OnInit {
     title = 'microfrontend';

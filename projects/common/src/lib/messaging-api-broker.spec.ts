@@ -13,7 +13,7 @@ import { MessageStateDiscard } from './message-state-discard';
 import { Level } from './level.enum';
 import { IConsoleFacade } from './console-facade-interface';
 import { ConsoleFacade } from './console-facade';
-import {MessageMicrofrontendLoaded} from './message-microfrontend-loaded';
+import { MessageMicrofrontendLoaded } from './message-microfrontend-loaded';
 
 describe('MessagingApiBroker', async () => {
     let consoleFacade: IConsoleFacade;

@@ -1,4 +1,3 @@
-
 /**
  * Level
  */
@@ -8,5 +7,5 @@ export enum Level {
     WARNING = 2,
     INFO = 3,
     DEBUG = 4,
-    LOG = 5
+    LOG = 5,
 }

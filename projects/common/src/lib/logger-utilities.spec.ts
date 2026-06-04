@@ -40,7 +40,7 @@ describe('LoggerUtilities', () => {
         const circular: { self?: unknown } = {};
         circular.self = circular;
 
-        const result = LoggerUtilities.prepareMessage(circular as unknown as string);
+        const result = LoggerUtilities.prepareMessage(circular);
         expect(result).toBe('The provided "message" value could not be parsed with JSON.stringify().');
     });
 

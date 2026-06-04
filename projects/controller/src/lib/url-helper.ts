@@ -44,7 +44,7 @@ export class UrlHelper {
         let state: STATE = 'value';
         const result: IMap<AppRoute[]> = {};
 
-        const urlInner = `${url  }\0`;
+        const urlInner = `${url}\0`;
 
         for (let i = 0; i < urlInner.length; i++) {
             const c = urlInner.substr(i, 1);

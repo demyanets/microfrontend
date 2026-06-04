@@ -52,7 +52,7 @@ export class ConsoleFacade implements IConsoleFacade {
         if (message && isLog2Console) {
             const logLevelString = Level[level];
 
-            // eslint-disable-next-line no-param-reassign 
+            // eslint-disable-next-line no-param-reassign
             message = LoggerUtilities.prepareMessage(message);
 
             const timestamp = new Date().toISOString();
@@ -78,7 +78,7 @@ export class ConsoleFacade implements IConsoleFacade {
         const color = LoggerUtilities.getColor(level);
 
         // make sure additional isn't null or undefined so that ...additional doesn't error
-        // eslint-disable-next-line no-param-reassign 
+        // eslint-disable-next-line no-param-reassign
         additional = additional || [];
 
         switch (level) {

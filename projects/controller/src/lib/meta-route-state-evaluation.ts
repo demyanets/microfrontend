@@ -17,5 +17,5 @@ export enum MetaRouteStateEvaluation {
      * The subRoute supplied to @see RoutedApp.changeState may
      * be any string.
      */
-    AppBased = 'AppBased'
+    AppBased = 'AppBased',
 }

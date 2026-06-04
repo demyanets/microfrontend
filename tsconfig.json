@@ -1,7 +1,6 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
-    "baseUrl": "./",
     "outDir": "./dist/out-tsc",
     "sourceMap": true,
     "esModuleInterop": true,
@@ -14,12 +13,12 @@
     "strict": true,
     "typeRoots": ["node_modules/@types"],
     "paths": {
-      "@microfrontend/common": ["dist/common"],
-      "@microfrontend/common/*": ["dist/common/*"],
-      "@microfrontend/client": ["dist/client"],
-      "@microfrontend/client/*": ["dist/client/*"],
-      "@microfrontend/controller": ["dist/controller"],
-      "@microfrontend/controller/*": ["dist/controller/*"]
+      "@microfrontend/common": ["./dist/common"],
+      "@microfrontend/common/*": ["./dist/common/*"],
+      "@microfrontend/client": ["./dist/client"],
+      "@microfrontend/client/*": ["./dist/client/*"],
+      "@microfrontend/controller": ["./dist/controller"],
+      "@microfrontend/controller/*": ["./dist/controller/*"]
     },
     "useDefineForClassFields": false
   },
